@@ -63,7 +63,7 @@ plot_spt(subject_spt_left_case1, colorleft_case1,
          legend_1="left\n"+case1_name, legend_2="right\n"+case1_name, title="SPT_"+case1_name)
 
 
-
+# Je rajoute un commentaire pour voir ce qu'il se passe
 if comparaison_bool:
     subject_kin_left_case2 = subject_kin_case2["left"]
     subject_kin_right_case2 = subject_kin_case2["right"]
