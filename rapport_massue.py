@@ -23,6 +23,8 @@ import tkMessageBox
 import matplotlib.pyplot as plt
 from plot_kinematic import plot_kinematic as plot_kinematic
 from plot_spt import plot_spt as plot_spt
+from extract_Schwartz_norm import extract_Schwartz_norm as extract_Schwartz_norm
+
 
 comparaison_bool = tkMessageBox.askyesno("Title","Voulez vous comparer à d'autres résultats?")
 
@@ -53,6 +55,9 @@ colorleft_case1 = 'tab:red'
 colorright_case1 = 'tab:green'
 colorleft_case2 = 'tab:orange'
 colorright_case2 = 'tab:blue'
+
+# Extraction des normes 
+[norm_spt,norm_kin] = extract_Schwartz_norm(Speed="Free")
 
 
 plot_kinematic(subject_kin_left_case1, subject_spt_left_case1, colorleft_case1,

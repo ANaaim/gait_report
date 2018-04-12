@@ -144,7 +144,7 @@ def param_spt(filename, side):
         CTFS_frame = FS_CL[ind_cycle]-FS[ind_cycle]
         CTFO_frame = FO_CL[ind_cycle]-FS[ind_cycle]
         CTFS_perc = CTFS_frame/nb_frame_cycle * 100
-        CTFO_perc = CTFO_frame/nb_frame_cycle *100
+        CTFO_perc = CTFO_frame/nb_frame_cycle * 100
         param_spt["percentage_CTFS"].append(CTFS_perc)
         param_spt["percentage_CTFO"].append(CTFO_perc)
         
