@@ -119,7 +119,7 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
         ax_temp.plot(x,mean_2,color2, label = legend_2)
         
         # Reglages des élement du graphique 
-        ax_temp.set_title(list_name[ind_kin])
+        ax_temp.set_title(list_name[ind_kin], fontsize=15)
         ax_temp.set_ylim(list_ylim[ind_kin])
         ax_temp.set_xlim((0,100))
         ax_temp.set_xticks([0,20,40,60,80,100])
@@ -130,10 +130,10 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
         ax_temp.spines['top'].set_visible(False)
         if i_row == 3:
             ax_temp.set_xlabel("% Gait cycle")
-        if (i_row==0 and i_collumn==2):
-            print "toto"
+        if (i_row==0 and i_collumn==1):
             #ax_temp.legend()
-            lgd = ax_temp.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+            lgd = ax_temp.legend(loc='upper center', bbox_to_anchor=(0.5, 1.35), ncol = 2, prop={'size':13})
+            
     # fig.suptitle(title, fontsize=16)
     #plt.tight_layout(pad=7.0, w_pad=0.3, h_pad=1.0)
     plt.tight_layout()
