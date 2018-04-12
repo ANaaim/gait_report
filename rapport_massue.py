@@ -57,10 +57,10 @@ colorright_case2 = 'tab:blue'
 
 plot_kinematic(subject_kin_left_case1, subject_spt_left_case1, colorleft_case1,
                subject_kin_right_case1, subject_spt_right_case1, colorright_case1,
-               legend_1="left\n"+case1_name,legend_2="right\n"+case1_name, title="Kinematic_"+case1_name)
+               legend_1="Gauche "+case1_name,legend_2="Droite "+case1_name, title="Kinematic_"+case1_name)
 plot_spt(subject_spt_left_case1, colorleft_case1,
          subject_spt_right_case1, colorright_case1,
-         legend_1="left\n"+case1_name, legend_2="right\n"+case1_name, title="SPT_"+case1_name)
+         legend_1="Gauche\n"+case1_name, legend_2="Droite\n"+case1_name, title="SPT_"+case1_name)
 
 
 
@@ -72,22 +72,22 @@ if comparaison_bool:
     
     plot_kinematic(subject_kin_left_case2, subject_spt_left_case2, colorleft_case2,
                    subject_kin_right_case2, subject_spt_right_case2, colorright_case2,
-                   legend_1="left\n"+case2_name,legend_2="right\n"+case2_name, title="Kinematic_"+case2_name)
+                   legend_1="Gauche "+case2_name,legend_2="Droite "+case2_name, title="Kinematic_"+case2_name)
     plot_spt(subject_spt_left_case2, colorleft_case2,
              subject_spt_right_case2, colorright_case2,
-             legend_1="left\n"+case2_name,legend_2="right\n"+case2_name, title="SPT_"+case2_name)
+             legend_1="Gauche\n"+case2_name,legend_2="Droite\n"+case2_name, title="SPT_"+case2_name)
     
     
     plot_kinematic(subject_kin_left_case1, subject_spt_left_case1, colorleft_case1,
                    subject_kin_left_case2, subject_spt_left_case2, colorleft_case2,
-                   legend_1="left\n"+case1_name,legend_2="left\n"+case2_name, title="Kin_Comparaison_Left")
+                   legend_1="Gauche "+case1_name,legend_2="Gauche "+case2_name, title="Kin_Comparaison_Left")
     plot_spt(subject_spt_left_case1, colorleft_case1,
              subject_spt_left_case2, colorleft_case2,
-             legend_1="left\n"+case1_name,legend_2="left\n"+case2_name, title="SPT_Comparaison_Left")
+             legend_1="Gauche\n"+case1_name,legend_2="Gauche\n"+case2_name, title="SPT_Comparaison_Left")
     
     plot_kinematic(subject_kin_right_case1, subject_spt_right_case1, colorright_case1,
                    subject_kin_right_case2, subject_spt_right_case2, colorright_case2,
-                   legend_1="right\n"+case1_name, legend_2="right\n"+case2_name, title="Kin_Comparaison_Right")
+                   legend_1="Droite "+case1_name, legend_2="Droite "+case2_name, title="Kin_Comparaison_Right")
     plot_spt(subject_spt_right_case1, colorright_case1,
              subject_spt_right_case2, colorright_case2,
-             legend_1="right\n"+case1_name,legend_2="right\n"+case2_name, title="SPT_Comparaison_Right")
+             legend_1="Droite\n"+case1_name,legend_2="Droite\n"+case2_name, title="SPT_Comparaison_Right")
