@@ -11,7 +11,6 @@ import matplotlib.pyplot as plt
 
 def plot_emg(filename,color1,color2,title="EMG"):
     
-    filename = 'test.c3d'
     reader = btk.btkAcquisitionFileReader()
     reader.SetFilename(filename)
     reader.Update()
