@@ -89,14 +89,14 @@ def param_spt(filename, side):
         cycle_time = (FS[ind_cycle+1] - FS[ind_cycle])/frq_point
         param_spt["cycle_time"].append(cycle_time)
         # Cadence (step/mn)
-        cadence = 60 / cycle_time
+        cadence = 120.0 / cycle_time
         param_spt["cadence"].append(cadence)
         # Longueur du cycle (m)
         length_cycle = np.abs(foot_marker[FS[ind_cycle+1],direction_walk] 
                               - foot_marker[FS[ind_cycle],direction_walk]) / 1000.0
         param_spt["length_cycle"].append(length_cycle)
         # Vitesse de marche (m/s)
-        walking_speed = cadence * length_cycle / 60.0
+        walking_speed = cadence * length_cycle / 120.0
         param_spt["walking_speed"].append(walking_speed)
         # Longueur du pas (m)
         step_length = np.abs(foot_marker_ct[FO[ind_cycle] ,direction_walk] 
@@ -144,7 +144,7 @@ def param_spt(filename, side):
         CTFS_frame = FS_CL[ind_cycle]-FS[ind_cycle]
         CTFO_frame = FO_CL[ind_cycle]-FS[ind_cycle]
         CTFS_perc = CTFS_frame/nb_frame_cycle * 100
-        CTFO_perc = CTFO_frame/nb_frame_cycle *100
+        CTFO_perc = CTFO_frame/nb_frame_cycle * 100
         param_spt["percentage_CTFS"].append(CTFS_perc)
         param_spt["percentage_CTFO"].append(CTFO_perc)
         

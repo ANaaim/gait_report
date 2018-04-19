@@ -11,6 +11,7 @@ import numpy as np
 
 def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
                    subject_kin_case2, subject_spt_case2, color2,
+                   norm_spt, norm_kin,
                    legend_1="test1", legend_2="test2", title="Kinematic"):
     
     x = np.linspace(0, 101, 101)
@@ -65,9 +66,16 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
         # foot off 
         fo_mean_case1 = subject_spt_case1["mean"]["stance_phase_perc"]
         fo_mean_case2 = subject_spt_case2["mean"]["stance_phase_perc"]
+        fo_mean_norm = norm_spt["mean"]["stance_phase_perc"]
         fo_std_case1 = subject_spt_case1["std"]["stance_phase_perc"]
         fo_std_case2 = subject_spt_case2["std"]["stance_phase_perc"]
+        fo_std_norm = norm_spt["std"]["stance_phase_perc"]
         
+        
+        ax_temp.fill_between([fo_mean_norm-fo_std_norm, 
+                              fo_mean_norm+fo_std_norm], 
+                            [ylim_inf,ylim_inf], [ylim_sup,ylim_sup],
+                             facecolor ='0.5', alpha=0.5)
         ax_temp.fill_between([fo_mean_case1-fo_std_case1 , 
                               fo_mean_case1+fo_std_case1], 
                             [ylim_inf,ylim_inf], [ylim_sup,ylim_sup],
@@ -76,12 +84,20 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
                               fo_mean_case2+fo_std_case2], 
                             [ylim_inf,ylim_inf], [ylim_sup,ylim_sup],
                              facecolor = color2, alpha=0.5)
+        
         # controlateral foot strike
         ctfs_mean_case1 = subject_spt_case1["mean"]["percentage_CTFS"]
         ctfs_mean_case2 = subject_spt_case2["mean"]["percentage_CTFS"]
+        ctfs_mean_norm = norm_spt["mean"]["percentage_CTFS"]
         ctfs_std_case1 = subject_spt_case1["std"]["percentage_CTFS"]
         ctfs_std_case2 = subject_spt_case2["std"]["percentage_CTFS"]
+        ctfs_std_norm = norm_spt["std"]["percentage_CTFS"]
         
+        
+        ax_temp.fill_between([ctfs_mean_norm-ctfs_std_norm , 
+                              ctfs_mean_norm+ctfs_std_norm], 
+                            [ylim_huitieme,ylim_huitieme], [ylim_sup,ylim_sup],
+                             facecolor = '0.5', alpha=0.5)
         ax_temp.fill_between([ctfs_mean_case1-ctfs_std_case1 , 
                               ctfs_mean_case1+ctfs_std_case1], 
                             [ylim_huitieme,ylim_huitieme], [ylim_sup,ylim_sup],
@@ -93,9 +109,16 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
         # controlateral foot off
         ctfo_mean_case1 = subject_spt_case1["mean"]["percentage_CTFO"]
         ctfo_mean_case2 = subject_spt_case2["mean"]["percentage_CTFO"]
+        ctfo_mean_norm = norm_spt["mean"]["percentage_CTFO"]
         ctfo_std_case1 = subject_spt_case1["std"]["percentage_CTFO"]
         ctfo_std_case2 = subject_spt_case2["std"]["percentage_CTFO"]
+        ctfo_std_norm = norm_spt["std"]["percentage_CTFO"]
         
+        
+        ax_temp.fill_between([ctfo_mean_norm-ctfo_std_norm , 
+                              ctfo_mean_norm+ctfo_std_norm], 
+                            [ylim_huitieme,ylim_huitieme], [ylim_sup,ylim_sup],
+                             facecolor = '0.5', alpha=0.5)
         ax_temp.fill_between([ctfo_mean_case1-ctfo_std_case1 , 
                               ctfo_mean_case1+ctfo_std_case1], 
                             [ylim_huitieme,ylim_huitieme], [ylim_sup,ylim_sup],
@@ -111,7 +134,12 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
         mean_2 = subject_kin_case2["mean"][list_kin[ind_kin]]
         std_1 = subject_kin_case1["std"][list_kin[ind_kin]]
         std_2 = subject_kin_case2["std"][list_kin[ind_kin]]
-    
+        if not (i_row==3 and i_collumn==2):
+            norm_mean = norm_kin["mean"][list_kin[ind_kin]]
+            norm_std = norm_kin["std"][list_kin[ind_kin]]
+            norm_X = norm_kin["mean"]['X_value']
+            ax_temp.fill_between(norm_X,norm_mean-norm_std, norm_mean+norm_std
+                                 , facecolor = '0.5', alpha=0.5)
         # Tracer des courbes
         ax_temp.fill_between(x,mean_1-std_1, mean_1+std_1, facecolor = color1, alpha=0.5)
         ax_temp.fill_between(x,mean_2-std_2,mean_2+std_2, facecolor = color2, alpha=0.5)
