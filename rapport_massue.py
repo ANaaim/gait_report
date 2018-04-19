@@ -81,7 +81,7 @@ plot_spt(subject_spt_left_case1, colorleft_case1,
 if emg_bool:
     emg_filename_case1 = askopenfilenames(title="Choisir le fichies de tracer EMG condition "+case1_name+" :",filetypes=[("Fichiers C3D","*.c3d")],
                                     initialdir = subjectory_directory_1)
-    plot_emg(emg_filename_case1,colorleft_case1,colorright_case1)
+    plot_emg(emg_filename_case1,colorleft_case1,colorright_case1,title = "EMG "+case1_name)
 
 
 if comparaison_bool:
@@ -117,4 +117,4 @@ if comparaison_bool:
     if emg_bool:
         emg_filename_case2 = askopenfilenames(title="Choisir le fichies de tracer EMG condition "+case2_name+" :",filetypes=[("Fichiers C3D","*.c3d")],
                                     initialdir = subjectory_directory_2)
-        plot_emg(emg_filename_case2,colorleft_case2,colorright_case2)
+        plot_emg(emg_filename_case2,colorleft_case2,colorright_case2,title = "EMG "+case2_name)

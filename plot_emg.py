@@ -9,7 +9,6 @@ import numpy as np
 import btk
 import matplotlib.pyplot as plt
 
-
 def plot_emg(filename,color1,color2,title="EMG"):
     
     filename = 'test.c3d'
