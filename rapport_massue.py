@@ -24,13 +24,19 @@ import matplotlib.pyplot as plt
 from plot_kinematic import plot_kinematic as plot_kinematic
 from plot_spt import plot_spt as plot_spt
 from extract_Schwartz_norm import extract_Schwartz_norm as extract_Schwartz_norm
-
+from plot_emg import plot_emg as plot_emg
 
 comparaison_bool = tkMessageBox.askyesno("Title","Voulez vous comparer à d'autres résultats?")
-
+emg_bool = tkMessageBox.askyesno("Title","Voulez vous tracer les emg ?")
 
 # On choisit les premiers fichiers
-filenames_case1 = askopenfilenames(title="Choisir les fichiers de la première condition:",filetypes=[("Fichiers C3D","*.c3d")])
+data_directory = 'D:\DonneesViconInstallBMF';
+filenames_case1 = askopenfilenames(title="Choisir les fichiers de la première condition:",filetypes=[("Fichiers C3D","*.c3d")],
+                                    initialdir = data_directory)
+one_filename = filenames_case1[0]
+subject_directory_ind_1 = [i for i in range(len(one_filename)) if one_filename.startswith('/', i)]
+subjectory_directory_1 = one_filename[0:subject_directory_ind_1[-1]]
+
 case1_name = askstring("Input", "Quelle est la première condition?")
 
 # Calcul des paramètres spatio temporels
@@ -39,7 +45,11 @@ subject_kin_case1 = kinematic_allfiles(filenames_case1)
 
 # si l'utilisateurs veut comparer à autre chose on choisit d'autre fichier
 if comparaison_bool:
-    filenames_case2 = askopenfilenames(title="Choisir les fichiers de la deuxième condition:",filetypes=[("Fichiers C3D","*.c3d")])
+    filenames_case2 = askopenfilenames(title="Choisir les fichiers de la deuxième condition:",filetypes=[("Fichiers C3D","*.c3d")],
+                                       initialdir = subjectory_directory_1)
+    one_filename = filenames_case2[0]
+    subject_directory_ind_2 = [i for i in range(len(one_filename)) if one_filename.startswith('/', i)]
+    subjectory_directory_2 = one_filename[0:subject_directory_ind_1[-1]]
     # Calcul des paramètres spatio temporels
     subject_spt_case2 = param_spt_allfiles(filenames_case2)
     subject_kin_case2 = kinematic_allfiles(filenames_case2)
@@ -67,6 +77,11 @@ plot_kinematic(subject_kin_left_case1, subject_spt_left_case1, colorleft_case1,
 plot_spt(subject_spt_left_case1, colorleft_case1,
          subject_spt_right_case1, colorright_case1,
          legend_1="Gauche\n"+case1_name, legend_2="Droite\n"+case1_name, title="SPT_"+case1_name)
+
+if emg_bool:
+    emg_filename_case1 = askopenfilenames(title="Choisir le fichies de tracer EMG condition "+case1_name+" :",filetypes=[("Fichiers C3D","*.c3d")],
+                                    initialdir = subjectory_directory_1)
+    plot_emg(emg_filename_case1,colorleft_case1,colorright_case1)
 
 
 if comparaison_bool:
@@ -99,3 +114,7 @@ if comparaison_bool:
     plot_spt(subject_spt_right_case1, colorright_case1,
              subject_spt_right_case2, colorright_case2,
              legend_1="Droite\n"+case1_name,legend_2="Droite\n"+case2_name, title="SPT_Comparaison_Right")
+    if emg_bool:
+        emg_filename_case2 = askopenfilenames(title="Choisir le fichies de tracer EMG condition "+case2_name+" :",filetypes=[("Fichiers C3D","*.c3d")],
+                                    initialdir = subjectory_directory_2)
+        plot_emg(emg_filename_case2,colorleft_case2,colorright_case2)
