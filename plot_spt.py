@@ -68,9 +68,7 @@ def plot_spt(subject_spt_case1,color_case_1,
     collabel=("", legend_1, legend_2, "norme")
     
     the_table = axis.table(cellText=list_temp,colLabels=collabel,loc='center',edges='open')
-    
-    
-    
+      
     table_props = the_table.properties()
     table_cells = table_props['child_artists']
     for cell in table_cells: 
