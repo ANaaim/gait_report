@@ -15,7 +15,7 @@ from tkSimpleDialog import askstring
 import tkMessageBox
 import matplotlib.pyplot as plt
 from plot_kinematic import plot_kinematic as plot_kinematic
-
+import matplotlib.patches as patches
 #
 #filenames_case1 = askopenfilenames(title="Choisir les fichiers de la première condition:",filetypes=[("Fichiers C3D","*.c3d")])
 #
@@ -52,6 +52,70 @@ def plot_spt(subject_spt_case1,color_case_1,
                 "Phase oscillante (%)",
                 "Simple appui (%)",
                 "Double appui (%)"]
+    
+    #fig_new,axis_new = plt.subplots(len(list_spt)*2+1,1,figsize=(8.27,11.69),dpi=200)
+    fig = plt.figure(figsize=(8.27,11.69),dpi=200)
+    grid = plt.GridSpec(10,1, wspace=0.4, hspace=0.3)
+
+    ax_temp = fig.add_subplot(grid[0:3,0])#axis_new[0]
+    ax_temp.set_ylim([0,3])
+    ax_temp.set_xlim([0,100])
+    ax_temp.set_xlabel("% Gait cycle")
+    Case1_FO = subject_spt_case1["mean"]["stance_phase_perc"]
+    Case2_FO = subject_spt_case2["mean"]["stance_phase_perc"]
+    
+    ax_temp.add_patch(patches.Rectangle((0, 0), 100, 1, facecolor = color_case_1, zorder=-10))
+    ax_temp.add_patch(patches.Rectangle((0, 1), 100, 1, facecolor = color_case_2, zorder=-10)) 
+    
+    ax_temp.add_patch(patches.Rectangle((Case1_FO, 0), 100-Case1_FO, 1, alpha = 0.5, facecolor = [0.8,0.8,0.8], zorder=0))
+    ax_temp.add_patch(patches.Rectangle((Case2_FO, 1), 100-Case2_FO, 1, alpha = 0.5, facecolor = [0.8,0.8,0.8], zorder=0)) 
+    
+    # Left
+    # C_FO
+    Case1_CFO_up = subject_spt_case1["mean"]["percentage_CTFO"]-subject_spt_case1["std"]["percentage_CTFO"]
+    Case1_CFO_down = subject_spt_case1["mean"]["percentage_CTFO"]+subject_spt_case1["std"]["percentage_CTFO"]
+    ax_temp.plot([Case1_CFO_up, Case1_CFO_up],[0,1], color = 'k')
+    ax_temp.plot([Case1_CFO_down, Case1_CFO_down],[0,1], color = 'k')
+    
+    # C_FS
+    Case1_CFS_up = subject_spt_case1["mean"]["percentage_CTFS"]-subject_spt_case1["std"]["percentage_CTFS"]
+    Case1_CFS_down = subject_spt_case1["mean"]["percentage_CTFS"]+subject_spt_case1["std"]["percentage_CTFS"]
+    ax_temp.plot([Case1_CFS_up, Case1_CFS_up],[0,1], color = 'k')
+    ax_temp.plot([Case1_CFS_down, Case1_CFS_down],[0,1], color = 'k')
+    
+    # FO
+    Case1_FO_up = subject_spt_case1["mean"]["stance_phase_perc"]-subject_spt_case1["std"]["stance_phase_perc"]
+    Case1_FO_down = subject_spt_case1["mean"]["stance_phase_perc"]+subject_spt_case1["std"]["stance_phase_perc"]
+    ax_temp.plot([Case1_FO_up, Case1_FO_up],[0,1], color = 'k')
+    ax_temp.plot([Case1_FO_down, Case1_FO_down],[0,1], color = 'k')
+    
+    # Right
+    # C_FO
+    Case2_CFO_up = subject_spt_case2["mean"]["percentage_CTFO"]-subject_spt_case2["std"]["percentage_CTFO"]
+    Case2_CFO_down = subject_spt_case2["mean"]["percentage_CTFO"]+subject_spt_case2["std"]["percentage_CTFO"]
+    ax_temp.plot([Case2_CFO_up, Case2_CFO_up],[1,2], color = 'k')
+    ax_temp.plot([Case2_CFO_down, Case2_CFO_down],[1,2], color = 'k')
+    
+    # C_FS
+    Case2_CFS_up = subject_spt_case2["mean"]["percentage_CTFS"]-subject_spt_case2["std"]["percentage_CTFS"]
+    Case2_CFS_down = subject_spt_case2["mean"]["percentage_CTFS"]+subject_spt_case2["std"]["percentage_CTFS"]
+    ax_temp.plot([Case2_CFS_up, Case2_CFS_up],[1,2], color = 'k')
+    ax_temp.plot([Case2_CFS_down, Case2_CFS_down],[1,2], color = 'k')
+    
+    # FO
+    Case2_FO_up = subject_spt_case2["mean"]["stance_phase_perc"]-subject_spt_case2["std"]["stance_phase_perc"]
+    Case2_FO_down = subject_spt_case2["mean"]["stance_phase_perc"]+subject_spt_case2["std"]["stance_phase_perc"]
+    ax_temp.plot([Case2_FO_up, Case2_FO_up],[1,2], color = 'k')
+    ax_temp.plot([Case2_FO_down, Case2_FO_down],[1,2], color = 'k')
+    
+    # Tracer des paramètres 
+    ax_temp = fig.add_subplot(grid[3:4,0])
+    ax_temp.add_patch(patches.Rectangle((Case1_FO, 0), 100-Case1_FO, 1, alpha = 0.5, facecolor = [0.8,0.8,0.8], zorder=0))
+    
+    plt.show(block=False)       
+        
+        
+    
     
     list_temp = []
     # ["",name_case_1, name_case_2,"Norme"]
