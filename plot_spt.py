@@ -52,15 +52,27 @@ def plot_spt(subject_spt_case1,color_case_1,
                 "Phase oscillante (%)",
                 "Simple appui (%)",
                 "Double appui (%)"]
+    list_echelle = [[0,150],
+                    [0,1.5],
+                    [0,1.5],
+                    [0,1],
+                    [0,0.3],
+                    [0,80],
+                    [0,80],
+                    [0,80],
+                    [0,40]]
+    size_first_graph = 3
+    indice_list = np.array(range(10))+size_first_graph
+    
     
     #fig_new,axis_new = plt.subplots(len(list_spt)*2+1,1,figsize=(8.27,11.69),dpi=200)
-    fig = plt.figure(figsize=(8.27,11.69),dpi=200)
-    grid = plt.GridSpec(10,1, wspace=0.4, hspace=0.3)
+    fig = plt.figure(figsize=(8.27,11.69),dpi=100)
+    grid = plt.GridSpec(size_first_graph+len(list_spt),1, wspace=0.4, hspace=1.5)
 
-    ax_temp = fig.add_subplot(grid[0:3,0])#axis_new[0]
+    ax_temp = fig.add_subplot(grid[0:size_first_graph,0])#axis_new[0]
     ax_temp.set_ylim([0,3])
     ax_temp.set_xlim([0,100])
-    ax_temp.set_xlabel("% Gait cycle")
+    plt.title("% Gait cycle")
     Case1_FO = subject_spt_case1["mean"]["stance_phase_perc"]
     Case2_FO = subject_spt_case2["mean"]["stance_phase_perc"]
     
@@ -108,12 +120,40 @@ def plot_spt(subject_spt_case1,color_case_1,
     ax_temp.plot([Case2_FO_up, Case2_FO_up],[1,2], color = 'k')
     ax_temp.plot([Case2_FO_down, Case2_FO_down],[1,2], color = 'k')
     
-    # Tracer des paramètres 
-    ax_temp = fig.add_subplot(grid[3:4,0])
-    ax_temp.add_patch(patches.Rectangle((Case1_FO, 0), 100-Case1_FO, 1, alpha = 0.5, facecolor = [0.8,0.8,0.8], zorder=0))
+    ax_temp.spines['top'].set_visible(False)
+    ax_temp.spines['right'].set_visible(False)
+    ax_temp.spines['left'].set_visible(False)
+    ax_temp.get_yaxis().set_ticks([])
     
-    plt.show(block=False)       
+    ax_temp.plot([101, 101],[3,4], color =color_case_1,label = legend_1.replace('\n',' '))
+    ax_temp.plot([101, 101],[3,4], color = color_case_2,label = legend_2.replace('\n',' '))  
+    
+    lgd = ax_temp.legend(loc='upper center', bbox_to_anchor=(0.5, 1.35), ncol = 2, prop={'size':13})
+    # Tracer des paramètres 
+    # cadence
+    for key, name,echelle,indice in zip(list_spt,name_spt,list_echelle,indice_list): 
+    
+        ax_temp = fig.add_subplot(grid[indice:indice+1,0])
+        ax_temp.set_ylim([0,3])
+        ax_temp.set_xlim(echelle)
         
+        Case1_down = subject_spt_case1["mean"][key]-subject_spt_case1["std"][key]    
+        ax_temp.add_patch(patches.Rectangle(
+                (Case1_down, 0.25), subject_spt_case1["std"][key]*2, 0.5, 
+                 facecolor = color_case_1, zorder=0))
+        Case2_down = subject_spt_case2["mean"][key]+subject_spt_case2["std"][key]
+        ax_temp.add_patch(patches.Rectangle(
+                (Case2_down, 2.25), subject_spt_case2["std"][key]*2, 0.5, 
+                 facecolor = color_case_2, zorder=0))
+        ax_temp.spines['top'].set_visible(False)
+        ax_temp.spines['right'].set_visible(False)
+        ax_temp.spines['left'].set_visible(False)
+        ax_temp.get_yaxis().set_ticks([])
+        plt.title(name) 
+    
+    plt.tight_layout()
+    plt.show(block=False)       
+    fig.savefig(title+'_Visuel.png', bbox_extra_artists=(lgd,), bbox_inches='tight')  
         
     
     
