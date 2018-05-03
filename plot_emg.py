@@ -8,6 +8,7 @@ Created on Thu Apr 19 13:25:48 2018
 import numpy as np
 import btk
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 
 def plot_emg(filename,color1,color2,title="EMG"):
     
@@ -16,6 +17,11 @@ def plot_emg(filename,color1,color2,title="EMG"):
     reader.Update()
     acq = reader.GetOutput()
     name_emg = ["VL","Gastroc","RF","IJ","TA"]
+    time_activation = {"VL":np.array([-10,15,90,115]),
+                       "Gastroc":np.array([15,52]),
+                       "RF":np.array([55,65]),
+                       "IJ":np.array([-10,12,90,110]),
+                       "TA":np.array([5,50])}
     
     emg_R = {}
     emg_L = {}
@@ -66,8 +72,6 @@ def plot_emg(filename,color1,color2,title="EMG"):
         ax_temp_R = axis[ind_muscle*2]
         ax_temp_L =  axis[ind_muscle*2+1]
         
-         
-        
         ax_temp_R.plot(emg_R[muscle_name],color = color2, linewidth = 1.0)
         ax_temp_R.set_title("R "+muscle_name, fontsize=8)
         ax_temp_R.set_xlim((0,nbr_frame))
@@ -79,6 +83,7 @@ def plot_emg(filename,color1,color2,title="EMG"):
         if not ind_muscle == numbre_emg:
             ax_temp_L.set_xticklabels([])
         
+                
         for axis_temp in [ax_temp_R,ax_temp_L]:
             for x_event in L_FS:
                 y_lim = axis_temp.get_ylim()
@@ -96,6 +101,31 @@ def plot_emg(filename,color1,color2,title="EMG"):
                 y_lim = axis_temp.get_ylim()
                 axis_temp.plot([x_event, x_event],y_lim,color = color2,linestyle='--')
                 axis_temp.set_ylim(y_lim)
+        
+        # tracer de la norme
+        for ind_event in range(len(L_FS)-1):
+            nb_frame = L_FS[ind_event+1]-L_FS[ind_event]
+            frame_norm_emg = nb_frame*time_activation[muscle_name]/100.0+L_FS[ind_event]
+            for ind_activation in range(len(frame_norm_emg)/2):
+                ind1 = frame_norm_emg[ind_activation*2]
+                ind2 = frame_norm_emg[ind_activation*2+1]
+                y_lim = ax_temp_L.get_ylim()
+                division = (y_lim[1]-y_lim[0])/8.0
+                bas_y = y_lim[0]+7*division
+                ax_temp_L.add_patch(patches.Rectangle((ind1, bas_y),ind2-ind1,division,facecolor = [0.8,0.8,0.8],zorder=-10))
+       
+        for ind_event in range(len(R_FS)-1):
+            nb_frame = R_FS[ind_event+1]-R_FS[ind_event]
+            frame_norm_emg = nb_frame*time_activation[muscle_name]/100.0+R_FS[ind_event]
+            for ind_activation in range(len(frame_norm_emg)/2):
+                ind1 = frame_norm_emg[ind_activation*2]
+                ind2 = frame_norm_emg[ind_activation*2+1]
+                y_lim = ax_temp_R.get_ylim()
+                division = (y_lim[1]-y_lim[0])/8.0
+                bas_y = y_lim[0]+7*division
+                ax_temp_R.add_patch(patches.Rectangle((ind1, bas_y),ind2-ind1,division,facecolor = [0.8,0.8,0.8],zorder=-10)) 
+    
+
     
     plt.tight_layout()
     plt.show()
