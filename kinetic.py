@@ -18,7 +18,7 @@ reader = btk.btkAcquisitionFileReader()
 reader.SetFilename(filename)
 reader.Update()
 acq = reader.GetOutput()
-side = "left"
+side = "right"
 plateform_valid = [side==FP1,side==FP2]
    
 

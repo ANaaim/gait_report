@@ -32,7 +32,6 @@ def extraction_enf(filename):
                 if 'eft' in lign:
                     FP1 = 'left'
                 elif 'ight' in lign:
-                    print 'FP1 right'
                     FP1 = 'right'
             elif 'FP2' in lign: 
                 if 'eft' in lign:
