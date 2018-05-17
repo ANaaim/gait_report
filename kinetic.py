@@ -10,7 +10,6 @@ import numpy as np
 from extraction_enf import extraction_enf as extraction_enf
 
 
-
 def kinetic(filename,side):
     [FP1,FP2] = extraction_enf(filename)
     
@@ -61,6 +60,12 @@ def kinetic(filename,side):
     FO =    [x-first_frame for x in FO if x >= first_event]
     FO_CL = [x-first_frame for x in FO_CL if x >= first_event]
     
+    # Coefficient d'adimension pour les moments
+    md = acq.GetMetaData()
+    leg_lenght = md.FindChild("PROCESSING").value().FindChild(side_letter+'LegLength').value().GetInfo().ToDouble()[0]/1000.0
+    body_mass = md.FindChild("PROCESSING").value().FindChild('Bodymass').value().GetInfo().ToDouble()[0]
+    gravity = 9.81
+    coeff_moment = leg_lenght*body_mass*gravity
     # Initialisation 
     nb_cycle = len(FS)-1
     
@@ -82,7 +87,10 @@ def kinetic(filename,side):
                  "Foot_Progression": np.zeros((101,nb_cycle)),
                  "Foot_tilt": np.zeros((101,nb_cycle))}
     
-    kinetic = {"Hip_Power": np.zeros((101,nb_cycle)),
+    kinetic = {"Hip_Fle": np.zeros((101,nb_cycle)),
+               "Knee_Fle": np.zeros((101,nb_cycle)),
+               "Ankle_Fle": np.zeros((101,nb_cycle)),
+               "Hip_Power": np.zeros((101,nb_cycle)),
                "Knee_Power": np.zeros((101,nb_cycle)),
                "Ankle_Power": np.zeros((101,nb_cycle)),
                "Normalised_Ground_Reaction_X": np.zeros((101,nb_cycle)),
@@ -118,6 +126,8 @@ def kinetic(filename,side):
             kinematic["Pelvis_Fle"][:,cycle_valid] = np.interp(x, xp, f_flexion)
             kinematic["Pelvis_Abd"][:,cycle_valid] = np.interp(x, xp, f_abduction)
             kinematic["Pelvis_Ier"][:,cycle_valid] = np.interp(x, xp, f_rotation)
+
+            
             # Hip
             f_flexion =  acq.GetPoint(side_letter+'HipAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],0]
             f_abduction = acq.GetPoint(side_letter+'HipAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],1]
@@ -125,7 +135,9 @@ def kinetic(filename,side):
             kinematic["Hip_Fle"][:,cycle_valid] = np.interp(x, xp, f_flexion)
             kinematic["Hip_Abd"][:,cycle_valid] = np.interp(x, xp, f_abduction)
             kinematic["Hip_Ier"][:,cycle_valid] = np.interp(x, xp, f_rotation)
-        
+            
+            kinetic["Hip_Fle"][:,cycle_valid] = np.interp(x, xp, f_flexion)
+            
             # Knee
             f_flexion =  acq.GetPoint(side_letter+'KneeAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],0]
             f_abduction = acq.GetPoint(side_letter+'KneeAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],1]
@@ -133,6 +145,8 @@ def kinetic(filename,side):
             kinematic["Knee_Fle"][:,cycle_valid] = np.interp(x, xp, f_flexion)
             kinematic["Knee_Abd"][:,cycle_valid] = np.interp(x, xp, f_abduction)
             kinematic["Knee_Ier"][:,cycle_valid] = np.interp(x, xp, f_rotation)
+            
+            kinetic["Knee_Fle"][:,cycle_valid] = np.interp(x, xp, f_flexion)
             
             # Ankle
             f_flexion =  acq.GetPoint(side_letter+'AnkleAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],0]
@@ -142,6 +156,8 @@ def kinetic(filename,side):
             kinematic["Ankle_Fle"][:,cycle_valid] = np.interp(x, xp, f_flexion)
             kinematic["Foot_Progression"][:,cycle_valid] = np.interp(x, xp, f_progression)
             kinematic["Foot_tilt"][:,cycle_valid] = np.interp(x, xp, f_tilt)
+            
+            kinetic["Ankle_Fle"][:,cycle_valid] = np.interp(x, xp, f_flexion)
             
             # kinetic
             power_hip = acq.GetPoint(side_letter+'HipPower').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],2]
@@ -154,21 +170,21 @@ def kinetic(filename,side):
             normal_GRF_X = acq.GetPoint(side_letter+'NormalisedGRF').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],0]
             normal_GRF_Y = acq.GetPoint(side_letter+'NormalisedGRF').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],1]
             normal_GRF_Z = acq.GetPoint(side_letter+'NormalisedGRF').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],2] 
-            kinetic["Normalised_Ground_Reaction_X"][:,cycle_valid] = np.interp(x, xp, normal_GRF_X)
+            kinetic["Normalised_Ground_Reaction_X"][:,cycle_valid] = -np.interp(x, xp, normal_GRF_X)
             kinetic["Normalised_Ground_Reaction_Y"][:,cycle_valid] = np.interp(x, xp, normal_GRF_Y)
             kinetic["Normalised_Ground_Reaction_Z"][:,cycle_valid] = np.interp(x, xp, normal_GRF_Z)
             
             moment_hip = acq.GetPoint(side_letter+'HipMoment').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],2]
             moment_knee = acq.GetPoint(side_letter+'KneeMoment').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],2]
             moment_ankle = acq.GetPoint(side_letter+'AnkleMoment').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],2]
-            kinetic["Hip_Moment"][:,cycle_valid] = np.interp(x, xp, moment_hip)
-            kinetic["Knee_Moment"][:,cycle_valid] = np.interp(x, xp, moment_knee)
-            kinetic["Ankle_Moment"][:,cycle_valid] = np.interp(x, xp, moment_ankle)
+            kinetic["Hip_Moment"][:,cycle_valid] = np.interp(x, xp, moment_hip)/coeff_moment
+            kinetic["Knee_Moment"][:,cycle_valid] = np.interp(x, xp, moment_knee)/coeff_moment
+            kinetic["Ankle_Moment"][:,cycle_valid] = np.interp(x, xp, moment_ankle)/coeff_moment
             
             cycle_valid +=1
     return [kinematic,kinetic]
             
 if __name__ == '__main__':
-    filename  = 'D:\DonneesViconInstallBMF\Pediatrie\FAURE Aymeric\Session 3\FAUR Aym marchePN S3 10.c3d'
+    filename  = 'C:\Users\AdminXPS\SynchronisationXPS\Professionel\GitHub\Data\Gait_report\FAUR Aym marchePN S3 10.c3d'
     [kinematic,kinetic] = kinetic(filename,'left')
     

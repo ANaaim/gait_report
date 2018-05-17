@@ -41,7 +41,7 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
                        ["-10","Ext","deg","Flex","70"],
                        ["-30","Val","deg","Var","30"],
                        ["-30","Ext","deg","Int","30"],
-                       ["-30","Dors","deg","Plant","30"],
+                       ["-30","Plant","deg","Dorsi","30"],
                        ["-30","Ext","deg","Int","30"],
                        ["-100","Neg","deg","Pos","20"]]
     

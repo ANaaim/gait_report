@@ -9,10 +9,7 @@ import numpy as np
 from extraction_enf import extraction_enf as extraction_enf
 from tkFileDialog import askopenfilenames
 
-data_directory = 'D:\DonneesViconInstallBMF';
-filenames = askopenfilenames(title="Choisir les fichiers de la première condition:",filetypes=[("Fichiers C3D","*.c3d")],
-                                    initialdir = data_directory)
-def kinetic_allfile(filenames):
+def kinetic_allfiles(filenames):
     
     valid_file = []
     for ind_file, filename in enumerate(filenames):
@@ -49,11 +46,11 @@ def kinetic_allfile(filenames):
         right_std_kinematic[key] = np.std(right_kinematic[key], axis=1)
         
     left_kinematic = {"mean": left_mean_kinematic,
-            "std": left_std_kinematic}
+                      "std": left_std_kinematic}
     right_kinematic = {"mean": right_mean_kinematic,
-             "std": right_std_kinematic} 
+                       "std": right_std_kinematic} 
     subject_kinematic = {"left": left_kinematic,
-                   "right": right_kinematic}
+                         "right": right_kinematic}
     
     
     left_mean_kinetic ={}
@@ -67,10 +64,10 @@ def kinetic_allfile(filenames):
         right_std_kinetic[key] = np.std(right_kinetic[key], axis=1)
         
     left_kinetic = {"mean": left_mean_kinetic,
-            "std": left_std_kinetic}
-    right_kinematic = {"mean": right_mean_kinetic,
-             "std": right_std_kinetic} 
+                    "std": left_std_kinetic}
+    right_kinetic = {"mean": right_mean_kinetic,
+                       "std": right_std_kinetic} 
     subject_kinetic = {"left": left_kinetic,
-                   "right": right_kinetic}
+                       "right": right_kinetic}
     
     return [subject_kinematic,subject_kinetic]
