@@ -17,7 +17,6 @@ def extraction_enf(filename):
     validation = 0
     for ind,name_file in enumerate(f):
         if os.path.split(filename)[1][:-4]+'.Trial' in name_file:
-            print 'test'
             validation += 1
             ind_file = ind
             

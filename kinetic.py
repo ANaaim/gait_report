@@ -11,14 +11,13 @@ from extraction_enf import extraction_enf as extraction_enf
 
 
 
-def kinetic(filename):
+def kinetic(filename,side):
     [FP1,FP2] = extraction_enf(filename)
     
     reader = btk.btkAcquisitionFileReader()
     reader.SetFilename(filename)
     reader.Update()
     acq = reader.GetOutput()
-    side = "right"
     plateform_valid = [side==FP1,side==FP2]
        
     
@@ -105,8 +104,8 @@ def kinetic(filename):
                                        int(end_cycle*factor_point_analog)])>5)/ factor_point_analog
         nbr_frame_fz2 = sum(np.abs(fz2[int(init_cycle*factor_point_analog):
                                        int(end_cycle*factor_point_analog)])>5)/ factor_point_analog
-        condition_Plat1 = (nbr_frame_fz1/float(nb_frame))>0.15
-        condition_Plat2 = (nbr_frame_fz1/float(nb_frame))>0.15
+        condition_Plat1 = (nbr_frame_fz1/float(nb_frame))>0.15 and plateform_valid[0]
+        condition_Plat2 = (nbr_frame_fz2/float(nb_frame))>0.15 and plateform_valid[1]
         
         if condition_Plat1 or condition_Plat2:
             # paramètre pour l'interpolation sur 100 point
@@ -152,9 +151,9 @@ def kinetic(filename):
             kinetic["Knee_Power"][:,cycle_valid] = np.interp(x, xp, power_knee)
             kinetic["Ankle_Power"][:,cycle_valid] = np.interp(x, xp, power_ankle)
             
-            normal_GRF_X = acq.GetPoint(side_letter+'GroundReactionForce').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],0]
-            normal_GRF_Y = acq.GetPoint(side_letter+'GroundReactionForce').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],1]
-            normal_GRF_Z = acq.GetPoint(side_letter+'GroundReactionForce').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],2] 
+            normal_GRF_X = acq.GetPoint(side_letter+'NormalisedGRF').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],0]
+            normal_GRF_Y = acq.GetPoint(side_letter+'NormalisedGRF').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],1]
+            normal_GRF_Z = acq.GetPoint(side_letter+'NormalisedGRF').GetValues()[FS[ind_cycle]:FS[ind_cycle+1],2] 
             kinetic["Normalised_Ground_Reaction_X"][:,cycle_valid] = np.interp(x, xp, normal_GRF_X)
             kinetic["Normalised_Ground_Reaction_Y"][:,cycle_valid] = np.interp(x, xp, normal_GRF_Y)
             kinetic["Normalised_Ground_Reaction_Z"][:,cycle_valid] = np.interp(x, xp, normal_GRF_Z)
@@ -171,5 +170,5 @@ def kinetic(filename):
             
 if __name__ == '__main__':
     filename  = 'D:\DonneesViconInstallBMF\Pediatrie\FAURE Aymeric\Session 3\FAUR Aym marchePN S3 10.c3d'
-    [kinematic,kinetic] = kinetic(filename)
+    [kinematic,kinetic] = kinetic(filename,'left')
     
