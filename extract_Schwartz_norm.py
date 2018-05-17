@@ -13,9 +13,9 @@ def extract_Schwartz_norm(Speed="Free"):
     speed_std_name = Speed+"Sd"
     xls = pd.ExcelFile("Formatted- Schwartz2008.xlsx")
     jointRotations = xls.parse("Joint Rotations")
-#    jointMoments = xls.parse("Joint Moments")
-#    jointPower = xls.parse("Joint Power")
-
+    jointMoments = xls.parse("Joint Moments")
+    jointPower = xls.parse("Joint Power")
+    GRF = xls.parse("Ground Reaction Forces")
     cycleEvents = xls.parse("Cycle Events")
 
 
@@ -54,6 +54,24 @@ def extract_Schwartz_norm(Speed="Free"):
                      "Ankle_Fle": [],
                      "Foot_Progression": [],
                      "Foot_tilt": []}
+    kinetic_mean = {"Hip_Power": [],
+                    "Knee_Power": [],
+                    "Ankle_Power": [],
+                    "Normalised_Ground_Reaction_X": [],
+                    "Normalised_Ground_Reaction_Y": [],
+                    "Normalised_Ground_Reaction_Z": [],
+                    "Hip_Moment": [],
+                    "Knee_Moment": [],
+                    "Ankle_Moment": []}
+    kinetic_std = {"Hip_Power": [],
+                    "Knee_Power": [],
+                    "Ankle_Power": [],
+                    "Normalised_Ground_Reaction_X": [],
+                    "Normalised_Ground_Reaction_Y": [],
+                    "Normalised_Ground_Reaction_Z": [],
+                    "Hip_Moment": [],
+                    "Knee_Moment": [],
+                    "Ankle_Moment": []}
 
     # free events
     param_spt_mean["percentage_CTFO"] = cycleEvents[ cycleEvents["Parameter"] == "Opposite Foot Off  [% cycle]"][speed_mean_name].values[0] * 100
@@ -111,7 +129,45 @@ def extract_Schwartz_norm(Speed="Free"):
     data10 = jointRotations [ jointRotations["Angle"] == "Foot Int/External Progression"]
     kinematic_mean["Foot_Progression"] = data10[speed_mean_name]
     kinematic_std["Foot_Progression"] = data10[speed_std_name]
-    norm_kin = {"mean": kinematic_mean,"std": kinematic_std}
-
-    return [norm_spt,norm_kin]
+    
+    norm_kinematic = {"mean": kinematic_mean,"std": kinematic_std}
+    
+    # Kinetic
+    #Power
+    data11 = jointPower[ jointPower["Power"] == "Hip"]
+    kinetic_mean['Hip_Power'] = data11[speed_mean_name]
+    kinetic_std['Hip_Power'] = data11[speed_std_name]
+    
+    data12 = jointPower[ jointPower["Power"] == "Knee"]
+    kinetic_mean['Knee_Power'] = data12[speed_mean_name]
+    kinetic_std['Knee_Power'] = data12[speed_std_name]
+    
+    data13 = jointPower[ jointPower["Power"] == "Ankle"]
+    kinetic_mean['Ankle_Power'] = data13[speed_mean_name]
+    kinetic_std['Ankle_Power'] = data13[speed_std_name]
+    # Moment
+    data14 = jointMoments[jointMoments["Moment"== "Hip Ext/Flexion"]]
+    kinetic_mean['Hip_Moment'] = data14[speed_mean_name]
+    kinetic_std['Hip_Moment'] = data14[speed_std_name]
+    
+    data15 = jointMoments[jointMoments["Moment"== "Knee Ext/Flexion"]]
+    kinetic_mean['Knee_Moment'] = data15[speed_mean_name]
+    kinetic_std['Knee_Moment'] = data15[speed_std_name]
+    
+    data16 = jointMoments[jointMoments["Moment"== "Ankle Dorsi/Plantarflexion"]]
+    kinetic_mean['Ankle_Moment'] = data16[speed_mean_name]
+    kinetic_std['Ankle_Moment'] = data16[speed_std_name]
+    
+    #Normalised Ground Reaction Forces
+    data17 = GRF[GRF["Force"] == "Anterior/Posterior"]
+    kinetic_mean['Normalised_Ground_Reaction_X'] = data17[speed_mean_name]*100
+    kinetic_std['Normalised_Ground_Reaction_X'] = data17[speed_std_name]*100
+    
+    data18 = GRF[GRF["Force"] == "Vertical"]
+    kinetic_mean['Normalised_Ground_Reaction_Z'] = data18[speed_mean_name]*100
+    kinetic_std['Normalised_Ground_Reaction_Z'] = data18[speed_std_name]*100
+    
+    norm_kinetic = {"mean": kinetic_mean,"std": kinetic_std}
+    
+    return [norm_spt,norm_kinematic,norm_kinetic]
 
