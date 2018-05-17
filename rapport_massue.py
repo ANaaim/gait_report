@@ -27,12 +27,14 @@ from extract_Schwartz_norm import extract_Schwartz_norm as extract_Schwartz_norm
 from plot_emg import plot_emg as plot_emg
 
 comparaison_bool = tkMessageBox.askyesno("Title","Voulez vous comparer à d'autres résultats?")
+kinetic_bool = tkMessageBox.askyesno("Title","Voulez vous tracer la cinétique?")
 emg_bool = tkMessageBox.askyesno("Title","Voulez vous tracer les emg ?")
 
 # On choisit les premiers fichiers
 data_directory = 'D:\DonneesViconInstallBMF';
 filenames_case1 = askopenfilenames(title="Choisir les fichiers de la première condition:",filetypes=[("Fichiers C3D","*.c3d")],
                                     initialdir = data_directory)
+
 one_filename = filenames_case1[0]
 subject_directory_ind_1 = [i for i in range(len(one_filename)) if one_filename.startswith('/', i)]
 subjectory_directory_1 = one_filename[0:subject_directory_ind_1[-1]]
