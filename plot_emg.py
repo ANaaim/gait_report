@@ -144,5 +144,5 @@ def plot_emg(filename,color1,color2,title="EMG"):
 
     
     plt.tight_layout()
-    plt.show()
+    plt.show(block=False)
     fig.savefig(title+'.png', bbox_inches='tight')
