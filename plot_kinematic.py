@@ -16,7 +16,7 @@ import numpy as np
 
 def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
                    subject_kin_case2, subject_spt_case2, color2,
-                   norm_spt, norm_kin, report_repertory,
+                   norm_spt, norm_kin, report_directory,
                    legend_1="test1", legend_2="test2", title="Kinematic"):
     
     for trace in ['mean', 'control']:
@@ -151,6 +151,10 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
                 ax_temp.plot(x, mean_1, color1, label=legend_1)
                 ax_temp.plot(x, mean_2, color2, label=legend_2)
                 title_final = title
+                report_directory_final = os.path.join(report_directory,'Cinematique')
+                if not os.path.isdir(report_directory_final):
+                    os.makedirs (report_directory_final)
+                    
             elif trace == 'control':
                 all_1 = subject_kin_case1["all"][list_kin[ind_kin]]  
                 all_2 = subject_kin_case2["all"][list_kin[ind_kin]]
@@ -161,6 +165,9 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
                 ax_temp.plot(x, all_2[:,1:], color2)
                 
                 title_final = title + '_control'
+                report_directory_final = os.path.join(report_directory,'Controle des donnees')
+                if not os.path.isdir(report_directory_final):
+                    os.makedirs (report_directory_final)
                 
             # Reglages des élement du graphique
             ax_temp.set_title(list_name[ind_kin], fontsize=15)
@@ -183,7 +190,7 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
         plt.tight_layout()
         #    gs1.tight_layout(fig, rect=[0, 0.03, 1, 0.95])
         #plt.show(block=False)
-        file_name = os.path.join(report_repertory, title_final + '.png')
+        file_name = os.path.join(report_directory_final, title_final + '.png')
         print("Sauvegarde du fichier " + title_final)
         fig.savefig(file_name, bbox_extra_artists=(lgd,), bbox_inches='tight')
         plt.close(fig)

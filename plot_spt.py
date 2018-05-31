@@ -29,7 +29,7 @@ import numpy as np
 
 
 def plot_spt(subject_spt_case1, color_case_1,
-             subject_spt_case2, color_case_2, report_repertory,
+             subject_spt_case2, color_case_2, report_directory,
              legend_1="", legend_2="", title="SPT"):
     list_spt = ["cadence",
                 "length_cycle",
@@ -149,8 +149,12 @@ def plot_spt(subject_spt_case1, color_case_1,
         plt.title(name)
 
     plt.tight_layout()
-    #plt.show(block=False)
-    file_name_visuel = os.path.join(report_repertory, title + '_Visuel.png')
+
+    report_directory_final = os.path.join(report_directory,'SPT')
+    if not os.path.isdir(report_directory_final):
+        os.makedirs (report_directory_final)
+        
+    file_name_visuel = os.path.join(report_directory_final, title + '_Visuel.png')
     print('Sauvegarde du fichier '+ title + '_Visuel.png')
     fig.savefig(file_name_visuel, bbox_extra_artists=(lgd,), bbox_inches='tight')
     plt.close(fig)
@@ -183,8 +187,8 @@ def plot_spt(subject_spt_case1, color_case_1,
     the_table.auto_set_column_width([-1, 0, 1, 2, 3])
     the_table.scale(1.0, 2.0)
     plt.tight_layout()
-    #plt.show(block=False)
-    file_name = os.path.join(report_repertory, title + '.png')
+
+    file_name = os.path.join(report_directory_final, title + '.png')
     print('Sauvegarde du fichier '+ title)
     fig.savefig(file_name, bbox_inches='tight')
     plt.close(fig)
