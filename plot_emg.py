@@ -145,4 +145,6 @@ def plot_emg(filename, color1, color2, report_repertory, title="EMG"):
     plt.tight_layout()
     #plt.show(block=False)
     file_name = os.path.join(report_repertory, title + '.png')
+    print('Sauvegarde du fichier '+ title)
     fig.savefig(file_name, bbox_inches='tight')
+    plt.close(fig)

@@ -151,8 +151,10 @@ def plot_spt(subject_spt_case1, color_case_1,
     plt.tight_layout()
     #plt.show(block=False)
     file_name_visuel = os.path.join(report_repertory, title + '_Visuel.png')
+    print('Sauvegarde du fichier '+ title + '_Visuel.png')
     fig.savefig(file_name_visuel, bbox_extra_artists=(lgd,), bbox_inches='tight')
-
+    plt.close(fig)
+    
     list_temp = []
     # ["",name_case_1, name_case_2,"Norme"]
     for key, name in zip(list_spt, name_spt):
@@ -183,4 +185,6 @@ def plot_spt(subject_spt_case1, color_case_1,
     plt.tight_layout()
     #plt.show(block=False)
     file_name = os.path.join(report_repertory, title + '.png')
+    print('Sauvegarde du fichier '+ title)
     fig.savefig(file_name, bbox_inches='tight')
+    plt.close(fig)

@@ -184,5 +184,7 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
         #    gs1.tight_layout(fig, rect=[0, 0.03, 1, 0.95])
         #plt.show(block=False)
         file_name = os.path.join(report_repertory, title_final + '.png')
+        print("Sauvegarde du fichier ")
         fig.savefig(file_name, bbox_extra_artists=(lgd,), bbox_inches='tight')
+        plt.close(fig)
         # fig.savefig('samplefigure.png')
