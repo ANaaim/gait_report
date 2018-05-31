@@ -6,6 +6,7 @@ Created on Fri Apr 06 14:57:56 2018
 """
 
 import numpy as np
+import os
 from param_spt_allfiles import param_spt_allfiles as param_spt_allfiles
 from kinematic_allfiles import kinematic_allfiles as kinematic_allfiles
 # pour demander à l'utilisateur de sélectionner des fichiers
@@ -32,7 +33,7 @@ import matplotlib.patches as patches
 
 
 def plot_spt(subject_spt_case1, color_case_1,
-             subject_spt_case2, color_case_2,
+             subject_spt_case2, color_case_2,report_repertory,
              legend_1="", legend_2="", title="SPT"):
 
     list_spt = ["cadence",
@@ -153,7 +154,8 @@ def plot_spt(subject_spt_case1, color_case_1,
 
     plt.tight_layout()
     plt.show(block=False)
-    fig.savefig(title + '_Visuel.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
+    file_name_visuel = os.path.join(report_repertory,title+'_Visuel.png')
+    fig.savefig(file_name_visuel , bbox_extra_artists=(lgd,), bbox_inches='tight')
 
     list_temp = []
     # ["",name_case_1, name_case_2,"Norme"]
@@ -184,4 +186,5 @@ def plot_spt(subject_spt_case1, color_case_1,
     the_table.scale(1.0, 2.0)
     plt.tight_layout()
     plt.show(block=False)
-    fig.savefig(title + '.png', bbox_inches='tight')
+    file_name = os.path.join(report_repertory,title+'.png')
+    fig.savefig(file_name, bbox_inches='tight')

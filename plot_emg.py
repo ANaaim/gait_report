@@ -6,12 +6,13 @@ Created on Thu Apr 19 13:25:48 2018
 """
 
 import numpy as np
+import os
 import btk
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
 
-def plot_emg(filename, color1, color2, title="EMG"):
+def plot_emg(filename, color1, color2, report_repertory, title="EMG"):
 
     reader = btk.btkAcquisitionFileReader()
     reader.SetFilename(filename)
@@ -141,4 +142,5 @@ def plot_emg(filename, color1, color2, title="EMG"):
 
     plt.tight_layout()
     plt.show(block=False)
-    fig.savefig(title + '.png', bbox_inches='tight')
+    file_name = os.path.join(report_repertory,title+'.png')
+    fig.savefig(file_name, bbox_inches='tight')

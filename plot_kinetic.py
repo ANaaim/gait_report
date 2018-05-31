@@ -11,6 +11,7 @@ Created on Fri Apr 06 11:41:00 2018
 
 @author: AdminXPS
 """
+import os
 import matplotlib.pyplot as plt
 import numpy as np
 # Chaque cote contiendra paramètres spatio temporel, kinematic, kinetics
@@ -19,7 +20,7 @@ import numpy as np
 
 def plot_kinetic(subject_kinetic_case1, subject_spt_case1, color1,
                  subject_kinetic_case2, subject_spt_case2, color2,
-                 norm_spt, norm_kinetic,
+                 norm_spt, norm_kinetic, report_repertory,
                  legend_1="test1", legend_2="test2", title="Kinetic"):
 
   x = np.linspace(0, 101, 101)
@@ -184,5 +185,6 @@ def plot_kinetic(subject_kinetic_case1, subject_spt_case1, color1,
   plt.tight_layout()
 #    gs1.tight_layout(fig, rect=[0, 0.03, 1, 0.95])
   plt.show(block=False)
-  fig.savefig(title + '.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
+  file_name = os.path.join(report_repertory,title+'.png')
+  fig.savefig(file_name, bbox_extra_artists=(lgd,), bbox_inches='tight')
   # fig.savefig('samplefigure.png')
