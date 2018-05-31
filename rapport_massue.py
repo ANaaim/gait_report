@@ -119,6 +119,11 @@ if emg_bool:
 
 
 if comparaison_bool:
+    if emg_bool:
+      emg_filename_case2 = askopenfilenames(title="Choisir le fichies de tracer EMG condition " + case2_name + " :", filetypes=[("Fichiers C3D", "*.c3d")],
+                                            initialdir=subjectory_directory_2)
+      plot_emg(emg_filename_case2[0], colorleft_case2, colorright_case2, report_directory, title="EMG " + case2_name)
+    
     subject_kinematic_left_case2 = subject_kinematic_case2["left"]
     subject_kinematic_right_case2 = subject_kinematic_case2["right"]
     if kinetic_bool:
@@ -171,7 +176,4 @@ if comparaison_bool:
                    norm_spt, norm_kinetic, report_directory,
                    legend_1="Droite " + case1_name, legend_2="Droite " + case2_name, title="Kinetic_Comparaison_Right")
 
-    if emg_bool:
-      emg_filename_case2 = askopenfilenames(title="Choisir le fichies de tracer EMG condition " + case2_name + " :", filetypes=[("Fichiers C3D", "*.c3d")],
-                                            initialdir=subjectory_directory_2)
-    plot_emg(emg_filename_case2[0], colorleft_case2, colorright_case2, report_directory, title="EMG " + case2_name)
+    
