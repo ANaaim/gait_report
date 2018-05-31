@@ -5,37 +5,32 @@ Created on Fri Apr 06 14:57:56 2018
 @author: AdminXPS
 """
 
-import numpy as np
 import os
-from param_spt_allfiles import param_spt_allfiles as param_spt_allfiles
-from kinematic_allfiles import kinematic_allfiles as kinematic_allfiles
-# pour demander à l'utilisateur de sélectionner des fichiers
-from Tkinter import Tk
-from tkFileDialog import askopenfilenames
-from tkSimpleDialog import askstring
-import tkMessageBox
-import matplotlib.pyplot as plt
-from plot_kinematic import plot_kinematic as plot_kinematic
+
 import matplotlib.patches as patches
+# pour demander à l'utilisateur de sélectionner des fichiers
+import matplotlib.pyplot as plt
+import numpy as np
+
+
 #
-#filenames_case1 = askopenfilenames(title="Choisir les fichiers de la première condition:",filetypes=[("Fichiers C3D","*.c3d")])
+# filenames_case1 = askopenfilenames(title="Choisir les fichiers de la première condition:",filetypes=[("Fichiers C3D","*.c3d")])
 #
 # Calcul des paramètres spatio temporels
-#subject_spt_case1 = param_spt_allfiles(filenames_case1)
+# subject_spt_case1 = param_spt_allfiles(filenames_case1)
 #
-#name_case_1 = "left"
-#name_case_2 = "right"
-#color_case_1 = 'tab:orange'
-#color_case_2 = 'tab:blue'
+# name_case_1 = "left"
+# name_case_2 = "right"
+# color_case_1 = 'tab:orange'
+# color_case_2 = 'tab:blue'
 #
-#subject_spt_case1 = subject_spt_case1["left"]
-#subject_spt_case1 = subject_spt_case1["right"]
+# subject_spt_case1 = subject_spt_case1["left"]
+# subject_spt_case1 = subject_spt_case1["right"]
 
 
 def plot_spt(subject_spt_case1, color_case_1,
-             subject_spt_case2, color_case_2,report_repertory,
+             subject_spt_case2, color_case_2, report_repertory,
              legend_1="", legend_2="", title="SPT"):
-
     list_spt = ["cadence",
                 "length_cycle",
                 "walking_speed",
@@ -66,7 +61,7 @@ def plot_spt(subject_spt_case1, color_case_1,
     size_first_graph = 3
     indice_list = np.array(range(10)) + size_first_graph
 
-    #fig_new,axis_new = plt.subplots(len(list_spt)*2+1,1,figsize=(8.27,11.69),dpi=200)
+    # fig_new,axis_new = plt.subplots(len(list_spt)*2+1,1,figsize=(8.27,11.69),dpi=200)
     fig = plt.figure(figsize=(8.27, 11.69), dpi=100)
     grid = plt.GridSpec(size_first_graph + len(list_spt), 1, wspace=0.4, hspace=1.5)
 
@@ -80,8 +75,10 @@ def plot_spt(subject_spt_case1, color_case_1,
     ax_temp.add_patch(patches.Rectangle((0, 0), 100, 1, facecolor=color_case_1, zorder=-10))
     ax_temp.add_patch(patches.Rectangle((0, 1), 100, 1, facecolor=color_case_2, zorder=-10))
 
-    ax_temp.add_patch(patches.Rectangle((Case1_FO, 0), 100 - Case1_FO, 1, alpha=0.5, facecolor=[0.8, 0.8, 0.8], zorder=0))
-    ax_temp.add_patch(patches.Rectangle((Case2_FO, 1), 100 - Case2_FO, 1, alpha=0.5, facecolor=[0.8, 0.8, 0.8], zorder=0))
+    ax_temp.add_patch(
+        patches.Rectangle((Case1_FO, 0), 100 - Case1_FO, 1, alpha=0.5, facecolor=[0.8, 0.8, 0.8], zorder=0))
+    ax_temp.add_patch(
+        patches.Rectangle((Case2_FO, 1), 100 - Case2_FO, 1, alpha=0.5, facecolor=[0.8, 0.8, 0.8], zorder=0))
 
     # Left
     # C_FO
@@ -133,7 +130,6 @@ def plot_spt(subject_spt_case1, color_case_1,
     # Tracer des paramètres
     # cadence
     for key, name, echelle, indice in zip(list_spt, name_spt, list_echelle, indice_list):
-
         ax_temp = fig.add_subplot(grid[indice:indice + 1, 0])
         ax_temp.set_ylim([0, 3])
         ax_temp.set_xlim(echelle)
@@ -153,9 +149,9 @@ def plot_spt(subject_spt_case1, color_case_1,
         plt.title(name)
 
     plt.tight_layout()
-    plt.show(block=False)
-    file_name_visuel = os.path.join(report_repertory,title+'_Visuel.png')
-    fig.savefig(file_name_visuel , bbox_extra_artists=(lgd,), bbox_inches='tight')
+    #plt.show(block=False)
+    file_name_visuel = os.path.join(report_repertory, title + '_Visuel.png')
+    fig.savefig(file_name_visuel, bbox_extra_artists=(lgd,), bbox_inches='tight')
 
     list_temp = []
     # ["",name_case_1, name_case_2,"Norme"]
@@ -165,7 +161,7 @@ def plot_spt(subject_spt_case1, color_case_1,
         list_temp.append([name, value_1, value_2, value_2])
 
     fig, axis = plt.subplots(1, 1, dpi=100)
-    #fig,axis = plt.subplots(1,1,figsize=(8.27,11.69),dpi=100)
+    # fig,axis = plt.subplots(1,1,figsize=(8.27,11.69),dpi=100)
 
     collabel = ("", legend_1, legend_2, "norme")
 
@@ -185,6 +181,6 @@ def plot_spt(subject_spt_case1, color_case_1,
     the_table.auto_set_column_width([-1, 0, 1, 2, 3])
     the_table.scale(1.0, 2.0)
     plt.tight_layout()
-    plt.show(block=False)
-    file_name = os.path.join(report_repertory,title+'.png')
+    #plt.show(block=False)
+    file_name = os.path.join(report_repertory, title + '.png')
     fig.savefig(file_name, bbox_inches='tight')

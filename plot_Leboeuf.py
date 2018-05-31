@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-#import ipdb
+# import ipdb
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-#import ipdb
+
+
+# import ipdb
 
 
 def plotCurve(ax, x, mean, sd, ofo, ofs, ifs):
@@ -19,7 +21,6 @@ def plotCurve(ax, x, mean, sd, ofo, ofs, ifs):
 
 
 if __name__ == "__main__":
-
     plt.close("all")
     xls = pd.ExcelFile("Formatted- Schwartz2008.xlsx")
     jointRotations = xls.parse("Joint Rotations")

@@ -7,6 +7,7 @@ Created on Thu May 17 14:24:16 2018
 
 import btk
 import numpy as np
+
 from extraction_enf import extraction_enf as extraction_enf
 
 
@@ -61,7 +62,8 @@ def kinetic(filename, side):
 
     # Coefficient d'adimension pour les moments
     md = acq.GetMetaData()
-    leg_lenght = md.FindChild("PROCESSING").value().FindChild(side_letter + 'LegLength').value().GetInfo().ToDouble()[0] / 1000.0
+    leg_lenght = md.FindChild("PROCESSING").value().FindChild(side_letter + 'LegLength').value().GetInfo().ToDouble()[
+                     0] / 1000.0
     body_mass = md.FindChild("PROCESSING").value().FindChild('Bodymass').value().GetInfo().ToDouble()[0]
     gravity = 9.81
     coeff_moment = leg_lenght * body_mass * gravity
@@ -148,7 +150,8 @@ def kinetic(filename, side):
 
             # Ankle
             f_flexion = acq.GetPoint(side_letter + 'AnkleAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
-            f_progression = acq.GetPoint(side_letter + 'FootProgressAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 2]
+            f_progression = acq.GetPoint(side_letter + 'FootProgressAngles').GetValues()[
+                            FS[ind_cycle]:FS[ind_cycle + 1], 2]
             f_tilt = acq.GetPoint(side_letter + 'FootProgressAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
             f_tilt = -f_tilt - 90
             kinematic["Ankle_Fle"][:, cycle_valid] = np.interp(x, xp, f_flexion)

@@ -4,14 +4,13 @@ Created on Thu May 17 16:51:58 2018
 
 @author: VICON
 """
-from kinetic import kinetic as kinetic
 import numpy as np
+
 from extraction_enf import extraction_enf as extraction_enf
-from tkFileDialog import askopenfilenames
+from kinetic import kinetic as kinetic
 
 
 def kinetic_allfiles(filenames):
-
     valid_file = []
     for ind_file, filename in enumerate(filenames):
         if extraction_enf(filename) != ['invalid', 'invalid']:

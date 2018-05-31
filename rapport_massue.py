@@ -44,7 +44,7 @@ filenames_case1 = askopenfilenames(title="Choisir les fichiers de la première c
 
 one_filename = filenames_case1[0]
 subject_directory_ind_1 = [i for i in range(len(one_filename)) if one_filename.startswith('/', i)]
-subjectory_directory_1 = one_filename[0:subject_directory_ind_1[-1]]
+subject_directory_1 = one_filename[0:subject_directory_ind_1[-1]]
 subject_name = str(one_filename[subject_directory_ind_1[-3]+1:subject_directory_ind_1[-2]])
 
 # Creation of the file containing the data of the patient for today 
@@ -68,7 +68,7 @@ else:
 # si l'utilisateurs veut comparer à autre chose on choisit d'autre fichier
 if comparaison_bool:
   filenames_case2 = askopenfilenames(title="Choisir les fichiers de la deuxième condition:", filetypes=[("Fichiers C3D", "*.c3d")],
-                                     initialdir=subjectory_directory_1)
+                                     initialdir=subject_directory_1)
   one_filename = filenames_case2[0]
   subject_directory_ind_2 = [i for i in range(len(one_filename)) if one_filename.startswith('/', i)]
   subjectory_directory_2 = one_filename[0:subject_directory_ind_1[-1]]
@@ -114,64 +114,64 @@ plot_spt(subject_spt_left_case1, colorleft_case1,
          legend_1="Gauche\n" + case1_name, legend_2="Droite\n" + case1_name, title="SPT_" + case1_name)
 
 if emg_bool:
-  emg_filename_case1 = askopenfilenames(title="Choisir le fichies de tracer EMG condition " + case1_name + " :", filetypes=[("Fichiers C3D", "*.c3d")], initialdir=subjectory_directory_1)
+  emg_filename_case1 = askopenfilenames(title="Choisir le fichies de tracer EMG condition " + case1_name + " :", filetypes=[("Fichiers C3D", "*.c3d")], initialdir=subject_directory_1)
   plot_emg(emg_filename_case1[0], colorleft_case1, colorright_case1, report_directory, title="EMG " + case1_name)
 
 
 if comparaison_bool:
-  subject_kinematic_left_case2 = subject_kinematic_case2["left"]
-  subject_kinematic_right_case2 = subject_kinematic_case2["right"]
-  if kinetic_bool:
-    subject_kinetic_left_case2 = subject_kinetic_case2["left"]
-    subject_kinetic_right_case2 = subject_kinetic_case2["right"]
+    subject_kinematic_left_case2 = subject_kinematic_case2["left"]
+    subject_kinematic_right_case2 = subject_kinematic_case2["right"]
+    if kinetic_bool:
+      subject_kinetic_left_case2 = subject_kinetic_case2["left"]
+      subject_kinetic_right_case2 = subject_kinetic_case2["right"]
 
-  subject_spt_left_case2 = subject_spt_case2["left"]
-  subject_spt_right_case2 = subject_spt_case2["right"]
+    subject_spt_left_case2 = subject_spt_case2["left"]
+    subject_spt_right_case2 = subject_spt_case2["right"]
 
-  plot_kinematic(subject_kinematic_left_case2, subject_spt_left_case2, colorleft_case2,
-                 subject_kinematic_right_case2, subject_spt_right_case2, colorright_case2,
-                 norm_spt, norm_kinematic,report_directory,
-                 legend_1="Gauche " + case2_name, legend_2="Droite " + case2_name, title="Kinematic_" + case2_name)
+    plot_kinematic(subject_kinematic_left_case2, subject_spt_left_case2, colorleft_case2,
+                   subject_kinematic_right_case2, subject_spt_right_case2, colorright_case2,
+                   norm_spt, norm_kinematic,report_directory,
+                   legend_1="Gauche " + case2_name, legend_2="Droite " + case2_name, title="Kinematic_" + case2_name)
 
-  plot_spt(subject_spt_left_case2, colorleft_case2,
-           subject_spt_right_case2, colorright_case2, report_directory,
-           legend_1="Gauche\n" + case2_name, legend_2="Droite\n" + case2_name, title="SPT_" + case2_name)
+    plot_spt(subject_spt_left_case2, colorleft_case2,
+             subject_spt_right_case2, colorright_case2, report_directory,
+             legend_1="Gauche\n" + case2_name, legend_2="Droite\n" + case2_name, title="SPT_" + case2_name)
 
-  plot_kinematic(subject_kinematic_left_case1, subject_spt_left_case1, colorleft_case1,
-                 subject_kinematic_left_case2, subject_spt_left_case2, colorleft_case2,
-                 norm_spt, norm_kinematic,report_directory,
-                 legend_1="Gauche " + case1_name, legend_2="Gauche " + case2_name, title="Kinematic_Comparaison_Left")
+    plot_kinematic(subject_kinematic_left_case1, subject_spt_left_case1, colorleft_case1,
+                   subject_kinematic_left_case2, subject_spt_left_case2, colorleft_case2,
+                   norm_spt, norm_kinematic,report_directory,
+                   legend_1="Gauche " + case1_name, legend_2="Gauche " + case2_name, title="Kinematic_Comparaison_Left")
 
-  plot_spt(subject_spt_left_case1, colorleft_case1,
-           subject_spt_left_case2, colorleft_case2, report_directory,
-           legend_1="Gauche\n" + case1_name, legend_2="Gauche\n" + case2_name, title="SPT_Comparaison_Left")
+    plot_spt(subject_spt_left_case1, colorleft_case1,
+             subject_spt_left_case2, colorleft_case2, report_directory,
+             legend_1="Gauche\n" + case1_name, legend_2="Gauche\n" + case2_name, title="SPT_Comparaison_Left")
 
-  plot_kinematic(subject_kinematic_right_case1, subject_spt_right_case1, colorright_case1,
-                 subject_kinematic_right_case2, subject_spt_right_case2, colorright_case2,
-                 norm_spt, norm_kinematic,report_directory,
-                 legend_1="Droite " + case1_name, legend_2="Droite " + case2_name, title="Kinematic_Comparaison_Right")
-  
-  plot_spt(subject_spt_right_case1, colorright_case1,
-           subject_spt_right_case2, colorright_case2, report_directory,
-           legend_1="Droite\n" + case1_name, legend_2="Droite\n" + case2_name, title="SPT_Comparaison_Right")
+    plot_kinematic(subject_kinematic_right_case1, subject_spt_right_case1, colorright_case1,
+                   subject_kinematic_right_case2, subject_spt_right_case2, colorright_case2,
+                   norm_spt, norm_kinematic,report_directory,
+                   legend_1="Droite " + case1_name, legend_2="Droite " + case2_name, title="Kinematic_Comparaison_Right")
 
-  if kinetic_bool:
-    plot_kinetic(subject_kinetic_left_case2, subject_spt_left_case2, colorleft_case2,
-                 subject_kinetic_right_case2, subject_spt_right_case2, colorright_case2,
-                 norm_spt, norm_kinetic, report_directory,
-                 legend_1="Gauche " + case2_name, legend_2="Droite " + case2_name, title="Kinetic_" + case2_name)
+    plot_spt(subject_spt_right_case1, colorright_case1,
+             subject_spt_right_case2, colorright_case2, report_directory,
+             legend_1="Droite\n" + case1_name, legend_2="Droite\n" + case2_name, title="SPT_Comparaison_Right")
 
-    plot_kinetic(subject_kinetic_left_case1, subject_spt_left_case1, colorleft_case1,
-                 subject_kinetic_left_case2, subject_spt_left_case2, colorleft_case2,
-                 norm_spt, norm_kinetic, report_directory,
-                 legend_1="Gauche " + case1_name, legend_2="Gauche " + case2_name, title="Kinetic_Comparaison_Left")
+    if kinetic_bool:
+      plot_kinetic(subject_kinetic_left_case2, subject_spt_left_case2, colorleft_case2,
+                   subject_kinetic_right_case2, subject_spt_right_case2, colorright_case2,
+                   norm_spt, norm_kinetic, report_directory,
+                   legend_1="Gauche " + case2_name, legend_2="Droite " + case2_name, title="Kinetic_" + case2_name)
 
-    plot_kinetic(subject_kinetic_right_case1, subject_spt_right_case1, colorright_case1,
-                 subject_kinetic_right_case2, subject_spt_right_case2, colorright_case2,
-                 norm_spt, norm_kinetic, report_directory,
-                 legend_1="Droite " + case1_name, legend_2="Droite " + case2_name, title="Kinetic_Comparaison_Right")
+      plot_kinetic(subject_kinetic_left_case1, subject_spt_left_case1, colorleft_case1,
+                   subject_kinetic_left_case2, subject_spt_left_case2, colorleft_case2,
+                   norm_spt, norm_kinetic, report_directory,
+                   legend_1="Gauche " + case1_name, legend_2="Gauche " + case2_name, title="Kinetic_Comparaison_Left")
 
-  if emg_bool:
-    emg_filename_case2 = askopenfilenames(title="Choisir le fichies de tracer EMG condition " + case2_name + " :", filetypes=[("Fichiers C3D", "*.c3d")],
-                                          initialdir=subjectory_directory_2)
-  plot_emg(emg_filename_case2[0], colorleft_case2, colorright_case2, report_directory, title="EMG " + case2_name)
+      plot_kinetic(subject_kinetic_right_case1, subject_spt_right_case1, colorright_case1,
+                   subject_kinetic_right_case2, subject_spt_right_case2, colorright_case2,
+                   norm_spt, norm_kinetic, report_directory,
+                   legend_1="Droite " + case1_name, legend_2="Droite " + case2_name, title="Kinetic_Comparaison_Right")
+
+    if emg_bool:
+      emg_filename_case2 = askopenfilenames(title="Choisir le fichies de tracer EMG condition " + case2_name + " :", filetypes=[("Fichiers C3D", "*.c3d")],
+                                            initialdir=subjectory_directory_2)
+    plot_emg(emg_filename_case2[0], colorleft_case2, colorright_case2, report_directory, title="EMG " + case2_name)

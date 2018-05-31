@@ -6,11 +6,11 @@ Created on Thu Apr 05 15:50:02 2018
 """
 
 import numpy as np
+
 from param_spt import param_spt as param_spt
 
 
 def param_spt_allfiles(filenames):
-
     for ind_file, filename in enumerate(filenames):
         filename_str = str(filename)
         print filename

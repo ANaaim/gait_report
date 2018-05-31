@@ -7,6 +7,7 @@ Created on Thu Apr 12 17:51:54 2018
 
 import pandas as pd
 
+
 # Extraction des informations contenu dans le fichier xls de Schwartz
 
 
@@ -79,13 +80,19 @@ def extract_Schwartz_norm(Speed="Free"):
                    "Ankle_Moment": []}
 
     # free events
-    param_spt_mean["percentage_CTFO"] = cycleEvents[cycleEvents["Parameter"] == "Opposite Foot Off  [% cycle]"][speed_mean_name].values[0] * 100
-    param_spt_mean["percentage_CTFS"] = cycleEvents[cycleEvents["Parameter"] == "Opposite Foot Contact  [% cycle]"][speed_mean_name].values[0] * 100
-    param_spt_mean["stance_phase_perc"] = cycleEvents[cycleEvents["Parameter"] == "Ipsilateral Foot Off  [% cycle]"][speed_mean_name].values[0] * 100
+    param_spt_mean["percentage_CTFO"] = \
+    cycleEvents[cycleEvents["Parameter"] == "Opposite Foot Off  [% cycle]"][speed_mean_name].values[0] * 100
+    param_spt_mean["percentage_CTFS"] = \
+    cycleEvents[cycleEvents["Parameter"] == "Opposite Foot Contact  [% cycle]"][speed_mean_name].values[0] * 100
+    param_spt_mean["stance_phase_perc"] = \
+    cycleEvents[cycleEvents["Parameter"] == "Ipsilateral Foot Off  [% cycle]"][speed_mean_name].values[0] * 100
 
-    param_spt_std["percentage_CTFO"] = cycleEvents[cycleEvents["Parameter"] == "Opposite Foot Off  [% cycle]"][speed_std_name].values[0] * 100
-    param_spt_std["percentage_CTFS"] = cycleEvents[cycleEvents["Parameter"] == "Opposite Foot Contact  [% cycle]"][speed_std_name].values[0] * 100
-    param_spt_std["stance_phase_perc"] = cycleEvents[cycleEvents["Parameter"] == "Ipsilateral Foot Off  [% cycle]"][speed_std_name].values[0] * 100
+    param_spt_std["percentage_CTFO"] = \
+    cycleEvents[cycleEvents["Parameter"] == "Opposite Foot Off  [% cycle]"][speed_std_name].values[0] * 100
+    param_spt_std["percentage_CTFS"] = \
+    cycleEvents[cycleEvents["Parameter"] == "Opposite Foot Contact  [% cycle]"][speed_std_name].values[0] * 100
+    param_spt_std["stance_phase_perc"] = \
+    cycleEvents[cycleEvents["Parameter"] == "Ipsilateral Foot Off  [% cycle]"][speed_std_name].values[0] * 100
 
     norm_spt = {"mean": param_spt_mean, "std": param_spt_std}
 

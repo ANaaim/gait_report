@@ -6,11 +6,11 @@ Created on Thu Apr 05 17:19:30 2018
 """
 
 import numpy as np
+
 from kinematic import kinematic as kinematic
 
 
 def kinematic_allfiles(filenames):
-
     for ind_file, filename in enumerate(filenames):
         filename_str = str(filename)
         print filename

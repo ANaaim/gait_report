@@ -5,15 +5,15 @@ Created on Thu Apr 19 13:25:48 2018
 @author: Alexandre Naaim
 """
 
-import numpy as np
 import os
+
 import btk
-import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def plot_emg(filename, color1, color2, report_repertory, title="EMG"):
-
     reader = btk.btkAcquisitionFileReader()
     reader.SetFilename(filename)
     reader.Update()
@@ -32,7 +32,7 @@ def plot_emg(filename, color1, color2, report_repertory, title="EMG"):
         emg_R[muscle_name] = acq.GetAnalog("R" + muscle_name).GetValues()
         emg_L[muscle_name] = acq.GetAnalog("L" + muscle_name).GetValues()
 
- # Initialisation des lists contenant les evenements
+    # Initialisation des lists contenant les evenements
     L_FO = []
     R_FO = []
     L_FS = []
@@ -121,7 +121,8 @@ def plot_emg(filename, color1, color2, report_repertory, title="EMG"):
                 division = (y_lim[1] - y_lim[0]) / 8.0
                 bas_y = y_lim[0] + 7 * division
 
-                ax_temp_L.add_patch(patches.Rectangle((ind1, bas_y), ind2 - ind1, division, facecolor=[0.8, 0.8, 0.8], zorder=-10))
+                ax_temp_L.add_patch(
+                    patches.Rectangle((ind1, bas_y), ind2 - ind1, division, facecolor=[0.8, 0.8, 0.8], zorder=-10))
 
         for ind_event in range(len(R_FS) - 1):
             nb_frame = R_FS[ind_event + 1] - R_FS[ind_event]
@@ -138,9 +139,10 @@ def plot_emg(filename, color1, color2, report_repertory, title="EMG"):
                 y_lim = ax_temp_R.get_ylim()
                 division = (y_lim[1] - y_lim[0]) / 8.0
                 bas_y = y_lim[0] + 7 * division
-                ax_temp_R.add_patch(patches.Rectangle((ind1, bas_y), ind2 - ind1, division, facecolor=[0.8, 0.8, 0.8], zorder=-10))
+                ax_temp_R.add_patch(
+                    patches.Rectangle((ind1, bas_y), ind2 - ind1, division, facecolor=[0.8, 0.8, 0.8], zorder=-10))
 
     plt.tight_layout()
-    plt.show(block=False)
-    file_name = os.path.join(report_repertory,title+'.png')
+    #plt.show(block=False)
+    file_name = os.path.join(report_repertory, title + '.png')
     fig.savefig(file_name, bbox_inches='tight')

@@ -77,9 +77,9 @@ def kinematic(filename, side):
         f_flexion = acq.GetPoint(side_letter + 'PelvisAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
         f_abduction = acq.GetPoint(side_letter + 'PelvisAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 1]
         f_rotation = acq.GetPoint(side_letter + 'PelvisAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 2]
-#        if side == "left":
-#            f_abduction = -f_abduction
-#            f_rotation = -f_rotation
+        #        if side == "left":
+        #            f_abduction = -f_abduction
+        #            f_rotation = -f_rotation
         kinematic["Pelvis_Fle"][:, ind_cycle] = np.interp(x, xp, f_flexion)
         kinematic["Pelvis_Abd"][:, ind_cycle] = np.interp(x, xp, f_abduction)
         kinematic["Pelvis_Ier"][:, ind_cycle] = np.interp(x, xp, f_rotation)
