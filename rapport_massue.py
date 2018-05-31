@@ -36,8 +36,7 @@ emg_bool = tkMessageBox.askyesno("Title", "Voulez vous tracer les emg ?")
 
 # On choisit les premiers fichiers
 data_directory = r'D:\DonneesViconInstallBMF'
-data_directory = r'C:\Users\AdminXPS\SynchronisationXPS\Professionel\GitHub\Data\Gait_report'
-report_directory =  r'C:\Users\AdminXPS\Desktop\report'
+report_directory =  r'C:\Users\VICON\Desktop\Rapport_Python'
 
 filenames_case1 = askopenfilenames(title="Choisir les fichiers de la première condition:", filetypes=[("Fichiers C3D", "*.c3d")],
                                    initialdir=data_directory)
@@ -103,6 +102,7 @@ plot_kinematic(subject_kinematic_left_case1, subject_spt_left_case1, colorleft_c
                subject_kinematic_right_case1, subject_spt_right_case1, colorright_case1,
                norm_spt, norm_kinematic, report_directory,
                legend_1="Gauche " + case1_name, legend_2="Droite " + case1_name, title="Kinematic_" + case1_name)
+
 if kinetic_bool:
   plot_kinetic(subject_kinetic_left_case1, subject_spt_left_case1, colorleft_case1,
                subject_kinetic_right_case1, subject_spt_right_case1, colorright_case1,

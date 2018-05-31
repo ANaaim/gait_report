@@ -35,9 +35,11 @@ def kinematic_allfiles(filenames):
         right_std[key] = np.std(right[key], axis=1)
 
     left = {"mean": left_mean,
-            "std": left_std}
+            "std": left_std,
+            "all": left}
     right = {"mean": right_mean,
-             "std": right_std}
+             "std": right_std,
+             "all": right}
     subject_kin = {"left": left,
                    "right": right}
 
