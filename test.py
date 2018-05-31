@@ -19,7 +19,8 @@ filenames_case1 = askopenfilenames(title="Choisir les fichiers de la première c
                                    initialdir=data_directory)
 
 subject_spt_case1 = param_spt_allfiles(filenames_case1)
-subject_kinematic_case1, subject_kinetic_case1 = kinetic_allfiles(filenames_case1)
+subject_kinematic_case1, subject_kinetic_case1 =
+kinetic_allfiles(filenames_case1)
 
 subject_kin_left_case1 = subject_kinetic_case1["left"]
 subject_kin_right_case1 = subject_kinetic_case1["right"]
@@ -32,10 +33,14 @@ colorright_case1 = 'tab:green'
 colorleft_case2 = 'tab:orange'
 colorright_case2 = 'tab:blue'
 
-# Extraction des normes 
+# Extraction des normes
 [norm_spt, norm_kin, norm_kinetic] = extract_Schwartz_norm(Speed="Free")
 
 plot_kinetic(subject_kin_left_case1, subject_spt_left_case1, colorleft_case1,
              subject_kin_right_case1, subject_spt_right_case1, colorright_case1,
              norm_spt, norm_kinetic,
-             legend_1="Gauche " + 'test', legend_2="Droite " + 'Test', title="Kinematic_" + 'test')
+             legend_1="Gauche " + 'test', legend_2="Droite " + 'Test',
+             title="Kinematic_" + 'test')
+
+for i in ['test', 'blabla']:
+print (i)

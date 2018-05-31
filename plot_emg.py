@@ -143,12 +143,12 @@ def plot_emg(filename, color1, color2, report_directory, title="EMG"):
                     patches.Rectangle((ind1, bas_y), ind2 - ind1, division, facecolor=[0.8, 0.8, 0.8], zorder=-10))
 
     plt.tight_layout()
-    
-    report_directory_final = os.path.join(report_directory,'EMG')
+
+    report_directory_final = os.path.join(report_directory, 'EMG')
     if not os.path.isdir(report_directory_final):
-        os.makedirs (report_directory_final)
-    
+        os.makedirs(report_directory_final)
+
     file_name = os.path.join(report_directory_final, title + '.png')
-    print('Sauvegarde du fichier '+ title)
+    print('Sauvegarde du fichier ' + title)
     fig.savefig(file_name, bbox_inches='tight')
     plt.close(fig)
