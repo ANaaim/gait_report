@@ -19,8 +19,8 @@ filenames_case1 = askopenfilenames(title="Choisir les fichiers de la première c
                                    initialdir=data_directory)
 
 subject_spt_case1 = param_spt_allfiles(filenames_case1)
-subject_kinematic_case1, subject_kinetic_case1 =
-kinetic_allfiles(filenames_case1)
+subject_kinematic_case1, subject_kinetic_case1 = \
+    kinetic_allfiles(filenames_case1)
 
 subject_kin_left_case1 = subject_kinetic_case1["left"]
 subject_kin_right_case1 = subject_kinetic_case1["right"]
@@ -43,4 +43,4 @@ plot_kinetic(subject_kin_left_case1, subject_spt_left_case1, colorleft_case1,
              title="Kinematic_" + 'test')
 
 for i in ['test', 'blabla']:
-print (i)
+    print (i)

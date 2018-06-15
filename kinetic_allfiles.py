@@ -29,11 +29,15 @@ def kinetic_allfiles(filenames):
             right_kinematic_temp, right_kinetic_temp = kinetic(filename_str, "right")
 
             for key in left_kinematic:
-                left_kinematic[key] = np.concatenate((left_kinematic[key], left_kinematic_temp[key]), axis=1)
-                right_kinematic[key] = np.concatenate((right_kinematic[key], right_kinematic_temp[key]), axis=1)
+                left_kinematic[key] = np.concatenate(
+                    (left_kinematic[key], left_kinematic_temp[key]), axis=1)
+                right_kinematic[key] = np.concatenate(
+                    (right_kinematic[key], right_kinematic_temp[key]), axis=1)
             for key in left_kinetic:
-                left_kinetic[key] = np.concatenate((left_kinetic[key], left_kinetic_temp[key]), axis=1)
-                right_kinetic[key] = np.concatenate((right_kinetic[key], right_kinetic_temp[key]), axis=1)
+                left_kinetic[key] = np.concatenate(
+                    (left_kinetic[key], left_kinetic_temp[key]), axis=1)
+                right_kinetic[key] = np.concatenate(
+                    (right_kinetic[key], right_kinetic_temp[key]), axis=1)
 
     left_mean_kinematic = {}
     right_mean_kinematic = {}
@@ -69,7 +73,7 @@ def kinetic_allfiles(filenames):
                     "all": left_kinetic}
     right_kinetic = {"mean": right_mean_kinetic,
                      "std": right_std_kinetic,
-                     "all" : right_kinetic}
+                     "all": right_kinetic}
     subject_kinetic = {"left": left_kinetic,
                        "right": right_kinetic}
 
