@@ -30,7 +30,7 @@ import numpy as np
 
 def plot_spt(subject_spt_case1, color_case_1,
              subject_spt_case2, color_case_2, 
-             report_directory,
+             norm_spt, report_directory,
              legend_1="", legend_2="", title="SPT"):
     for spt_type in ["normal", "adm"]:
         if spt_type == "normal":
@@ -104,15 +104,19 @@ def plot_spt(subject_spt_case1, color_case_1,
         plt.title("% Gait cycle")
         Case1_FO = subject_spt_case1["mean"]["stance_phase_perc"]
         Case2_FO = subject_spt_case2["mean"]["stance_phase_perc"]
-    
+        Casenorm_FO = norm_spt["mean"]["stance_phase_perc"]
+        
         ax_temp.add_patch(patches.Rectangle((0, 0), 100, 1, facecolor=color_case_1, zorder=-10))
         ax_temp.add_patch(patches.Rectangle((0, 1), 100, 1, facecolor=color_case_2, zorder=-10))
-    
+        ax_temp.add_patch(patches.Rectangle((0, 2), 100, 1, facecolor=(0.5, 0.5, 0.5), zorder=-10))
+        
         ax_temp.add_patch(
             patches.Rectangle((Case1_FO, 0), 100 - Case1_FO, 1, alpha=0.5, facecolor=[0.8, 0.8, 0.8], zorder=0))
         ax_temp.add_patch(
             patches.Rectangle((Case2_FO, 1), 100 - Case2_FO, 1, alpha=0.5, facecolor=[0.8, 0.8, 0.8], zorder=0))
-    
+        ax_temp.add_patch(
+            patches.Rectangle((Casenorm_FO, 2), 100 - Casenorm_FO, 1, alpha=0.5, facecolor=[0.8, 0.8, 0.8], zorder=0))
+        
         # Left
         # C_FO
         Case1_CFO_up = subject_spt_case1["mean"]["percentage_CTFO"] - \
@@ -162,7 +166,33 @@ def plot_spt(subject_spt_case1, color_case_1,
             subject_spt_case2["std"]["stance_phase_perc"]
         ax_temp.plot([Case2_FO_up, Case2_FO_up], [1, 2], color='k')
         ax_temp.plot([Case2_FO_down, Case2_FO_down], [1, 2], color='k')
+        
+        # Norm
+        # C_FO
+        Casenorm_CFO_up = norm_spt["mean"]["percentage_CTFO"] - \
+            norm_spt["std"]["percentage_CTFO"]
+        Casenorm_CFO_down = norm_spt["mean"]["percentage_CTFO"] + \
+            norm_spt["std"]["percentage_CTFO"]
+        ax_temp.plot([Casenorm_CFO_up, Casenorm_CFO_up], [2, 3], color='k')
+        ax_temp.plot([Casenorm_CFO_down, Casenorm_CFO_down], [2, 3], color='k')
     
+        # C_FS
+        Casenorm_CFS_up = norm_spt["mean"]["percentage_CTFS"] - \
+            norm_spt["std"]["percentage_CTFS"]
+        Casenorm_CFS_down = norm_spt["mean"]["percentage_CTFS"] + \
+            norm_spt["std"]["percentage_CTFS"]
+        ax_temp.plot([Casenorm_CFS_up, Casenorm_CFS_up], [2, 3], color='k')
+        ax_temp.plot([Casenorm_CFS_down, Casenorm_CFS_down], [2, 3], color='k')
+    
+        # FO
+        Casenorm_FO_up = norm_spt["mean"]["stance_phase_perc"] - \
+            norm_spt["std"]["stance_phase_perc"]
+        Casenorm_FO_down = norm_spt["mean"]["stance_phase_perc"] + \
+            norm_spt["std"]["stance_phase_perc"]
+        ax_temp.plot([Casenorm_FO_up, Casenorm_FO_up], [2, 3], color='k')
+        ax_temp.plot([Casenorm_FO_down, Casenorm_FO_down], [2, 3], color='k')
+    
+        
         ax_temp.spines['top'].set_visible(False)
         ax_temp.spines['right'].set_visible(False)
         ax_temp.spines['left'].set_visible(False)

@@ -129,7 +129,8 @@ if kinetic_bool:
                  title="Kinetic_" + case1_name)
 
 plot_spt(subject_spt_left_case1, colorleft_case1,
-         subject_spt_right_case1, colorright_case1, report_directory,
+         subject_spt_right_case1, colorright_case1, 
+         norm_spt, report_directory,
          legend_1="Gauche\n" + case1_name,
          legend_2="Droite\n" + case1_name,
          title="SPT_" + case1_name)
@@ -173,7 +174,8 @@ if comparaison_bool:
                    title="Kinematic_" + case2_name)
 
     plot_spt(subject_spt_left_case2, colorleft_case2,
-             subject_spt_right_case2, colorright_case2, report_directory,
+             subject_spt_right_case2, colorright_case2, 
+             norm_spt, report_directory,
              legend_1="Gauche\n" + case2_name,
              legend_2="Droite\n" + case2_name,
              title="SPT_" + case2_name)
@@ -188,7 +190,8 @@ if comparaison_bool:
                    title="Kinematic_Comparaison_Left")
 
     plot_spt(subject_spt_left_case1, colorleft_case1,
-             subject_spt_left_case2, colorleft_case2, report_directory,
+             subject_spt_left_case2, colorleft_case2, 
+             norm_spt, report_directory,
              legend_1="Gauche\n" + case1_name,
              legend_2="Gauche\n" + case2_name,
              title="SPT_Comparaison_Left")
@@ -203,7 +206,8 @@ if comparaison_bool:
                    title="Kinematic_Comparaison_Right")
 
     plot_spt(subject_spt_right_case1, colorright_case1,
-             subject_spt_right_case2, colorright_case2, report_directory,
+             subject_spt_right_case2, colorright_case2, 
+             norm_spt, report_directory,
              legend_1="Droite\n" + case1_name,
              legend_2="Droite\n" + case2_name,
              title="SPT_Comparaison_Right")
