@@ -23,11 +23,17 @@ def extract_Schwartz_norm(Speed="Free"):
 
     param_spt_mean = {"percentage_CTFO": [],
                       "percentage_CTFS": [],
-                      "stance_phase_perc": []}
+                      "stance_phase_perc": [],
+                      "cadence_adm": [],
+                      "step_length_adm" : [],
+                      "walking_speed_adm": []}
 
     param_spt_std = {"percentage_CTFO": [],
                      "percentage_CTFS": [],
-                     "stance_phase_perc": []}
+                     "stance_phase_perc": [],
+                     "cadence_adm": [],
+                     "step_length_adm" : [],
+                     "walking_speed_adm": []}
 
     kinematic_mean = {"Pelvis_Fle": [],
                       "Pelvis_Abd": [],
@@ -86,13 +92,29 @@ def extract_Schwartz_norm(Speed="Free"):
     cycleEvents[cycleEvents["Parameter"] == "Opposite Foot Contact  [% cycle]"][speed_mean_name].values[0] * 100
     param_spt_mean["stance_phase_perc"] = \
     cycleEvents[cycleEvents["Parameter"] == "Ipsilateral Foot Off  [% cycle]"][speed_mean_name].values[0] * 100
-
+    
+    param_spt_mean["cadence_adm"] = \
+    cycleEvents[cycleEvents["Parameter"] == "Cadence (adm)"][speed_mean_name].values[0]
+    param_spt_mean["step_length_adm"] = \
+    cycleEvents[cycleEvents["Parameter"] == "Step length (adm)"][speed_mean_name].values[0]
+    param_spt_mean["walking_speed_adm"] = \
+    cycleEvents[cycleEvents["Parameter"] == "Speed (adm)"][speed_mean_name].values[0]
+    
+    
     param_spt_std["percentage_CTFO"] = \
     cycleEvents[cycleEvents["Parameter"] == "Opposite Foot Off  [% cycle]"][speed_std_name].values[0] * 100
     param_spt_std["percentage_CTFS"] = \
     cycleEvents[cycleEvents["Parameter"] == "Opposite Foot Contact  [% cycle]"][speed_std_name].values[0] * 100
     param_spt_std["stance_phase_perc"] = \
     cycleEvents[cycleEvents["Parameter"] == "Ipsilateral Foot Off  [% cycle]"][speed_std_name].values[0] * 100
+
+    param_spt_std["cadence_adm"] = \
+    cycleEvents[cycleEvents["Parameter"] == "Cadence (adm)"][speed_std_name].values[0]
+    param_spt_std["step_length_adm"] = \
+    cycleEvents[cycleEvents["Parameter"] == "Step length (adm)"][speed_std_name].values[0]
+    param_spt_std["walking_speed_adm"] = \
+    cycleEvents[cycleEvents["Parameter"] == "Speed (adm)"][speed_std_name].values[0]
+
 
     norm_spt = {"mean": param_spt_mean, "std": param_spt_std}
 
