@@ -54,7 +54,7 @@ def kinetic(filename, side):
     # On enleve tout les evenements qui sont avant le premier foot strike du coté étudié
     first_event = FS[0]
     first_frame = acq.GetFirstFrame()
-    last_frame = acq.GetLastFrame()
+    # last_frame = acq.GetLastFrame()
     FS = [x - first_frame for x in FS if x >= first_event]
     FS_CL = [x - first_frame for x in FS_CL if x >= first_event]
     FO = [x - first_frame for x in FO if x >= first_event]

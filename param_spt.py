@@ -62,6 +62,7 @@ def param_spt(filename, side):
     md = acq.GetMetaData()
     leg_lenght = md.FindChild("PROCESSING").value().FindChild(
         side_letter + 'LegLength').value().GetInfo().ToDouble()[0] / 1000.0
+    gravity = 9.81
     # définition de la direction de marche
     point = acq.GetPoint('LPSI').GetValues()
     direction_walk = point[last_frame - first_frame, :] - point[0, :]
@@ -71,6 +72,7 @@ def param_spt(filename, side):
 
     param_spt = {"cycle_time": [],
                  "cadence": [],
+                 "cadence_adm": [],
                  "length_cycle": [],
                  "length_cycle_adm": [],
                  "walking_speed": [],
@@ -79,7 +81,6 @@ def param_spt(filename, side):
                  "step_length_adm": [],
                  "step_sec": [],
                  "step_width": [],
-                 "step_width_adm": [],
                  "stance_phase_sec": [],
                  "stance_phase_perc": [],
                  "swing_phase_sec": [],
@@ -100,6 +101,7 @@ def param_spt(filename, side):
         # Cadence (step/mn)
         cadence = 120.0 / cycle_time
         param_spt["cadence"].append(cadence)
+        param_spt["cadence_adm"].append(cadence / np.sqrt(gravity / leg_lenght))
         # Longueur du cycle (m)
         length_cycle = np.abs(foot_marker[FS[ind_cycle + 1], direction_walk] -
                               foot_marker[FS[ind_cycle], direction_walk]) / 1000.0
@@ -108,7 +110,7 @@ def param_spt(filename, side):
         # Vitesse de marche (m/s)
         walking_speed = cadence * length_cycle / 120.0
         param_spt["walking_speed"].append(walking_speed)
-        param_spt["walking_speed_adm"].append(walking_speed / leg_lenght)
+        param_spt["walking_speed_adm"].append(walking_speed / np.sqrt(leg_lenght * gravity))
         # Longueur du pas (m)
         step_length = np.abs(foot_marker_ct[FO[ind_cycle], direction_walk] -
                              foot_marker[FS[ind_cycle], direction_walk]) / 1000.0
@@ -122,7 +124,6 @@ def param_spt(filename, side):
         step_width = np.abs(foot_marker_ct[FO[ind_cycle], direction_width] -
                             foot_marker[FS[ind_cycle], direction_width]) / 1000.0
         param_spt["step_width"].append(step_width)
-        param_spt["step_width_adm"].append(step_width / leg_lenght)
         # Phase d'appui (frame, sec, pourcentage)
         stance_phase_frame = FO[ind_cycle] - FS[ind_cycle]
         stance_phase_sec = stance_phase_frame / frq_point

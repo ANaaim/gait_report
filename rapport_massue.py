@@ -38,7 +38,7 @@ subject_name = str(one_filename[subject_directory_ind_1[-3] + 1:subject_director
 
 # Creation of the file containing the data of the patient for today
 now = datetime.datetime.now()
-date_today = now.strftime("%Y_%m_%d")
+date_today = now.strftime("%Y_%m_%d_%Hh%M")
 report_directory = os.path.join(report_directory, subject_name, date_today)
 
 if not os.path.isdir(report_directory):
@@ -85,8 +85,28 @@ colorright_case1 = 'tab:green'
 colorleft_case2 = 'tab:orange'
 colorright_case2 = 'tab:blue'
 
+# Définition de la norme de Schwartz utilisé
+bool_vitesse = tkMessageBox.askyesno("Title",
+                                     "Voulez vous utiliser une norme adaptée à la vitesse ?")
+vitesse_norm = subject_spt_right_case1["mean"]["walking_speed_adm"]
+if vitesse_norm < 0.227:
+    Speed_norm = "VerySlow"
+elif vitesse_norm >= 0.227 and vitesse_norm < 0.363:
+    Speed_norm = "Slow"
+elif vitesse_norm >= 0.363 and vitesse_norm < 0.500:
+    Speed_norm = "Free"
+elif vitesse_norm >= 0.500 and vitesse_norm < 0.636:
+    Speed_norm = "Fast"
+else:
+    Speed_norm = "VeryFast"
+bool_vitesse_2 = tkMessageBox.askyesno("Title",
+                                       "La norme choisi est :" + Speed_norm +
+                                       " .Souhaitez vous la conserver ?")
+
+if not (bool_vitesse and bool_vitesse_2):
+    Speed_norm = "Fast"
 # Extraction des normes
-[norm_spt, norm_kinematic, norm_kinetic] = extract_Schwartz_norm(Speed="Free")
+[norm_spt, norm_kinematic, norm_kinetic] = extract_Schwartz_norm(Speed=Speed_norm)
 
 
 plot_kinematic(subject_kinematic_left_case1, subject_spt_left_case1,

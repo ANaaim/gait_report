@@ -82,39 +82,51 @@ def plot_spt(subject_spt_case1, color_case_1,
 
     # Left
     # C_FO
-    Case1_CFO_up = subject_spt_case1["mean"]["percentage_CTFO"] - subject_spt_case1["std"]["percentage_CTFO"]
-    Case1_CFO_down = subject_spt_case1["mean"]["percentage_CTFO"] + subject_spt_case1["std"]["percentage_CTFO"]
+    Case1_CFO_up = subject_spt_case1["mean"]["percentage_CTFO"] - \
+        subject_spt_case1["std"]["percentage_CTFO"]
+    Case1_CFO_down = subject_spt_case1["mean"]["percentage_CTFO"] + \
+        subject_spt_case1["std"]["percentage_CTFO"]
     ax_temp.plot([Case1_CFO_up, Case1_CFO_up], [0, 1], color='k')
     ax_temp.plot([Case1_CFO_down, Case1_CFO_down], [0, 1], color='k')
 
     # C_FS
-    Case1_CFS_up = subject_spt_case1["mean"]["percentage_CTFS"] - subject_spt_case1["std"]["percentage_CTFS"]
-    Case1_CFS_down = subject_spt_case1["mean"]["percentage_CTFS"] + subject_spt_case1["std"]["percentage_CTFS"]
+    Case1_CFS_up = subject_spt_case1["mean"]["percentage_CTFS"] - \
+        subject_spt_case1["std"]["percentage_CTFS"]
+    Case1_CFS_down = subject_spt_case1["mean"]["percentage_CTFS"] + \
+        subject_spt_case1["std"]["percentage_CTFS"]
     ax_temp.plot([Case1_CFS_up, Case1_CFS_up], [0, 1], color='k')
     ax_temp.plot([Case1_CFS_down, Case1_CFS_down], [0, 1], color='k')
 
     # FO
-    Case1_FO_up = subject_spt_case1["mean"]["stance_phase_perc"] - subject_spt_case1["std"]["stance_phase_perc"]
-    Case1_FO_down = subject_spt_case1["mean"]["stance_phase_perc"] + subject_spt_case1["std"]["stance_phase_perc"]
+    Case1_FO_up = subject_spt_case1["mean"]["stance_phase_perc"] - \
+        subject_spt_case1["std"]["stance_phase_perc"]
+    Case1_FO_down = subject_spt_case1["mean"]["stance_phase_perc"] + \
+        subject_spt_case1["std"]["stance_phase_perc"]
     ax_temp.plot([Case1_FO_up, Case1_FO_up], [0, 1], color='k')
     ax_temp.plot([Case1_FO_down, Case1_FO_down], [0, 1], color='k')
 
     # Right
     # C_FO
-    Case2_CFO_up = subject_spt_case2["mean"]["percentage_CTFO"] - subject_spt_case2["std"]["percentage_CTFO"]
-    Case2_CFO_down = subject_spt_case2["mean"]["percentage_CTFO"] + subject_spt_case2["std"]["percentage_CTFO"]
+    Case2_CFO_up = subject_spt_case2["mean"]["percentage_CTFO"] - \
+        subject_spt_case2["std"]["percentage_CTFO"]
+    Case2_CFO_down = subject_spt_case2["mean"]["percentage_CTFO"] + \
+        subject_spt_case2["std"]["percentage_CTFO"]
     ax_temp.plot([Case2_CFO_up, Case2_CFO_up], [1, 2], color='k')
     ax_temp.plot([Case2_CFO_down, Case2_CFO_down], [1, 2], color='k')
 
     # C_FS
-    Case2_CFS_up = subject_spt_case2["mean"]["percentage_CTFS"] - subject_spt_case2["std"]["percentage_CTFS"]
-    Case2_CFS_down = subject_spt_case2["mean"]["percentage_CTFS"] + subject_spt_case2["std"]["percentage_CTFS"]
+    Case2_CFS_up = subject_spt_case2["mean"]["percentage_CTFS"] - \
+        subject_spt_case2["std"]["percentage_CTFS"]
+    Case2_CFS_down = subject_spt_case2["mean"]["percentage_CTFS"] + \
+        subject_spt_case2["std"]["percentage_CTFS"]
     ax_temp.plot([Case2_CFS_up, Case2_CFS_up], [1, 2], color='k')
     ax_temp.plot([Case2_CFS_down, Case2_CFS_down], [1, 2], color='k')
 
     # FO
-    Case2_FO_up = subject_spt_case2["mean"]["stance_phase_perc"] - subject_spt_case2["std"]["stance_phase_perc"]
-    Case2_FO_down = subject_spt_case2["mean"]["stance_phase_perc"] + subject_spt_case2["std"]["stance_phase_perc"]
+    Case2_FO_up = subject_spt_case2["mean"]["stance_phase_perc"] - \
+        subject_spt_case2["std"]["stance_phase_perc"]
+    Case2_FO_down = subject_spt_case2["mean"]["stance_phase_perc"] + \
+        subject_spt_case2["std"]["stance_phase_perc"]
     ax_temp.plot([Case2_FO_up, Case2_FO_up], [1, 2], color='k')
     ax_temp.plot([Case2_FO_down, Case2_FO_down], [1, 2], color='k')
 
@@ -150,20 +162,22 @@ def plot_spt(subject_spt_case1, color_case_1,
 
     plt.tight_layout()
 
-    report_directory_final = os.path.join(report_directory,'SPT')
+    report_directory_final = os.path.join(report_directory, 'SPT')
     if not os.path.isdir(report_directory_final):
-        os.makedirs (report_directory_final)
-        
+        os.makedirs(report_directory_final)
+
     file_name_visuel = os.path.join(report_directory_final, title + '_Visuel.png')
-    print('Sauvegarde du fichier '+ title + '_Visuel.png')
+    print('Sauvegarde du fichier ' + title + '_Visuel.png')
     fig.savefig(file_name_visuel, bbox_extra_artists=(lgd,), bbox_inches='tight')
     plt.close(fig)
-    
+
     list_temp = []
     # ["",name_case_1, name_case_2,"Norme"]
     for key, name in zip(list_spt, name_spt):
-        value_1 = '%.2f' % subject_spt_case1["mean"][key] + u"\u00B1" + '%.2f' % subject_spt_case1["std"][key]
-        value_2 = '%.2f' % subject_spt_case2["mean"][key] + u"\u00B1" + '%.2f' % subject_spt_case2["std"][key]
+        value_1 = '%.2f' % subject_spt_case1["mean"][key] + \
+            u"\u00B1" + '%.2f' % subject_spt_case1["std"][key]
+        value_2 = '%.2f' % subject_spt_case2["mean"][key] + \
+            u"\u00B1" + '%.2f' % subject_spt_case2["std"][key]
         list_temp.append([name, value_1, value_2, value_2])
 
     fig, axis = plt.subplots(1, 1, dpi=100)
@@ -189,6 +203,6 @@ def plot_spt(subject_spt_case1, color_case_1,
     plt.tight_layout()
 
     file_name = os.path.join(report_directory_final, title + '.png')
-    print('Sauvegarde du fichier '+ title)
+    print('Sauvegarde du fichier ' + title)
     fig.savefig(file_name, bbox_inches='tight')
     plt.close(fig)
