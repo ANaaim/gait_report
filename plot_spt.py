@@ -217,6 +217,13 @@ def plot_spt(subject_spt_case1, color_case_1,
             ax_temp.add_patch(patches.Rectangle(
                 (Case2_down, 2.25), subject_spt_case2["std"][key] * 2, 0.5,
                 facecolor=color_case_2, zorder=0))
+            
+            if key in norm_spt["mean"].keys():
+                Casenorm_down = norm_spt["mean"][key] - norm_spt["std"][key]
+                ax_temp.add_patch(patches.Rectangle(
+                        (Casenorm_down, 1.25), norm_spt["std"][key] * 2, 0.5,
+                        facecolor=(0.5,0.5,0.5), zorder=0))
+            
             ax_temp.spines['top'].set_visible(False)
             ax_temp.spines['right'].set_visible(False)
             ax_temp.spines['left'].set_visible(False)

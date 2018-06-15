@@ -24,6 +24,7 @@ def extract_Schwartz_norm(Speed="Free"):
     param_spt_mean = {"percentage_CTFO": [],
                       "percentage_CTFS": [],
                       "stance_phase_perc": [],
+                      "swing_phase_perc":[],
                       "cadence_adm": [],
                       "step_length_adm" : [],
                       "walking_speed_adm": []}
@@ -31,6 +32,7 @@ def extract_Schwartz_norm(Speed="Free"):
     param_spt_std = {"percentage_CTFO": [],
                      "percentage_CTFS": [],
                      "stance_phase_perc": [],
+                     "swing_phase_perc":[],
                      "cadence_adm": [],
                      "step_length_adm" : [],
                      "walking_speed_adm": []}
@@ -92,6 +94,8 @@ def extract_Schwartz_norm(Speed="Free"):
     cycleEvents[cycleEvents["Parameter"] == "Opposite Foot Contact  [% cycle]"][speed_mean_name].values[0] * 100
     param_spt_mean["stance_phase_perc"] = \
     cycleEvents[cycleEvents["Parameter"] == "Ipsilateral Foot Off  [% cycle]"][speed_mean_name].values[0] * 100
+    param_spt_mean["swing_phase_perc"] = 100 - \
+    cycleEvents[cycleEvents["Parameter"] == "Ipsilateral Foot Off  [% cycle]"][speed_mean_name].values[0] * 100
     
     param_spt_mean["cadence_adm"] = \
     cycleEvents[cycleEvents["Parameter"] == "Cadence (adm)"][speed_mean_name].values[0]
@@ -106,6 +110,8 @@ def extract_Schwartz_norm(Speed="Free"):
     param_spt_std["percentage_CTFS"] = \
     cycleEvents[cycleEvents["Parameter"] == "Opposite Foot Contact  [% cycle]"][speed_std_name].values[0] * 100
     param_spt_std["stance_phase_perc"] = \
+    cycleEvents[cycleEvents["Parameter"] == "Ipsilateral Foot Off  [% cycle]"][speed_std_name].values[0] * 100
+    param_spt_std["swing_phase_perc"] = \
     cycleEvents[cycleEvents["Parameter"] == "Ipsilateral Foot Off  [% cycle]"][speed_std_name].values[0] * 100
 
     param_spt_std["cadence_adm"] = \
