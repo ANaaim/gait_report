@@ -104,7 +104,7 @@ bool_vitesse_2 = tkMessageBox.askyesno("Title",
                                        " .Souhaitez vous la conserver ?")
 
 if not (bool_vitesse and bool_vitesse_2):
-    Speed_norm = "Fast"
+    Speed_norm = "Free"
 # Extraction des normes
 [norm_spt, norm_kinematic, norm_kinetic] = extract_Schwartz_norm(Speed=Speed_norm)
 

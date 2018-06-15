@@ -81,6 +81,7 @@ def param_spt(filename, side):
                  "step_length_adm": [],
                  "step_sec": [],
                  "step_width": [],
+                 "step_width_adm": [],
                  "stance_phase_sec": [],
                  "stance_phase_perc": [],
                  "swing_phase_sec": [],
@@ -124,6 +125,7 @@ def param_spt(filename, side):
         step_width = np.abs(foot_marker_ct[FO[ind_cycle], direction_width] -
                             foot_marker[FS[ind_cycle], direction_width]) / 1000.0
         param_spt["step_width"].append(step_width)
+        param_spt["step_width_adm"].append(step_width / leg_lenght)
         # Phase d'appui (frame, sec, pourcentage)
         stance_phase_frame = FO[ind_cycle] - FS[ind_cycle]
         stance_phase_sec = stance_phase_frame / frq_point
