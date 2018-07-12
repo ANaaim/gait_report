@@ -71,10 +71,10 @@ def kinetic(filename, side):
         value().GetInfo().ToDouble()[0]
 
     gravity = 9.81
-    # In nexus the unit of the moment is Nmm and in the Schwartz norm the data are
+    # In nexus the unit of the moment is Nmm / kg and in the Schwartz norm the data are
     # in N m/kg (just divided by the mass of the subject)
     # coeff_moment = leg_lenght * body_mass * gravity
-    coeff_moment = 1000 * body_mass
+    coeff_moment = 1000
     # Initialisation
     nb_cycle = len(FS) - 1
 
