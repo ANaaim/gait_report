@@ -91,22 +91,24 @@ colorright_case2 = 'tab:blue'
 # Définition de la norme de Schwartz utilisé
 bool_vitesse = tkMessageBox.askyesno("Title",
                                      "Voulez vous utiliser une norme adaptée à la vitesse ?")
-vitesse_norm = subject_spt_right_case1["mean"]["walking_speed_adm"]
-if vitesse_norm < 0.227:
-    Speed_norm = "VerySlow"
-elif vitesse_norm >= 0.227 and vitesse_norm < 0.363:
-    Speed_norm = "Slow"
-elif vitesse_norm >= 0.363 and vitesse_norm < 0.500:
-    Speed_norm = "Free"
-elif vitesse_norm >= 0.500 and vitesse_norm < 0.636:
-    Speed_norm = "Fast"
+if bool_vitesse:
+    vitesse_norm = subject_spt_right_case1["mean"]["walking_speed_adm"]
+    if vitesse_norm < 0.227:
+        Speed_norm = "VerySlow"
+    elif vitesse_norm >= 0.227 and vitesse_norm < 0.363:
+        Speed_norm = "Slow"
+    elif vitesse_norm >= 0.363 and vitesse_norm < 0.500:
+        Speed_norm = "Free"
+    elif vitesse_norm >= 0.500 and vitesse_norm < 0.636:
+        Speed_norm = "Fast"
+    else:
+        Speed_norm = "VeryFast"
+    bool_vitesse_2 = tkMessageBox.askyesno("Title",
+                                           "La norme choisi est :" + Speed_norm +
+                                           " .Souhaitez vous la conserver ?")
+    if not bool_vitesse_2:
+        Speed_norm = "Free"
 else:
-    Speed_norm = "VeryFast"
-bool_vitesse_2 = tkMessageBox.askyesno("Title",
-                                       "La norme choisi est :" + Speed_norm +
-                                       " .Souhaitez vous la conserver ?")
-
-if not (bool_vitesse and bool_vitesse_2):
     Speed_norm = "Free"
 # Extraction des normes
 [norm_spt, norm_kinematic, norm_kinetic] = extract_Schwartz_norm(Speed=Speed_norm)
