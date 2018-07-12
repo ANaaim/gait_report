@@ -20,9 +20,12 @@ from extract_Schwartz_norm import extract_Schwartz_norm as extract_Schwartz_norm
 from plot_emg import plot_emg as plot_emg
 import os
 
-comparaison_bool = tkMessageBox.askyesno("Title", "Voulez vous comparer à d'autres résultats?")
-kinetic_bool = tkMessageBox.askyesno("Title", "Voulez vous tracer la cinétique?")
-emg_bool = tkMessageBox.askyesno("Title", "Voulez vous tracer les emg ?")
+comparaison_bool = tkMessageBox.askyesno("Title",
+                                         "Voulez vous comparer à d'autres résultats?")
+kinetic_bool = tkMessageBox.askyesno("Title",
+                                     "Voulez vous tracer la cinétique?")
+emg_bool = tkMessageBox.askyesno("Title",
+                                 "Voulez vous tracer les emg ?")
 
 # On choisit les premiers fichiers
 data_directory = r'D:\DonneesViconInstallBMF'

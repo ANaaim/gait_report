@@ -62,12 +62,19 @@ def kinetic(filename, side):
 
     # Coefficient d'adimension pour les moments
     md = acq.GetMetaData()
-    leg_lenght = md.FindChild("PROCESSING").value().FindChild(side_letter + 'LegLength').value().GetInfo().ToDouble()[
-        0] / 1000.0
-    body_mass = md.FindChild("PROCESSING").value().FindChild(
-        'Bodymass').value().GetInfo().ToDouble()[0]
+    leg_lenght = md.FindChild("PROCESSING").\
+        value().FindChild(side_letter + 'LegLength').\
+        value().GetInfo().ToDouble()[0] / 1000.0
+
+    body_mass = md.FindChild("PROCESSING").\
+        value().FindChild('Bodymass').\
+        value().GetInfo().ToDouble()[0]
+
     gravity = 9.81
-    coeff_moment = leg_lenght * body_mass * gravity
+    # In nexus the unit of the moment is Nmm and in the Schwartz norm the data are
+    # in N m/kg (just divided by the mass of the subject)
+    # coeff_moment = leg_lenght * body_mass * gravity
+    coeff_moment = 1000 * body_mass
     # Initialisation
     nb_cycle = len(FS) - 1
 
@@ -152,6 +159,7 @@ def kinetic(filename, side):
                 side_letter + 'KneeAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 1]
             f_rotation = acq.GetPoint(
                 side_letter + 'KneeAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 2]
+
             kinematic["Knee_Fle"][:, cycle_valid] = np.interp(x, xp, f_flexion)
             kinematic["Knee_Abd"][:, cycle_valid] = np.interp(x, xp, f_abduction)
             kinematic["Knee_Ier"][:, cycle_valid] = np.interp(x, xp, f_rotation)
@@ -195,11 +203,11 @@ def kinetic(filename, side):
             kinetic["Normalised_Ground_Reaction_Z"][:, cycle_valid] = np.interp(x, xp, normal_GRF_Z)
 
             moment_hip = acq.GetPoint(
-                side_letter + 'HipMoment').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 2]
+                side_letter + 'HipMoment').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
             moment_knee = acq.GetPoint(
-                side_letter + 'KneeMoment').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 2]
+                side_letter + 'KneeMoment').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
             moment_ankle = acq.GetPoint(
-                side_letter + 'AnkleMoment').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 2]
+                side_letter + 'AnkleMoment').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
             kinetic["Hip_Moment"][:, cycle_valid] = np.interp(x, xp, moment_hip) / coeff_moment
             kinetic["Knee_Moment"][:, cycle_valid] = np.interp(x, xp, moment_knee) / coeff_moment
             kinetic["Ankle_Moment"][:, cycle_valid] = np.interp(x, xp, moment_ankle) / coeff_moment
@@ -209,5 +217,8 @@ def kinetic(filename, side):
 
 
 if __name__ == '__main__':
-    filename = 'C:\Users\AdminXPS\SynchronisationXPS\Professionel\GitHub\Data\Gait_report\FAUR Aym marchePN S3 10.c3d'
+    filename = 'C:\Users\AdminXPS\SynchronisationXPS\
+    Professionel\GitHub\Data\
+    Gait_report\FAUR Aym marchePN S3 10.c3d'
+
     [kinematic, kinetic] = kinetic(filename, 'left')
