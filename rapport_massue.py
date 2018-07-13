@@ -19,6 +19,7 @@ from plot_spt import plot_spt as plot_spt
 from extract_Schwartz_norm import extract_Schwartz_norm as extract_Schwartz_norm
 from plot_emg import plot_emg as plot_emg
 import os
+import btk
 
 comparaison_bool = tkMessageBox.askyesno("Title",
                                          "Voulez vous comparer à d'autres résultats?")
@@ -39,10 +40,19 @@ subject_directory_ind_1 = [i for i in range(len(one_filename)) if one_filename.s
 subject_directory_1 = one_filename[0:subject_directory_ind_1[-1]]
 subject_name = str(one_filename[subject_directory_ind_1[-3] + 1:subject_directory_ind_1[-2]])
 
+reader = btk.btkAcquisitionFileReader()
+reader.SetFilename(str(one_filename))
+reader.Update()
+acq = reader.GetOutput()
+
+md = acq.GetMetaData()
+subject_name = md.FindChild("SUBJECTS").\
+    value().FindChild('NAMES').\
+    value().GetInfo().ToString()[0]
 # Creation of the file containing the data of the patient for today
 now = datetime.datetime.now()
 date_today = now.strftime("%Y_%m_%d_%Hh%M")
-report_directory = os.path.join(report_directory, subject_name, date_today)
+report_directory = os.path.join(report_directory, subject_name.strip(), date_today)
 
 if not os.path.isdir(report_directory):
     os.makedirs(report_directory)

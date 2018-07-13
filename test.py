@@ -1,46 +1,114 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu May 17 21:03:01 2018
+import logging
+from argparse import Namespace
+import os
+from tkFileDialog import askopenfilenames, askopenfilename
+from extraction_enf import extraction_enf as extraction_enf
+from extract_metaData_pycgm2 import extract_metaData_pycgm2 as extract_metaData_pycgm2
+from extraction_name_enf import extraction_name_enf as extraction_name_enf
+# pyCGM2 libraries
+import pyCGM2
+from pyCGM2 import enums
+from pyCGM2.Model.CGM2.coreApps import cgm2_1, cgmUtils
+from pyCGM2.Tools import btkTools
+from pyCGM2.Utils import files
+from pyCGM2.Eclipse import vskTools
 
-@author: AdminXPS
-"""
-# pour demander à l'utilisateur de sélectionner des fichiers
-from tkFileDialog import askopenfilenames
+from shutil import copy2
 
-from extract_Schwartz_norm import extract_Schwartz_norm as extract_Schwartz_norm
-from kinetic_allfiles import kinetic_allfiles as kinetic_allfiles
-from param_spt_allfiles import param_spt_allfiles as param_spt_allfiles
-from plot_kinetic import plot_kinetic as plot_kinetic
+report_directory = r'C:\Users\VICON\Desktop\Faux Patient'
 
-data_directory = 'C:\Users\AdminXPS\SynchronisationXPS\Professionel\GitHub\Data\Gait_report'
+filenames_stat = askopenfilename(title="Choisir le fichiers de statique :", filetypes=[("Fichiers C3D", "*Cal*.c3d")],
+                                 initialdir=report_directory)
 
-filenames_case1 = askopenfilenames(title="Choisir les fichiers de la première condition:",
-                                   filetypes=[("Fichiers C3D", "*.c3d")],
-                                   initialdir=data_directory)
+filenames_dyn = askopenfilenames(title="Choisir les fichiers de la première condition:", filetypes=[("Fichiers C3D", "*.c3d")],
+                                 initialdir=os.path.split(filenames_stat)[0])
 
-subject_spt_case1 = param_spt_allfiles(filenames_case1)
-subject_kinematic_case1, subject_kinetic_case1 = \
-    kinetic_allfiles(filenames_case1)
+# DATA
+DATA_PATH = os.path.split(filenames_stat)[0] + '\\'
+DATA_PATH_OUT = os.path.join(DATA_PATH, 'Post_CGM1_1')
+if not os.path.isdir(DATA_PATH_OUT):
+    os.mkdir(DATA_PATH_OUT)
+DATA_PATH_OUT = os.path.join(DATA_PATH, 'Post_CGM1_1') + '\\'
+calibrateFilenameLabelled = str(os.path.split(filenames_stat)[1])
 
-subject_kin_left_case1 = subject_kinetic_case1["left"]
-subject_kin_right_case1 = subject_kinetic_case1["right"]
-subject_spt_left_case1 = subject_spt_case1["left"]
-subject_spt_right_case1 = subject_spt_case1["right"]
-# Chaque cote contiendra paramètres spatio temporel, kinematic, kinetics
-# extraction des event en list
-colorleft_case1 = 'tab:red'
-colorright_case1 = 'tab:green'
-colorleft_case2 = 'tab:orange'
-colorright_case2 = 'tab:blue'
+#
+args = Namespace()
+args.leftFlatFoot = None
+args.rightFlatFoot = None
+args.markerDiameter = None
+args.pointSuffix = None
+args.fileSuffix = None
+args.mfpa = None
+args.proj = None
+args.check = True
 
-# Extraction des normes
-[norm_spt, norm_kin, norm_kinetic] = extract_Schwartz_norm(Speed="Free")
+# --------------------------GLOBAL SETTINGS ------------------------------------
+# global setting ( in user/AppData)
+settings = files.openJson(pyCGM2.CONFIG.PYCGM2_APPDATA_PATH, "CGM2_1-pyCGM2.settings")
 
-plot_kinetic(subject_kin_left_case1, subject_spt_left_case1, colorleft_case1,
-             subject_kin_right_case1, subject_spt_right_case1, colorright_case1,
-             norm_spt, norm_kinetic,
-             legend_1="Gauche " + 'test', legend_2="Droite " + 'Test',
-             title="Kinematic_" + 'test')
+fileSuffix = None
+# settings overloading
+argsManager = cgmUtils.argsManager_cgm(settings, args)
+leftFlatFoot = argsManager.getLeftFlatFoot()
+rightFlatFoot = argsManager.getRightFlatFoot()
+markerDiameter = argsManager.getMarkerDiameter()
+pointSuffix = argsManager.getPointSuffix("cgm1_1")
+momentProjection = argsManager.getMomentProjection()
+mfpa = argsManager.getManualForcePlateAssign()
 
-for i in ['test', 'blabla']:
-    print (i)
+
+# Translator
+translators = files.getTranslators(DATA_PATH, "CGM2_1.translators")
+if not translators:
+    translators = settings["Translators"]
+
+
+hjcMethod = settings["Calibration"]["HJC"]
+
+# Extraction des meta data
+required_mp, optional_mp = extract_metaData_pycgm2(filenames_stat)
+
+# Statique
+model, acqStatic = cgm2_1.calibrate(DATA_PATH, calibrateFilenameLabelled, translators, required_mp, optional_mp,
+                                    leftFlatFoot, rightFlatFoot, markerDiameter, hjcMethod,
+                                    pointSuffix)
+
+
+for ind_file, filename in enumerate(filenames_dyn):
+    plateforme_mpa = ''
+    name_enf = extraction_name_enf(filename)
+    # on fait une copy du fichier ENF pour pouvoir utiliser la génération de rapport
+    copy2(name_enf, DATA_PATH_OUT)
+    [FP1, FP2] = extraction_enf(filename)
+
+    if FP1 == 'right':
+        plateforme_mpa += 'R'
+    elif FP1 == 'left':
+        plateforme_mpa += 'L'
+    else:
+        plateforme_mpa += 'X'
+
+    if FP2 == 'right':
+        plateforme_mpa += 'R'
+    elif FP2 == 'left':
+        plateforme_mpa += 'L'
+    else:
+        plateforme_mpa += 'X'
+
+    reconstructFilenameLabelled = os.path.split(filename)[1]
+    # Fitting
+    acqGait = cgm2_1.fitting(model, DATA_PATH, reconstructFilenameLabelled,
+                             translators,
+                             markerDiameter,
+                             pointSuffix,
+                             plateforme_mpa, momentProjection)
+
+    # writer
+    if fileSuffix is not None:
+        c3dFilename = str(reconstructFilenameLabelled[:-4] + "-modelled-" + fileSuffix + ".c3d")
+    else:
+        c3dFilename = str(reconstructFilenameLabelled)
+
+    btkTools.smartWriter(acqGait, str(DATA_PATH_OUT + c3dFilename))
+    logging.info("c3d file (%s) generated" % (c3dFilename))
