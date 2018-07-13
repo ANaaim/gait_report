@@ -10,7 +10,7 @@ from extraction_enf import extraction_enf as extraction_enf
 from kinetic import kinetic as kinetic
 
 
-def kinetic_allfiles(filenames):
+def kinetic_allfiles(filenames, extension):
     valid_file = []
     for ind_file, filename in enumerate(filenames):
         if extraction_enf(filename) != ['invalid', 'invalid']:
@@ -21,12 +21,12 @@ def kinetic_allfiles(filenames):
         filename_str = str(filename)
         print filename
         if ind_file == 0:
-            left_kinematic, left_kinetic = kinetic(filename_str, "left")
-            right_kinematic, right_kinetic = kinetic(filename_str, "right")
+            left_kinematic, left_kinetic = kinetic(filename_str, "left", extension)
+            right_kinematic, right_kinetic = kinetic(filename_str, "right", extension)
 
         else:
-            left_kinematic_temp, left_kinetic_temp = kinetic(filename_str, "left")
-            right_kinematic_temp, right_kinetic_temp = kinetic(filename_str, "right")
+            left_kinematic_temp, left_kinetic_temp = kinetic(filename_str, "left", extension)
+            right_kinematic_temp, right_kinetic_temp = kinetic(filename_str, "right", extension)
 
             for key in left_kinematic:
                 left_kinematic[key] = np.concatenate(

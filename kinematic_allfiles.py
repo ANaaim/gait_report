@@ -10,12 +10,12 @@ import numpy as np
 from kinematic import kinematic as kinematic
 
 
-def kinematic_allfiles(filenames):
+def kinematic_allfiles(filenames, extension):
     for ind_file, filename in enumerate(filenames):
         filename_str = str(filename)
         print filename
         if ind_file == 0:
-            left = kinematic(filename_str, "left")
+            left = kinematic(filename_str, "left", extension)
             right = kinematic(filename_str, "right")
         else:
             left_temp = kinematic(filename_str, "left")

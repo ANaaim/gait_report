@@ -26,10 +26,10 @@ filenames_dyn = askopenfilenames(title="Choisir les fichiers de la première con
 
 # DATA
 DATA_PATH = os.path.split(filenames_stat)[0] + '\\'
-DATA_PATH_OUT = os.path.join(DATA_PATH, 'Post_CGM1_1')
+DATA_PATH_OUT = os.path.join(DATA_PATH, 'Post_CGM2_1')
 if not os.path.isdir(DATA_PATH_OUT):
     os.mkdir(DATA_PATH_OUT)
-DATA_PATH_OUT = os.path.join(DATA_PATH, 'Post_CGM1_1') + '\\'
+DATA_PATH_OUT = os.path.join(DATA_PATH, 'Post_CGM2_1') + '\\'
 calibrateFilenameLabelled = str(os.path.split(filenames_stat)[1])
 
 #
@@ -53,7 +53,7 @@ argsManager = cgmUtils.argsManager_cgm(settings, args)
 leftFlatFoot = argsManager.getLeftFlatFoot()
 rightFlatFoot = argsManager.getRightFlatFoot()
 markerDiameter = argsManager.getMarkerDiameter()
-pointSuffix = argsManager.getPointSuffix("cgm1_1")
+pointSuffix = argsManager.getPointSuffix("cgm2_1")
 momentProjection = argsManager.getMomentProjection()
 mfpa = argsManager.getManualForcePlateAssign()
 

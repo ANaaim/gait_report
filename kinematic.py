@@ -9,7 +9,7 @@ import btk
 import numpy as np
 
 
-def kinematic(filename, side):
+def kinematic(filename, side, extension):
     reader = btk.btkAcquisitionFileReader()
     reader.SetFilename(filename)
     reader.Update()
@@ -75,11 +75,11 @@ def kinematic(filename, side):
         xp = np.linspace(0, nb_frame, nb_frame)
         # Pelvis
         f_flexion = acq.GetPoint(
-            side_letter + 'PelvisAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
+            side_letter + 'PelvisAngles' + extension).GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
         f_abduction = acq.GetPoint(
-            side_letter + 'PelvisAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 1]
+            side_letter + 'PelvisAngles' + extension).GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 1]
         f_rotation = acq.GetPoint(
-            side_letter + 'PelvisAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 2]
+            side_letter + 'PelvisAngles' + extension).GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 2]
         #        if side == "left":
         #            f_abduction = -f_abduction
         #            f_rotation = -f_rotation
@@ -88,33 +88,33 @@ def kinematic(filename, side):
         kinematic["Pelvis_Ier"][:, ind_cycle] = np.interp(x, xp, f_rotation)
         # Hip
         f_flexion = acq.GetPoint(
-            side_letter + 'HipAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
+            side_letter + 'HipAngles' + extension).GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
         f_abduction = acq.GetPoint(
-            side_letter + 'HipAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 1]
+            side_letter + 'HipAngles' + extension).GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 1]
         f_rotation = acq.GetPoint(
-            side_letter + 'HipAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 2]
+            side_letter + 'HipAngles' + extension).GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 2]
         kinematic["Hip_Fle"][:, ind_cycle] = np.interp(x, xp, f_flexion)
         kinematic["Hip_Abd"][:, ind_cycle] = np.interp(x, xp, f_abduction)
         kinematic["Hip_Ier"][:, ind_cycle] = np.interp(x, xp, f_rotation)
 
         # Knee
         f_flexion = acq.GetPoint(
-            side_letter + 'KneeAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
+            side_letter + 'KneeAngles' + extension).GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
         f_abduction = acq.GetPoint(
-            side_letter + 'KneeAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 1]
+            side_letter + 'KneeAngles' + extension).GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 1]
         f_rotation = acq.GetPoint(
-            side_letter + 'KneeAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 2]
+            side_letter + 'KneeAngles' + extension).GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 2]
         kinematic["Knee_Fle"][:, ind_cycle] = np.interp(x, xp, f_flexion)
         kinematic["Knee_Abd"][:, ind_cycle] = np.interp(x, xp, f_abduction)
         kinematic["Knee_Ier"][:, ind_cycle] = np.interp(x, xp, f_rotation)
 
         # Ankle
         f_flexion = acq.GetPoint(
-            side_letter + 'AnkleAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
+            side_letter + 'AnkleAngles' + extension).GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
         f_progression = acq.GetPoint(
-            side_letter + 'FootProgressAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 2]
+            side_letter + 'FootProgressAngles' + extension).GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 2]
         f_tilt = acq.GetPoint(
-            side_letter + 'FootProgressAngles').GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
+            side_letter + 'FootProgressAngles' + extension).GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
         f_tilt = -f_tilt - 90
         kinematic["Ankle_Fle"][:, ind_cycle] = np.interp(x, xp, f_flexion)
         kinematic["Foot_Progression"][:, ind_cycle] = np.interp(x, xp, f_progression)
