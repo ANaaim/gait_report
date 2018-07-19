@@ -18,10 +18,12 @@ from shutil import copy2
 
 report_directory = r'C:\Users\VICON\Desktop\Faux Patient'
 
-filenames_stat = askopenfilename(title="Choisir le fichiers de statique :", filetypes=[("Fichiers C3D", "*Cal*.c3d")],
+filenames_stat = askopenfilename(title="Choisir le fichiers de statique :",
+                                 filetypes=[("Fichiers C3D", "*Cal*.c3d")],
                                  initialdir=report_directory)
 
-filenames_dyn = askopenfilenames(title="Choisir les fichiers de la première condition:", filetypes=[("Fichiers C3D", "*.c3d")],
+filenames_dyn = askopenfilenames(title="Choisir les fichiers de la première condition:",
+                                 filetypes=[("Fichiers C3D", "*.c3d")],
                                  initialdir=os.path.split(filenames_stat)[0])
 
 # DATA
@@ -70,8 +72,10 @@ hjcMethod = settings["Calibration"]["HJC"]
 required_mp, optional_mp = extract_metaData_pycgm2(filenames_stat)
 
 # Statique
-model, acqStatic = cgm2_1.calibrate(DATA_PATH, calibrateFilenameLabelled, translators, required_mp, optional_mp,
-                                    leftFlatFoot, rightFlatFoot, markerDiameter, hjcMethod,
+model, acqStatic = cgm2_1.calibrate(DATA_PATH, calibrateFilenameLabelled,
+                                    translators, required_mp, optional_mp,
+                                    leftFlatFoot, rightFlatFoot,
+                                    markerDiameter, hjcMethod,
                                     pointSuffix)
 
 
