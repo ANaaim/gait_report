@@ -68,9 +68,10 @@ if not translators:
 
 hjcMethod = settings["Calibration"]["HJC"]
 
+print 'extraction des meta data'
 # Extraction des meta data
 required_mp, optional_mp = extract_metaData_pycgm2(filenames_stat)
-
+print 'calibration'
 # Statique
 model, acqStatic = cgm2_1.calibrate(DATA_PATH, calibrateFilenameLabelled,
                                     translators, required_mp, optional_mp,
@@ -82,6 +83,7 @@ model, acqStatic = cgm2_1.calibrate(DATA_PATH, calibrateFilenameLabelled,
 for ind_file, filename in enumerate(filenames_dyn):
     plateforme_mpa = ''
     name_enf = extraction_name_enf(filename)
+    print filename
     # on fait une copy du fichier ENF pour pouvoir utiliser la génération de rapport
     copy2(name_enf, DATA_PATH_OUT)
     [FP1, FP2] = extraction_enf(filename)

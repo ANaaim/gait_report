@@ -16,10 +16,10 @@ def kinematic_allfiles(filenames, extension):
         print filename
         if ind_file == 0:
             left = kinematic(filename_str, "left", extension)
-            right = kinematic(filename_str, "right")
+            right = kinematic(filename_str, "right", extension)
         else:
-            left_temp = kinematic(filename_str, "left")
-            right_temp = kinematic(filename_str, "right")
+            left_temp = kinematic(filename_str, "left", extension)
+            right_temp = kinematic(filename_str, "right", extension)
             for key in left:
                 left[key] = np.concatenate((left[key], left_temp[key]), axis=1)
                 right[key] = np.concatenate((right[key], right_temp[key]), axis=1)

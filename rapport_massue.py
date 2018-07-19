@@ -30,7 +30,6 @@ emg_bool = tkMessageBox.askyesno("Title",
                                  "Voulez vous tracer les emg ?")
 
 
-
 # On choisit les premiers fichiers
 # Repertoire ou l'utilisateur ira majoritairement chercher les données
 data_directory = r'D:\DonneesViconInstallBMF'
@@ -38,7 +37,8 @@ data_directory = r'D:\DonneesViconInstallBMF'
 report_directory = r'C:\Users\VICON\Desktop\Rapport_Python'
 
 # Choix des fichiers du premiers repertoire
-filenames_case1 = askopenfilenames(title="Choisir les fichiers de la première condition:", filetypes=[("Fichiers C3D", "*.c3d")],
+filenames_case1 = askopenfilenames(title="Choisir les fichiers de la première condition:",
+                                   filetypes=[("Fichiers C3D", "*.c3d")],
                                    initialdir=data_directory)
 
 one_filename = filenames_case1[0]
@@ -46,7 +46,7 @@ subject_directory_ind_1 = [i for i in range(len(one_filename)) if one_filename.s
 subject_directory_1 = one_filename[0:subject_directory_ind_1[-1]]
 #subject_name = str(one_filename[subject_directory_ind_1[-3] + 1:subject_directory_ind_1[-2]])
 
-# Definition de l'extension pgm en fonction du repertoire dans lequel il est 
+# Definition de l'extension pgm en fonction du repertoire dans lequel il est
 last_repertory = os.path.split(subject_directory_1)[1]
 if 'CGM' in last_repertory:
     posCGM = last_repertory.find('CGM')
@@ -64,7 +64,7 @@ md = acq.GetMetaData()
 subject_name = md.FindChild("SUBJECTS").\
     value().FindChild('NAMES').\
     value().GetInfo().ToString()[0]
-    
+
 # Creation of the file containing the data of the patient for today
 now = datetime.datetime.now()
 date_today = now.strftime("%Y_%m_%d_%Hh%M")
@@ -74,7 +74,7 @@ if not os.path.isdir(report_directory):
     os.makedirs(report_directory)
 
 
-## Extraction des données
+# Extraction des données
 case1_name = askstring("Input", "Quelle est la première condition?")
 
 # Calcul des paramètres spatio temporels
@@ -90,8 +90,7 @@ if comparaison_bool:
     filenames_case2 = askopenfilenames(title="Choisir les fichiers de la deuxième condition:", filetypes=[("Fichiers C3D", "*.c3d")],
                                        initialdir=subject_directory_1)
     one_filename = filenames_case2[0]
-    
-    
+
     subject_directory_ind_2 = [i for i in range(
         len(one_filename)) if one_filename.startswith('/', i)]
     subjectory_directory_2 = one_filename[0:subject_directory_ind_1[-1]]
@@ -102,8 +101,9 @@ if comparaison_bool:
     else:
         extension_pycgm2_case2 = ''
 
-    if  extension_pycgm2_case2 != extension_pycgm2_case1:
-        tkMessageBox.showerror('Error message', 'Les deux conditions n\'ont pas été traité avec le même modèle. Veuillez retraité les données ou utilisé le bon repertoire!')
+    if extension_pycgm2_case2 != extension_pycgm2_case1:
+        tkMessageBox.showerror(
+            'Error message', 'Les deux conditions n\'ont pas été traité avec le même modèle. Veuillez retraité les données ou utilisé le bon repertoire!')
         raise ValueError('Les deux conditions n\'ont pas été traité avec le même modèlé')
     # Calcul des paramètres spatio temporels
     subject_spt_case2 = param_spt_allfiles(filenames_case2)
@@ -113,7 +113,6 @@ if comparaison_bool:
     else:
         subject_kinematic_case2 = kinematic_allfiles(filenames_case2, extension_pycgm2_case2)
     case2_name = askstring("Input", "Quelle est la deuxième condition?")
-
 
 
 subject_kinematic_left_case1 = subject_kinematic_case1["left"]
@@ -126,7 +125,7 @@ subject_spt_left_case1 = subject_spt_case1["left"]
 subject_spt_right_case1 = subject_spt_case1["right"]
 
 
-## Extraction des normes
+# Extraction des normes
 # Calcul de la vitesse pour la norme de Schwartz 2008
 bool_vitesse = tkMessageBox.askyesno("Title",
                                      "Voulez vous utiliser une norme adaptée à la vitesse ?")
@@ -153,7 +152,7 @@ else:
 [norm_spt, norm_kinematic, norm_kinetic] = extract_Schwartz_norm(Speed=Speed_norm)
 
 
-## Tracer des graphiques
+# Tracer des graphiques
 
 # Chaque cote contiendra paramètres spatio temporel, kinematic, kinetics
 # extraction des event en list
