@@ -16,6 +16,8 @@ from pyCGM2.Eclipse import vskTools
 
 from shutil import copy2
 
+# Choix des fichiers à traiter
+
 report_directory = r'C:\Users\VICON\Desktop\Faux Patient'
 
 filenames_stat = askopenfilename(title="Choisir le fichiers de statique :",
@@ -26,7 +28,8 @@ filenames_dyn = askopenfilenames(title="Choisir les fichiers de la première con
                                  filetypes=[("Fichiers C3D", "*.c3d")],
                                  initialdir=os.path.split(filenames_stat)[0])
 
-# DATA
+# Definition des différents répertoires
+
 DATA_PATH = os.path.split(filenames_stat)[0] + '\\'
 DATA_PATH_OUT = os.path.join(DATA_PATH, 'Post_CGM2_1')
 if not os.path.isdir(DATA_PATH_OUT):
@@ -34,7 +37,7 @@ if not os.path.isdir(DATA_PATH_OUT):
 DATA_PATH_OUT = os.path.join(DATA_PATH, 'Post_CGM2_1') + '\\'
 calibrateFilenameLabelled = str(os.path.split(filenames_stat)[1])
 
-#
+# Setting pour la toolbox pycgm2
 args = Namespace()
 args.leftFlatFoot = None
 args.rightFlatFoot = None
@@ -65,7 +68,7 @@ translators = files.getTranslators(DATA_PATH, "CGM2_1.translators")
 if not translators:
     translators = settings["Translators"]
 
-
+# Choix de la methode de Hanche
 hjcMethod = settings["Calibration"]["HJC"]
 
 print 'extraction des meta data'
@@ -112,7 +115,8 @@ for ind_file, filename in enumerate(filenames_dyn):
 
     # writer
     if fileSuffix is not None:
-        c3dFilename = str(reconstructFilenameLabelled[:-4] + "-modelled-" + fileSuffix + ".c3d")
+        c3dFilename = str(reconstructFilenameLabelled[:-4] +
+                          "-modelled-" + fileSuffix + ".c3d")
     else:
         c3dFilename = str(reconstructFilenameLabelled)
 
