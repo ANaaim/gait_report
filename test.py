@@ -8,16 +8,17 @@ from extract_metaData_pycgm2 import extract_metaData_pycgm2 as extract_metaData_
 from extraction_name_enf import extraction_name_enf as extraction_name_enf
 # pyCGM2 libraries
 import pyCGM2
-from pyCGM2 import enums
+# from pyCGM2 import enums
 from pyCGM2.Model.CGM2.coreApps import cgm2_1, cgmUtils
+from pyCGM2.Model import modelDecorator
 from pyCGM2.Tools import btkTools
 from pyCGM2.Utils import files
-from pyCGM2.Eclipse import vskTools
+# from pyCGM2.Eclipse import vskTools
 
 from shutil import copy2
 
-# Choix des fichiers à traiter
 
+# Choix des fichiers à traiter
 report_directory = r'C:\Users\VICON\Desktop\Faux Patient'
 
 filenames_stat = askopenfilename(title="Choisir le fichiers de statique :",
@@ -29,7 +30,6 @@ filenames_dyn = askopenfilenames(title="Choisir les fichiers de la première con
                                  initialdir=os.path.split(filenames_stat)[0])
 
 # Definition des différents répertoires
-
 DATA_PATH = os.path.split(filenames_stat)[0] + '\\'
 DATA_PATH_OUT = os.path.join(DATA_PATH, 'Post_CGM2_1')
 if not os.path.isdir(DATA_PATH_OUT):
@@ -71,10 +71,10 @@ if not translators:
 # Choix de la methode de Hanche
 hjcMethod = settings["Calibration"]["HJC"]
 
-print 'extraction des meta data'
 # Extraction des meta data
 required_mp, optional_mp = extract_metaData_pycgm2(filenames_stat)
-print 'calibration'
+
+
 # Statique
 model, acqStatic = cgm2_1.calibrate(DATA_PATH, calibrateFilenameLabelled,
                                     translators, required_mp, optional_mp,
@@ -86,7 +86,6 @@ model, acqStatic = cgm2_1.calibrate(DATA_PATH, calibrateFilenameLabelled,
 for ind_file, filename in enumerate(filenames_dyn):
     plateforme_mpa = ''
     name_enf = extraction_name_enf(filename)
-    print filename
     # on fait une copy du fichier ENF pour pouvoir utiliser la génération de rapport
     copy2(name_enf, DATA_PATH_OUT)
     [FP1, FP2] = extraction_enf(filename)
@@ -107,12 +106,21 @@ for ind_file, filename in enumerate(filenames_dyn):
 
     reconstructFilenameLabelled = os.path.split(filename)[1]
     # Fitting
+    # Pour le premier fichier on 'décore' le modèle pour pouvoir faire
+    # la méthode de dynakad (il faut que le modele ait été utilisé en dynamique)
+    if ind_file == 1:
+        acqGait = cgm2_1.fitting(model, DATA_PATH, reconstructFilenameLabelled,
+                                 translators,
+                                 markerDiameter,
+                                 pointSuffix,
+                                 plateforme_mpa, momentProjection)
+        modelDecorator.KneeCalibrationDecorator(model).calibrate2dof('Left')
+        modelDecorator.KneeCalibrationDecorator(model).calibrate2dof('Right')
     acqGait = cgm2_1.fitting(model, DATA_PATH, reconstructFilenameLabelled,
                              translators,
                              markerDiameter,
                              pointSuffix,
                              plateforme_mpa, momentProjection)
-
     # writer
     if fileSuffix is not None:
         c3dFilename = str(reconstructFilenameLabelled[:-4] +
