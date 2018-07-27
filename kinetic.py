@@ -76,43 +76,59 @@ def kinetic(filename, side):
     # coeff_moment = leg_lenght * body_mass * gravity
     coeff_moment = 1000
     # Initialisation
-    nb_cycle = len(FS) - 1
+    #nb_cycle = len(FS) - 1
 
     fz1 = acq.GetAnalog("Fz1").GetValues()
     fz2 = acq.GetAnalog("Fz2").GetValues()
 
-    nb_cycle = sum(plateform_valid)
-
-    kinematic = {"Pelvis_Fle": np.zeros((101, nb_cycle)),
-                 "Pelvis_Abd": np.zeros((101, nb_cycle)),
-                 "Pelvis_Ier": np.zeros((101, nb_cycle)),
-                 "Hip_Fle": np.zeros((101, nb_cycle)),
-                 "Hip_Abd": np.zeros((101, nb_cycle)),
-                 "Hip_Ier": np.zeros((101, nb_cycle)),
-                 "Knee_Fle": np.zeros((101, nb_cycle)),
-                 "Knee_Abd": np.zeros((101, nb_cycle)),
-                 "Knee_Ier": np.zeros((101, nb_cycle)),
-                 "Ankle_Fle": np.zeros((101, nb_cycle)),
-                 "Foot_Progression": np.zeros((101, nb_cycle)),
-                 "Foot_tilt": np.zeros((101, nb_cycle))}
-
-    kinetic = {"Hip_Fle": np.zeros((101, nb_cycle)),
-               "Knee_Fle": np.zeros((101, nb_cycle)),
-               "Ankle_Fle": np.zeros((101, nb_cycle)),
-               "Hip_Power": np.zeros((101, nb_cycle)),
-               "Knee_Power": np.zeros((101, nb_cycle)),
-               "Ankle_Power": np.zeros((101, nb_cycle)),
-               "Normalised_Ground_Reaction_X": np.zeros((101, nb_cycle)),
-               "Normalised_Ground_Reaction_Y": np.zeros((101, nb_cycle)),
-               "Normalised_Ground_Reaction_Z": np.zeros((101, nb_cycle)),
-               "Hip_Moment": np.zeros((101, nb_cycle)),
-               "Knee_Moment": np.zeros((101, nb_cycle)),
-               "Ankle_Moment": np.zeros((101, nb_cycle))}
-
-    nb_cycle_total = len(FS) - 1
+    #nb_cycle = sum(plateform_valid)
+    
+    
+    nb_cycle = len(FS) - 1
     cycle_valid = 0
+    for ind_cycle in range(nb_cycle):
+        init_cycle = FS[ind_cycle]
+        end_cycle = FS[ind_cycle + 1]
+        nb_frame = end_cycle - init_cycle
 
-    for ind_cycle in range(nb_cycle_total):
+        nbr_frame_fz1 = sum(np.abs(fz1[int(init_cycle * factor_point_analog):
+                                       int(end_cycle * factor_point_analog)]) > 5) / factor_point_analog
+        nbr_frame_fz2 = sum(np.abs(fz2[int(init_cycle * factor_point_analog):
+                                       int(end_cycle * factor_point_analog)]) > 5) / factor_point_analog
+        condition_Plat1 = (nbr_frame_fz1 / float(nb_frame)) > 0.15 and plateform_valid[0]
+        condition_Plat2 = (nbr_frame_fz2 / float(nb_frame)) > 0.15 and plateform_valid[1]
+        if condition_Plat1 or condition_Plat2:
+            cycle_valid += 1
+            
+    kinematic = {"Pelvis_Fle": np.zeros((101, cycle_valid)),
+                "Pelvis_Abd": np.zeros((101, cycle_valid)),
+                "Pelvis_Ier": np.zeros((101, cycle_valid)),
+                "Hip_Fle": np.zeros((101, cycle_valid)),
+                "Hip_Abd": np.zeros((101, cycle_valid)),
+                "Hip_Ier": np.zeros((101, cycle_valid)),
+                "Knee_Fle": np.zeros((101, cycle_valid)),
+                "Knee_Abd": np.zeros((101, cycle_valid)),
+                "Knee_Ier": np.zeros((101, cycle_valid)),
+               "Ankle_Fle": np.zeros((101, cycle_valid)),
+                "Foot_Progression": np.zeros((101, cycle_valid)),
+                "Foot_tilt": np.zeros((101, cycle_valid))}
+    
+    kinetic = {"Hip_Fle": np.zeros((101, cycle_valid)),
+               "Knee_Fle": np.zeros((101, cycle_valid)),
+               "Ankle_Fle": np.zeros((101, cycle_valid)),
+               "Hip_Power": np.zeros((101, cycle_valid)),
+               "Knee_Power": np.zeros((101, cycle_valid)),
+               "Ankle_Power": np.zeros((101, cycle_valid)),
+               "Normalised_Ground_Reaction_X": np.zeros((101, cycle_valid)),
+               "Normalised_Ground_Reaction_Y": np.zeros((101, cycle_valid)),
+               "Normalised_Ground_Reaction_Z": np.zeros((101, cycle_valid)),
+               "Hip_Moment": np.zeros((101, cycle_valid)),
+               "Knee_Moment": np.zeros((101, cycle_valid)),
+               "Ankle_Moment": np.zeros((101, cycle_valid))}
+
+    
+    cycle_valid = 0
+    for ind_cycle in range(nb_cycle):
         init_cycle = FS[ind_cycle]
         end_cycle = FS[ind_cycle + 1]
         nb_frame = end_cycle - init_cycle
