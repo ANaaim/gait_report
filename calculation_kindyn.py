@@ -2,7 +2,7 @@
 import logging
 from argparse import Namespace
 import os
-from tkFileDialog import askopenfilenames, askopenfilename
+# from tkFileDialog import askopenfilenames, askopenfilename
 from extraction_enf import extraction_enf as extraction_enf
 from extract_metaData_pycgm2 import extract_metaData_pycgm2 as extract_metaData_pycgm2
 from extraction_name_enf import extraction_name_enf as extraction_name_enf
