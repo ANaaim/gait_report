@@ -2,32 +2,15 @@
 import logging
 from argparse import Namespace
 import os
-# from tkFileDialog import askopenfilenames, askopenfilename
 from extraction_enf import extraction_enf as extraction_enf
 from extract_metaData_pycgm2 import extract_metaData_pycgm2 as extract_metaData_pycgm2
 from extraction_name_enf import extraction_name_enf as extraction_name_enf
-# pyCGM2 libraries
 import pyCGM2
-# from pyCGM2 import enums
 from pyCGM2.Model.CGM2.coreApps import cgm2_1, cgmUtils
 from pyCGM2.Model import modelDecorator
 from pyCGM2.Tools import btkTools
 from pyCGM2.Utils import files
-# from pyCGM2.Eclipse import vskTools
-
 from shutil import copy2
-
-
-# Choix des fichiers à traiter
-# report_directory = r'C:\Users\VICON\Desktop\Faux Patient'
-
-# filenames_stat = askopenfilename(title="Choisir le fichiers de statique :",
-#                                  filetypes=[("Fichiers C3D", "*Cal*.c3d")],
-#                                  initialdir=report_directory)
-
-# filenames_dyn = askopenfilenames(title="Choisir les fichiers de la première condition:",
-#                                  filetypes=[("Fichiers C3D", "*.c3d")],
-#                                  initialdir=os.path.split(filenames_stat)[0])
 
 
 def calculation_kindyn(filenames_stat, filenames_dyn):
@@ -63,7 +46,7 @@ def calculation_kindyn(filenames_stat, filenames_dyn):
     markerDiameter = argsManager.getMarkerDiameter()
     pointSuffix = argsManager.getPointSuffix("cgm2_1")
     momentProjection = argsManager.getMomentProjection()
-    mfpa = argsManager.getManualForcePlateAssign()
+    # mfpa = argsManager.getManualForcePlateAssign()
 
     # Translator
     translators = files.getTranslators(DATA_PATH, "CGM2_1.translators")
