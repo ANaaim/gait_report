@@ -236,7 +236,7 @@ if comparaison_bool:
             case2_name + " :"
         emg_filename_case2 = askopenfilenames(title=windows_emg_name,
                                               filetypes=[("Fichiers C3D", "*.c3d")],
-                                              initialdir=subjectory_directory_2)
+                                              initialdir=subject_directory_2)
         plot_emg(emg_filename_case2[0], colorleft_case2, colorright_case2,
                  report_directory, title="EMG " + case2_name)
 

@@ -108,7 +108,8 @@ def calculation_kindyn(filenames_stat, filenames_dyn):
         # Fitting
         # Pour le premier fichier on 'décore' le modèle pour pouvoir faire
         # la méthode de dynakad (il faut que le modele ait été utilisé en dynamique)
-        if ind_file == 1:
+        if ind_file == 0:
+            print(filename)
             acqGait = cgm2_1.fitting(model, DATA_PATH, reconstructFilenameLabelled,
                                      translators,
                                      markerDiameter,
@@ -116,6 +117,7 @@ def calculation_kindyn(filenames_stat, filenames_dyn):
                                      plateforme_mpa, momentProjection)
             modelDecorator.KneeCalibrationDecorator(model).calibrate2dof('Left')
             modelDecorator.KneeCalibrationDecorator(model).calibrate2dof('Right')
+
         acqGait = cgm2_1.fitting(model, DATA_PATH, reconstructFilenameLabelled,
                                  translators,
                                  markerDiameter,
