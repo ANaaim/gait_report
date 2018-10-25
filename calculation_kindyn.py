@@ -98,8 +98,8 @@ def calculation_kindyn(filenames_stat, filenames_dyn):
                                      markerDiameter,
                                      pointSuffix,
                                      plateforme_mpa, momentProjection)
-            modelDecorator.KneeCalibrationDecorator(model).calibrate2dof('Left')
-            modelDecorator.KneeCalibrationDecorator(model).calibrate2dof('Right')
+            # modelDecorator.KneeCalibrationDecorator(model).calibrate2dof('Left')
+            # modelDecorator.KneeCalibrationDecorator(model).calibrate2dof('Right')
 
         acqGait = cgm2_1.fitting(model, DATA_PATH, reconstructFilenameLabelled,
                                  translators,
