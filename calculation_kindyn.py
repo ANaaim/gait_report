@@ -44,6 +44,7 @@ def calculation_kindyn(filenames_stat, filenames_dyn):
     leftFlatFoot = argsManager.getLeftFlatFoot()
     rightFlatFoot = argsManager.getRightFlatFoot()
     markerDiameter = argsManager.getMarkerDiameter()
+    markerDiameter = 10
     pointSuffix = argsManager.getPointSuffix("cgm2_1")
     momentProjection = argsManager.getMomentProjection()
     # mfpa = argsManager.getManualForcePlateAssign()
@@ -92,7 +93,6 @@ def calculation_kindyn(filenames_stat, filenames_dyn):
         # Pour le premier fichier on 'décore' le modèle pour pouvoir faire
         # la méthode de dynakad (il faut que le modele ait été utilisé en dynamique)
         if ind_file == 0:
-            print(filename)
             acqGait = cgm2_1.fitting(model, DATA_PATH, reconstructFilenameLabelled,
                                      translators,
                                      markerDiameter,
