@@ -76,12 +76,12 @@ def kinetic(filename, side, extension):
     # coeff_moment = leg_lenght * body_mass * gravity
     coeff_moment = 1000
     # Initialisation
-    #nb_cycle = len(FS) - 1
+    # nb_cycle = len(FS) - 1
 
     fz1 = acq.GetAnalog("Fz1").GetValues()
     fz2 = acq.GetAnalog("Fz2").GetValues()
 
-    #nb_cycle = sum(plateform_valid)
+    # nb_cycle = sum(plateform_valid)
 
     nb_cycle = len(FS) - 1
     cycle_valid = 0
@@ -208,15 +208,15 @@ def kinetic(filename, side, extension):
 
             normal_GRF_X = acq.GetPoint(
                 side_letter + 'NormalisedGRF').GetValues()[FS[ind_cycle]:FO[ind_cycle], 0]
-            normal_GRF_X = np.append(normal_GRF_X, np.zeros((FS[ind_cycle + 1]-FO[ind_cycle], 1)))
+            normal_GRF_X = np.append(normal_GRF_X, np.zeros((FS[ind_cycle + 1] - FO[ind_cycle], 1)))
 
             normal_GRF_Y = acq.GetPoint(
                 side_letter + 'NormalisedGRF').GetValues()[FS[ind_cycle]:FO[ind_cycle], 1]
-            normal_GRF_Y = np.append(normal_GRF_Y, np.zeros((FS[ind_cycle + 1]-FO[ind_cycle], 1)))
+            normal_GRF_Y = np.append(normal_GRF_Y, np.zeros((FS[ind_cycle + 1] - FO[ind_cycle], 1)))
 
             normal_GRF_Z = acq.GetPoint(
                 side_letter + 'NormalisedGRF').GetValues()[FS[ind_cycle]:FO[ind_cycle], 2]
-            normal_GRF_Z = np.append(normal_GRF_Z, np.zeros((FS[ind_cycle + 1]-FO[ind_cycle], 1)))
+            normal_GRF_Z = np.append(normal_GRF_Z, np.zeros((FS[ind_cycle + 1] - FO[ind_cycle], 1)))
 
             kinetic["Normalised_Ground_Reaction_X"][:,
                                                     cycle_valid] = -np.interp(x, xp, normal_GRF_X)
