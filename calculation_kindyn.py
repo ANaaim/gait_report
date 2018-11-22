@@ -41,8 +41,10 @@ def calculation_kindyn(filenames_stat, filenames_dyn):
     fileSuffix = None
     # settings overloading
     argsManager = cgmUtils.argsManager_cgm(settings, args)
-    leftFlatFoot = argsManager.getLeftFlatFoot()
-    rightFlatFoot = argsManager.getRightFlatFoot()
+    #leftFlatFoot = argsManager.getLeftFlatFoot()
+    #rightFlatFoot = argsManager.getRightFlatFoot()
+    leftFlatFoot = 0
+    rightFlatFoot = 0
     markerDiameter = argsManager.getMarkerDiameter()
     markerDiameter = 10
     pointSuffix = argsManager.getPointSuffix("cgm2_1")
