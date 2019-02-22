@@ -32,6 +32,7 @@ report_directory = r'C:\Users\VICON\Desktop\Rapport_Python'
 # Définition de ce que l'utilisateur des choses qu'ils souhaitent faire
 # comparaison, cinétique et emg
 # ------------------------------------------------------------------------------
+test = 1
 comparaison_bool = tkMessageBox.askyesno("Title",
                                          "Voulez vous comparer à d'autres résultats?")
 kinetic_bool = tkMessageBox.askyesno("Title",
