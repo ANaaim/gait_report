@@ -38,6 +38,8 @@ kinetic_bool = tkMessageBox.askyesno("Title",
                                      "Voulez vous tracer la cinétique?")
 emg_bool = tkMessageBox.askyesno("Title",
                                  "Voulez vous tracer les emg ?")
+old_data = tkMessageBox.askyesno("Title",
+                                 "Voulez vous utiliser les données directement calculées dans Nexus ?")
 
 # Choix des fichiers du premiers repertoire
 filenames_case1 = askopenfilenames(title="Choisir les fichiers de la première condition:",
@@ -57,8 +59,13 @@ filenames_stat_case1 = askopenfilename(title="Choisir le fichiers de statique ca
 
 case1_name = askstring("Input", "Quelle est la première condition?")
 
-[filenames_case1_postCGM, subject_directory_1_postCGM,
- extension_pycgm2_case1] = calculation_extraction_CGM(filenames_stat_case1, filenames_case1)
+if old_data:
+    filenames_case1_postCGM = filenames_case1
+    subject_directory_1_postCGM = filenames_stat_case1
+    extension_pycgm2_case1 = ""
+else:
+    [filenames_case1_postCGM, subject_directory_1_postCGM,
+     extension_pycgm2_case1] = calculation_extraction_CGM(filenames_stat_case1, filenames_case1)
 
 if comparaison_bool:
     filenames_case2 = askopenfilenames(title="Choisir les fichiers de la deuxième condition:", filetypes=[("Fichiers C3D", "*.c3d")],
@@ -73,8 +80,13 @@ if comparaison_bool:
                                            filetypes=[("Fichiers C3D", "*Cal*.c3d")],
                                            initialdir=subject_directory_initial)
     case2_name = askstring("Input", "Quelle est la deuxième condition?")
-    [filenames_case2_postCGM, subject_directory_2_postCGM,
-     extension_pycgm2_case2] = calculation_extraction_CGM(filenames_stat_case2, filenames_case2)
+    if old_data:
+        filenames_case2_postCGM = filenames_case2
+        subject_directory_2_postCGM = subject_directory_initial
+        extension_pycgm2_case2 = ""
+    else:
+        [filenames_case2_postCGM, subject_directory_2_postCGM,
+         extension_pycgm2_case2] = calculation_extraction_CGM(filenames_stat_case2, filenames_case2)
 
 # ------------------------------------------------------------------------------
 # Création d'un répertoire ou seront stocké les donnés par sujet
