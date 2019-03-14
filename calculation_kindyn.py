@@ -7,7 +7,6 @@ from extract_metaData_pycgm2 import extract_metaData_pycgm2 as extract_metaData_
 from extraction_name_enf import extraction_name_enf as extraction_name_enf
 import pyCGM2
 from pyCGM2.Model.CGM2.coreApps import cgm2_1, cgmUtils
-from pyCGM2.Model import modelDecorator
 from pyCGM2.Tools import btkTools
 from pyCGM2.Utils import files
 from shutil import copy2

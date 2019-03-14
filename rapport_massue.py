@@ -19,7 +19,7 @@ from plot_emg import plot_emg as plot_emg
 import os
 import btk
 from calculation_extraction_CGM import calculation_extraction_CGM as calculation_extraction_CGM
-
+import json
 # ------------------------------------------------------------------------------
 # Définition des répertoires de travail
 # ------------------------------------------------------------------------------
@@ -158,24 +158,34 @@ if bool_vitesse:
     vitesse_norm = subject_spt_right_case1["mean"]["walking_speed_adm"]
     if vitesse_norm < 0.227:
         Speed_norm = "VerySlow"
+        Speed_norm_REHA = 'C2'
     elif vitesse_norm >= 0.227 and vitesse_norm < 0.363:
         Speed_norm = "Slow"
+        Speed_norm_REHA = 'C3'
     elif vitesse_norm >= 0.363 and vitesse_norm < 0.500:
         Speed_norm = "Free"
+        Speed_norm_REHA = 'C4'
     elif vitesse_norm >= 0.500 and vitesse_norm < 0.636:
         Speed_norm = "Fast"
+        Speed_norm_REHA = 'C5'
     else:
         Speed_norm = "VeryFast"
+        Speed_norm_REHA = 'C5'
     bool_vitesse_2 = tkMessageBox.askyesno("Title",
                                            "La norme choisi est :" + Speed_norm +
                                            " .Souhaitez vous la conserver ?")
     if not bool_vitesse_2:
         Speed_norm = "Free"
+        Speed_norm_REHA = 'C4'
 else:
     Speed_norm = "Free"
+    Speed_norm_REHA = 'C4'
 
 [norm_spt, norm_kinematic, norm_kinetic] = extract_Schwartz_norm(Speed=Speed_norm)
 
+with open("SPT_REHA.json", "r") as read_file:
+    data = json.load(read_file)
+    norm_spt = data[Speed_norm_REHA]
 # ------------------------------------------------------------------------------
 # Tracer des graphiques
 # ------------------------------------------------------------------------------

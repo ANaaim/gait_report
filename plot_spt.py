@@ -248,7 +248,9 @@ def plot_spt(subject_spt_case1, color_case_1,
                 u"\u00B1" + '%.2f' % subject_spt_case1["std"][key]
             value_2 = '%.2f' % subject_spt_case2["mean"][key] + \
                 u"\u00B1" + '%.2f' % subject_spt_case2["std"][key]
-            list_temp.append([name, value_1, value_2, value_2])
+            value_norm = '%.2f' % norm_spt["mean"][key] + \
+                u"\u00B1" + '%.2f' % norm_spt["std"][key]
+            list_temp.append([name, value_1, value_2, value_norm])
 
         fig, axis = plt.subplots(1, 1, dpi=100)
         # fig,axis = plt.subplots(1,1,figsize=(8.27,11.69),dpi=100)
