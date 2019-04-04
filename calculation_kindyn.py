@@ -8,6 +8,7 @@ from extraction_name_enf import extraction_name_enf as extraction_name_enf
 import pyCGM2
 from pyCGM2.Model.CGM2.coreApps import cgm2_1, cgmUtils
 from pyCGM2.Tools import btkTools
+from pyCGM2.Model import modelDecorator
 from pyCGM2.Utils import files
 from shutil import copy2
 
@@ -99,8 +100,8 @@ def calculation_kindyn(filenames_stat, filenames_dyn):
                                      markerDiameter,
                                      pointSuffix,
                                      plateforme_mpa, momentProjection)
-            # modelDecorator.KneeCalibrationDecorator(model).calibrate2dof('Left')
-            # modelDecorator.KneeCalibrationDecorator(model).calibrate2dof('Right')
+            modelDecorator.KneeCalibrationDecorator(model).calibrate2dof('Left')
+            modelDecorator.KneeCalibrationDecorator(model).calibrate2dof('Right')
 
         acqGait = cgm2_1.fitting(model, DATA_PATH, reconstructFilenameLabelled,
                                  translators,
