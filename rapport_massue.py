@@ -10,6 +10,7 @@ from kinematic_allfiles import kinematic_allfiles as kinematic_allfiles
 from kinetic_allfiles import kinetic_allfiles as kinetic_allfiles
 from tkFileDialog import askopenfilenames, askopenfilename
 from tkSimpleDialog import askstring
+from tkSimpleDialog import askinteger
 import tkMessageBox
 from plot_kinematic import plot_kinematic as plot_kinematic
 from plot_kinetic import plot_kinetic as plot_kinetic
@@ -20,6 +21,7 @@ import os
 import btk
 from calculation_extraction_CGM import calculation_extraction_CGM as calculation_extraction_CGM
 import json
+from extract_SPT_Kid import extract_GaitRite_norm
 # ------------------------------------------------------------------------------
 # Définition des répertoires de travail
 # ------------------------------------------------------------------------------
@@ -154,6 +156,15 @@ subject_spt_right_case1 = subject_spt_case1["right"]
 # Calcul de la vitesse pour la norme de Schwartz 2008
 bool_vitesse = tkMessageBox.askyesno("Title",
                                      "Voulez vous utiliser une norme adaptée à la vitesse ?")
+Age_patient = askinteger("Input", "Quel est l'age du patient ?",
+                         minvalue=0, maxvalue=100)
+bool_Gender = tkMessageBox.askyesno("Title",
+                                    "Est ce une femme ?")
+if bool_Gender:
+    Gender = 'Female'
+else:
+    Gender = 'Male'
+
 if bool_vitesse:
     vitesse_norm = subject_spt_right_case1["mean"]["walking_speed_adm"]
     if vitesse_norm < 0.227:
@@ -186,6 +197,8 @@ else:
 with open("SPT_REHA.json", "r") as read_file:
     data = json.load(read_file)
     norm_spt = data[Speed_norm_REHA]
+
+extract_GaitRite_norm(vitesse_norm, Age_patient, Gender)
 # ------------------------------------------------------------------------------
 # Tracer des graphiques
 # ------------------------------------------------------------------------------
