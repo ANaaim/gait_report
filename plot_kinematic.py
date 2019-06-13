@@ -196,4 +196,7 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
         print("Sauvegarde du fichier " + title_final)
         fig.savefig(file_name, bbox_extra_artists=(lgd,), bbox_inches='tight')
         plt.close(fig)
+        if trace == 'mean':
+            file_name_final = file_name
         # fig.savefig('samplefigure.png')
+    return file_name_final

@@ -22,6 +22,8 @@ import btk
 from calculation_extraction_CGM import calculation_extraction_CGM as calculation_extraction_CGM
 import json
 from extract_SPT_Kid import extract_GaitRite_norm
+from docx import Document
+from docx.shared import Inches, Pt
 # ------------------------------------------------------------------------------
 # Définition des répertoires de travail
 # ------------------------------------------------------------------------------
@@ -209,31 +211,31 @@ colorright_case1 = 'tab:green'
 colorleft_case2 = 'tab:orange'
 colorright_case2 = 'tab:blue'
 
-plot_kinematic(subject_kinematic_left_case1, subject_spt_left_case1,
-               colorleft_case1,
-               subject_kinematic_right_case1, subject_spt_right_case1,
-               colorright_case1,
-               norm_spt, norm_kinematic, report_directory,
-               legend_1="Gauche " + case1_name,
-               legend_2="Droite " + case1_name,
-               title="Kinematic_" + case1_name)
+kinematic_pic_S1_LR = plot_kinematic(subject_kinematic_left_case1, subject_spt_left_case1,
+                                     colorleft_case1,
+                                     subject_kinematic_right_case1, subject_spt_right_case1,
+                                     colorright_case1,
+                                     norm_spt, norm_kinematic, report_directory,
+                                     legend_1="Gauche " + case1_name,
+                                     legend_2="Droite " + case1_name,
+                                     title="Kinematic_" + case1_name)
 
-plot_spt(subject_spt_left_case1, colorleft_case1,
-         subject_spt_right_case1, colorright_case1,
-         norm_spt, report_directory,
-         legend_1="Gauche\n" + case1_name,
-         legend_2="Droite\n" + case1_name,
-         title="SPT_" + case1_name)
+SPT_pic_S1_LR = plot_spt(subject_spt_left_case1, colorleft_case1,
+                         subject_spt_right_case1, colorright_case1,
+                         norm_spt, report_directory,
+                         legend_1="Gauche\n" + case1_name,
+                         legend_2="Droite\n" + case1_name,
+                         title="SPT_" + case1_name)
 
 if kinetic_bool:
-    plot_kinetic(subject_kinetic_left_case1, subject_spt_left_case1,
-                 colorleft_case1,
-                 subject_kinetic_right_case1, subject_spt_right_case1,
-                 colorright_case1,
-                 norm_spt, norm_kinetic, report_directory,
-                 legend_1="Gauche " + case1_name,
-                 legend_2="Droite " + case1_name,
-                 title="Kinetic_" + case1_name)
+    kinetic_pic_S1_LR = plot_kinetic(subject_kinetic_left_case1, subject_spt_left_case1,
+                                     colorleft_case1,
+                                     subject_kinetic_right_case1, subject_spt_right_case1,
+                                     colorright_case1,
+                                     norm_spt, norm_kinetic, report_directory,
+                                     legend_1="Gauche " + case1_name,
+                                     legend_2="Droite " + case1_name,
+                                     title="Kinetic_" + case1_name)
 
 if emg_bool:
     windows_emg_name = "Choisir le fichies de tracer EMG condition " + \
@@ -264,79 +266,127 @@ if comparaison_bool:
     subject_spt_left_case2 = subject_spt_case2["left"]
     subject_spt_right_case2 = subject_spt_case2["right"]
 
-    plot_kinematic(subject_kinematic_left_case2, subject_spt_left_case2,
-                   colorleft_case2,
-                   subject_kinematic_right_case2, subject_spt_right_case2,
-                   colorright_case2,
-                   norm_spt, norm_kinematic, report_directory,
-                   legend_1="Gauche " + case2_name,
-                   legend_2="Droite " + case2_name,
-                   title="Kinematic_" + case2_name)
+    kinematic_pic_S2_LR = plot_kinematic(subject_kinematic_left_case2, subject_spt_left_case2,
+                                         colorleft_case2,
+                                         subject_kinematic_right_case2, subject_spt_right_case2,
+                                         colorright_case2,
+                                         norm_spt, norm_kinematic, report_directory,
+                                         legend_1="Gauche " + case2_name,
+                                         legend_2="Droite " + case2_name,
+                                         title="Kinematic_" + case2_name)
 
-    plot_spt(subject_spt_left_case2, colorleft_case2,
-             subject_spt_right_case2, colorright_case2,
-             norm_spt, report_directory,
-             legend_1="Gauche\n" + case2_name,
-             legend_2="Droite\n" + case2_name,
-             title="SPT_" + case2_name)
+    SPT_pic_S2_LR = plot_spt(subject_spt_left_case2, colorleft_case2,
+                             subject_spt_right_case2, colorright_case2,
+                             norm_spt, report_directory,
+                             legend_1="Gauche\n" + case2_name,
+                             legend_2="Droite\n" + case2_name,
+                             title="SPT_" + case2_name)
 
-    plot_kinematic(subject_kinematic_left_case1, subject_spt_left_case1,
-                   colorleft_case1,
-                   subject_kinematic_left_case2, subject_spt_left_case2,
-                   colorleft_case2,
-                   norm_spt, norm_kinematic, report_directory,
-                   legend_1="Gauche " + case1_name,
-                   legend_2="Gauche " + case2_name,
-                   title="Kinematic_Comparaison_Left")
+    kinematic_pic_Left = plot_kinematic(subject_kinematic_left_case1, subject_spt_left_case1,
+                                        colorleft_case1,
+                                        subject_kinematic_left_case2, subject_spt_left_case2,
+                                        colorleft_case2,
+                                        norm_spt, norm_kinematic, report_directory,
+                                        legend_1="Gauche " + case1_name,
+                                        legend_2="Gauche " + case2_name,
+                                        title="Kinematic_Comparaison_Left")
 
-    plot_spt(subject_spt_left_case1, colorleft_case1,
-             subject_spt_left_case2, colorleft_case2,
-             norm_spt, report_directory,
-             legend_1="Gauche\n" + case1_name,
-             legend_2="Gauche\n" + case2_name,
-             title="SPT_Comparaison_Left")
+    SPT_pic_Left = plot_spt(subject_spt_left_case1, colorleft_case1,
+                            subject_spt_left_case2, colorleft_case2,
+                            norm_spt, report_directory,
+                            legend_1="Gauche\n" + case1_name,
+                            legend_2="Gauche\n" + case2_name,
+                            title="SPT_Comparaison_Left")
 
-    plot_kinematic(subject_kinematic_right_case1, subject_spt_right_case1,
-                   colorright_case1,
-                   subject_kinematic_right_case2, subject_spt_right_case2,
-                   colorright_case2,
-                   norm_spt, norm_kinematic, report_directory,
-                   legend_1="Droite " + case1_name,
-                   legend_2="Droite " + case2_name,
-                   title="Kinematic_Comparaison_Right")
+    kinematic_pic_Right = plot_kinematic(subject_kinematic_right_case1, subject_spt_right_case1,
+                                         colorright_case1,
+                                         subject_kinematic_right_case2, subject_spt_right_case2,
+                                         colorright_case2,
+                                         norm_spt, norm_kinematic, report_directory,
+                                         legend_1="Droite " + case1_name,
+                                         legend_2="Droite " + case2_name,
+                                         title="Kinematic_Comparaison_Right")
 
-    plot_spt(subject_spt_right_case1, colorright_case1,
-             subject_spt_right_case2, colorright_case2,
-             norm_spt, report_directory,
-             legend_1="Droite\n" + case1_name,
-             legend_2="Droite\n" + case2_name,
-             title="SPT_Comparaison_Right")
+    SPT_pic_Right = plot_spt(subject_spt_right_case1, colorright_case1,
+                             subject_spt_right_case2, colorright_case2,
+                             norm_spt, report_directory,
+                             legend_1="Droite\n" + case1_name,
+                             legend_2="Droite\n" + case2_name,
+                             title="SPT_Comparaison_Right")
 
     if kinetic_bool:
-        plot_kinetic(subject_kinetic_left_case2, subject_spt_left_case2,
-                     colorleft_case2,
-                     subject_kinetic_right_case2, subject_spt_right_case2,
-                     colorright_case2,
-                     norm_spt, norm_kinetic, report_directory,
-                     legend_1="Gauche " + case2_name,
-                     legend_2="Droite " + case2_name,
-                     title="Kinetic_" + case2_name)
+        kinetic_pic_S2_LR = plot_kinetic(subject_kinetic_left_case2, subject_spt_left_case2,
+                                         colorleft_case2,
+                                         subject_kinetic_right_case2, subject_spt_right_case2,
+                                         colorright_case2,
+                                         norm_spt, norm_kinetic, report_directory,
+                                         legend_1="Gauche " + case2_name,
+                                         legend_2="Droite " + case2_name,
+                                         title="Kinetic_" + case2_name)
 
-        plot_kinetic(subject_kinetic_left_case1, subject_spt_left_case1,
-                     colorleft_case1,
-                     subject_kinetic_left_case2, subject_spt_left_case2,
-                     colorleft_case2,
-                     norm_spt, norm_kinetic, report_directory,
-                     legend_1="Gauche " + case1_name,
-                     legend_2="Gauche " + case2_name,
-                     title="Kinetic_Comparaison_Left")
+        kinetic_pic_Left = plot_kinetic(subject_kinetic_left_case1, subject_spt_left_case1,
+                                        colorleft_case1,
+                                        subject_kinetic_left_case2, subject_spt_left_case2,
+                                        colorleft_case2,
+                                        norm_spt, norm_kinetic, report_directory,
+                                        legend_1="Gauche " + case1_name,
+                                        legend_2="Gauche " + case2_name,
+                                        title="Kinetic_Comparaison_Left")
 
-        plot_kinetic(subject_kinetic_right_case1, subject_spt_right_case1,
-                     colorright_case1,
-                     subject_kinetic_right_case2, subject_spt_right_case2,
-                     colorright_case2,
-                     norm_spt, norm_kinetic, report_directory,
-                     legend_1="Droite " + case1_name,
-                     legend_2="Droite " + case2_name,
-                     title="Kinetic_Comparaison_Right")
+        kinetic_pic_Right = plot_kinetic(subject_kinetic_right_case1, subject_spt_right_case1,
+                                         colorright_case1,
+                                         subject_kinetic_right_case2, subject_spt_right_case2,
+                                         colorright_case2,
+                                         norm_spt, norm_kinetic, report_directory,
+                                         legend_1="Droite " + case1_name,
+                                         legend_2="Droite " + case2_name,
+                                         title="Kinetic_Comparaison_Right")
+# Generation du rapport word
+
+
+def newpage_report(name_param, pic_1):
+    document.add_page_break()
+    document.add_heading(name_param, level=1)
+    paragraph = document.add_paragraph()
+    paragraph_format = paragraph.paragraph_format
+    paragraph_format.space_before = Pt(10)
+    run = paragraph.add_run()
+    run.add_picture(pic_1, width=Inches(7))
+    document.add_heading('Interprétation :', level=3)
+
+
+def newpage_report_comp(name_param, pic_1, pic_2):
+    document.add_page_break()
+    document.add_heading(name_param, level=1)
+    paragraph = document.add_paragraph()
+    paragraph_format = paragraph.paragraph_format
+    paragraph_format.space_before = Pt(10)
+    run = paragraph.add_run()
+    run.add_picture(pic_1, width=Inches(3.4))
+    run.add_picture(pic_2, width=Inches(3.4))
+    document.add_heading('Interprétation :', level=3)
+
+
+document = Document('Rapport_massue_Vierge.docx')
+
+if comparaison_bool:
+    newpage_report_comp('Paramètre Spation temporelle', SPT_pic_S1_LR, SPT_pic_S2_LR)
+    newpage_report_comp('Paramètre Spation temporelle', SPT_pic_Left, SPT_pic_Right)
+    newpage_report_comp('Cinematique', kinematic_pic_S1_LR, kinematic_pic_S2_LR)
+    if kinetic_bool:
+        newpage_report_comp('Cinétique', kinetic_pic_S1_LR, kinetic_pic_S2_LR)
+
+    newpage_report_comp('Cinématique coté par coté : ', kinematic_pic_Left, kinematic_pic_Right)
+    if kinetic_bool:
+        newpage_report_comp('Cinétique coté par coté : ', kinetic_pic_Left, kinetic_pic_Right)
+
+else:
+    newpage_report('Paramètre Spation temporelle', SPT_pic_S1_LR)
+    newpage_report('Cinematique', kinematic_pic_S1_LR)
+    if kinetic_bool:
+        newpage_report('Cinétique', kinetic_pic_S1_LR)
+
+document.save('demo.docx')
+
+
 print(report_directory)
