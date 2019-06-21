@@ -279,6 +279,6 @@ def plot_spt(subject_spt_case1, color_case_1,
         fig.savefig(file_name, bbox_inches='tight')
         plt.close(fig)
         if spt_type == "normal":
-            file_name_final = file_name
+            file_name_final = file_name_visuel
 
-    return file_name_final
+    return file_name_visuel

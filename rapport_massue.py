@@ -24,6 +24,7 @@ import json
 from extract_SPT_Kid import extract_GaitRite_norm
 from docx import Document
 from docx.shared import Inches, Pt
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 # ------------------------------------------------------------------------------
 # Définition des répertoires de travail
 # ------------------------------------------------------------------------------
@@ -167,8 +168,8 @@ if bool_Gender:
 else:
     Gender = 'Male'
 
+vitesse_norm = subject_spt_right_case1["mean"]["walking_speed_adm"]
 if bool_vitesse:
-    vitesse_norm = subject_spt_right_case1["mean"]["walking_speed_adm"]
     if vitesse_norm < 0.227:
         Speed_norm = "VerySlow"
         Speed_norm_REHA = 'C2'
@@ -243,8 +244,8 @@ if emg_bool:
     emg_filename_case1 = askopenfilenames(title=windows_emg_name,
                                           filetypes=[("Fichiers C3D", "*.c3d")],
                                           initialdir=subject_directory_1_postCGM)
-    plot_emg(emg_filename_case1[0], colorleft_case1, colorright_case1,
-             report_directory, title="EMG " + case1_name)
+    emg_plot_case1 = plot_emg(emg_filename_case1[0], colorleft_case1, colorright_case1,
+                              report_directory, title="EMG " + case1_name)
 
 
 if comparaison_bool:
@@ -254,8 +255,8 @@ if comparaison_bool:
         emg_filename_case2 = askopenfilenames(title=windows_emg_name,
                                               filetypes=[("Fichiers C3D", "*.c3d")],
                                               initialdir=subject_directory_2_postCGM)
-        plot_emg(emg_filename_case2[0], colorleft_case2, colorright_case2,
-                 report_directory, title="EMG " + case2_name)
+        emg_plot_case2 = plot_emg(emg_filename_case2[0], colorleft_case2, colorright_case2,
+                                  report_directory, title="EMG " + case2_name)
 
     subject_kinematic_left_case2 = subject_kinematic_case2["left"]
     subject_kinematic_right_case2 = subject_kinematic_case2["right"]
@@ -348,45 +349,57 @@ def newpage_report(name_param, pic_1):
     document.add_page_break()
     document.add_heading(name_param, level=1)
     paragraph = document.add_paragraph()
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
     paragraph_format = paragraph.paragraph_format
     paragraph_format.space_before = Pt(10)
     run = paragraph.add_run()
-    run.add_picture(pic_1, width=Inches(7))
-    document.add_heading('Interprétation :', level=3)
+    run.add_picture(pic_1, width=Inches(5))
+    document.add_heading(unicode('Interprétation :', 'utf-8'), level=3)
 
 
 def newpage_report_comp(name_param, pic_1, pic_2):
     document.add_page_break()
     document.add_heading(name_param, level=1)
     paragraph = document.add_paragraph()
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    paragraph_format = paragraph.paragraph_format
     paragraph_format = paragraph.paragraph_format
     paragraph_format.space_before = Pt(10)
     run = paragraph.add_run()
     run.add_picture(pic_1, width=Inches(3.4))
     run.add_picture(pic_2, width=Inches(3.4))
-    document.add_heading('Interprétation :', level=3)
+    document.add_heading(unicode('Interprétation :', 'utf-8'), level=3)
 
 
 document = Document('Rapport_massue_Vierge.docx')
 
 if comparaison_bool:
-    newpage_report_comp('Paramètre Spation temporelle', SPT_pic_S1_LR, SPT_pic_S2_LR)
-    newpage_report_comp('Paramètre Spation temporelle', SPT_pic_Left, SPT_pic_Right)
-    newpage_report_comp('Cinematique', kinematic_pic_S1_LR, kinematic_pic_S2_LR)
+    newpage_report_comp(unicode('Paramètres Spatio-temporels', 'utf-8'),
+                        SPT_pic_S1_LR, SPT_pic_S2_LR)
+    newpage_report_comp(unicode('Paramètres Spatio-temporels',
+                                'utf-8'), SPT_pic_Left, SPT_pic_Right)
+    newpage_report_comp(unicode('Cinématique', 'utf-8'), kinematic_pic_S1_LR, kinematic_pic_S2_LR)
     if kinetic_bool:
-        newpage_report_comp('Cinétique', kinetic_pic_S1_LR, kinetic_pic_S2_LR)
+        newpage_report_comp(unicode('Cinétique :', 'utf-8'), kinetic_pic_S1_LR, kinetic_pic_S2_LR)
 
-    newpage_report_comp('Cinématique coté par coté : ', kinematic_pic_Left, kinematic_pic_Right)
+    newpage_report_comp(unicode('Cinématique coté par coté : ', 'utf-8'),
+                        kinematic_pic_Left, kinematic_pic_Right)
     if kinetic_bool:
-        newpage_report_comp('Cinétique coté par coté : ', kinetic_pic_Left, kinetic_pic_Right)
+        newpage_report_comp(unicode('Cinétique coté par coté : ', 'utf-8'),
+                            kinetic_pic_Left, kinetic_pic_Right)
+
+    if emg_bool:
+        newpage_report_comp(unicode('EMG', 'utf-8'), emg_plot_case1)
+        newpage_report_comp(unicode('EMG', 'utf-8'), emg_plot_case2)
 
 else:
-    newpage_report('Paramètre Spation temporelle', SPT_pic_S1_LR)
-    newpage_report('Cinematique', kinematic_pic_S1_LR)
+    newpage_report(unicode('Paramètres Spatio-temporels', 'utf-8'), SPT_pic_S1_LR)
+    newpage_report(unicode('Cinématique', 'utf-8'), kinematic_pic_S1_LR)
     if kinetic_bool:
-        newpage_report('Cinétique', kinetic_pic_S1_LR)
+        newpage_report(unicode('Cinétique', 'utf-8'), kinetic_pic_S1_LR)
 
-document.save('demo.docx')
+    if emg_bool:
+        newpage_report(unicode('EMG', 'utf-8'), emg_plot_case1)
 
 
-print(report_directory)
+document.save(os.path.join(report_directory, 'rapport.docx'))

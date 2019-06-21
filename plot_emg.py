@@ -152,3 +152,7 @@ def plot_emg(filename, color1, color2, report_directory, title="EMG"):
     print('Sauvegarde du fichier ' + title)
     fig.savefig(file_name, bbox_inches='tight')
     plt.close(fig)
+
+    file_name_final = file_name
+
+    return file_name_final
