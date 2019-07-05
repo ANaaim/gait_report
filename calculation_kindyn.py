@@ -46,7 +46,7 @@ def calculation_kindyn(filenames_stat, filenames_dyn):
     leftFlatFoot = 0
     rightFlatFoot = 0
     markerDiameter = argsManager.getMarkerDiameter()
-    markerDiameter = 10
+    markerDiameter = 12
     pointSuffix = argsManager.getPointSuffix("cgm2_1")
     momentProjection = argsManager.getMomentProjection()
     # mfpa = argsManager.getManualForcePlateAssign()
