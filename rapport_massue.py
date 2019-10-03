@@ -72,6 +72,7 @@ if old_data:
 else:
     [filenames_case1_postCGM, subject_directory_1_postCGM,
      extension_pycgm2_case1] = calculation_extraction_CGM(filenames_stat_case1, filenames_case1)
+    print(extension_pycgm2_case1)
 
 if comparaison_bool:
     filenames_case2 = askopenfilenames(title="Choisir les fichiers de la deuxième condition:", filetypes=[("Fichiers C3D", "*.c3d")],
@@ -80,15 +81,15 @@ if comparaison_bool:
 
     subject_directory_ind_2 = [i for i in range(
         len(one_filename)) if one_filename.startswith('/', i)]
-    subject_directory_2 = one_filename[0:subject_directory_ind_1[-1]]
+    subject_directory_2 = one_filename[0:subject_directory_ind_2[-1]]
     # choix du fichier statique pour le cas 1
     filenames_stat_case2 = askopenfilename(title="Choisir le fichiers de statique cas 2:",
                                            filetypes=[("Fichiers C3D", "*Cal*.c3d")],
-                                           initialdir=subject_directory_initial)
+                                           initialdir=subject_directory_ind_2)
     case2_name = askstring("Input", "Quelle est la deuxième condition?")
     if old_data:
         filenames_case2_postCGM = filenames_case2
-        subject_directory_2_postCGM = subject_directory_initial
+        subject_directory_2_postCGM = subject_directory_ind_2
         extension_pycgm2_case2 = ""
     else:
         [filenames_case2_postCGM, subject_directory_2_postCGM,
@@ -118,6 +119,7 @@ if not os.path.isdir(report_directory):
 # ------------------------------------------------------------------------------
 # Calcul des paramètres spatio temporels et extraction de la cinétique et cinématique
 # ------------------------------------------------------------------------------
+
 subject_spt_case1 = param_spt_allfiles(filenames_case1_postCGM)
 
 if kinetic_bool:
@@ -389,8 +391,7 @@ if comparaison_bool:
                             kinetic_pic_Left, kinetic_pic_Right)
 
     if emg_bool:
-        newpage_report_comp(unicode('EMG', 'utf-8'), emg_plot_case1)
-        newpage_report_comp(unicode('EMG', 'utf-8'), emg_plot_case2)
+        newpage_report_comp(unicode('EMG', 'utf-8'), emg_plot_case1, emg_plot_case2)
 
 else:
     newpage_report(unicode('Paramètres Spatio-temporels', 'utf-8'), SPT_pic_S1_LR)

@@ -13,7 +13,6 @@ from param_spt import param_spt as param_spt
 def param_spt_allfiles(filenames):
     for ind_file, filename in enumerate(filenames):
         filename_str = str(filename)
-        print filename
         if ind_file == 0:
             left = param_spt(filename_str, "left")
             right = param_spt(filename_str, "right")

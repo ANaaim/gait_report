@@ -69,7 +69,6 @@ def param_spt(filename, side):
     direction_walk = np.argmax(np.abs(direction_walk))
     point = acq.GetPoint('LPSI').GetValues() - acq.GetPoint('RPSI').GetValues()
     direction_width = np.argmax(np.abs(point[0, :]))
-
     param_spt = {"cycle_time": [],
                  "cadence": [],
                  "cadence_adm": [],

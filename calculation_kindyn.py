@@ -11,6 +11,9 @@ from pyCGM2.Tools import btkTools
 from pyCGM2.Model import modelDecorator
 from pyCGM2.Utils import files
 from shutil import copy2
+from pyCGM2.Model.CGM2.coreApps import kneeCalibration
+import btk
+import time
 
 
 def calculation_kindyn(filenames_stat, filenames_dyn):
@@ -95,13 +98,26 @@ def calculation_kindyn(filenames_stat, filenames_dyn):
         # Pour le premier fichier on 'décore' le modèle pour pouvoir faire
         # la méthode de dynakad (il faut que le modele ait été utilisé en dynamique)
         if ind_file == 0:
-            acqGait = cgm2_1.fitting(model, DATA_PATH, reconstructFilenameLabelled,
-                                     translators,
-                                     markerDiameter,
-                                     pointSuffix,
-                                     plateforme_mpa, momentProjection)
-            modelDecorator.KneeCalibrationDecorator(model).calibrate2dof('Left')
-            modelDecorator.KneeCalibrationDecorator(model).calibrate2dof('Right')
+            # acqGait = cgm2_1.fitting(model, DATA_PATH, reconstructFilenameLabelled,
+            #                         translators,
+            #                         markerDiameter,
+            #                         pointSuffix,
+            #                         plateforme_mpa, momentProjection)
+            first_frame = None
+            last_frame = None
+            model, acqFunc_L, side_L = kneeCalibration.calibration2Dof(model,
+                                                                       DATA_PATH, reconstructFilenameLabelled, translators,
+                                                                       'Left', first_frame, last_frame)
+            print(model.mp_computed["RightKneeFuncCalibrationOffset"])
+            print(model.mp_computed["LeftKneeFuncCalibrationOffset"])
+
+            model, acqFunc_R, side_R = kneeCalibration.calibration2Dof(model,
+                                                                       DATA_PATH, reconstructFilenameLabelled, translators,
+                                                                       'Right', first_frame, last_frame)
+            print(model.mp_computed["RightKneeFuncCalibrationOffset"])
+            print(model.mp_computed["LeftKneeFuncCalibrationOffset"])
+            # modelDecorator.KneeCalibrationDecorator(model).calibrate2dof('Left', index_1=0)
+            # modelDecorator.KneeCalibrationDecorator(model).calibrate2dof('Right', index_1=0)
 
         acqGait = cgm2_1.fitting(model, DATA_PATH, reconstructFilenameLabelled,
                                  translators,
