@@ -25,6 +25,8 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
     # Is there a right side and how much file
     nbr_file_case2 = subject_kin_case2['all']['Knee_Fle'].shape[1]
 
+    legend_1 = legend_1 + '(' + str(nbr_file_case1) + ')'
+    legend_2 = legend_2 + '(' + str(nbr_file_case2) + ')'
     for trace in ['mean', 'control']:
         x = np.linspace(0, 101, 101)
 
@@ -87,14 +89,16 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
                                   fo_mean_norm + fo_std_norm],
                                  [ylim_inf, ylim_inf], [ylim_sup, ylim_sup],
                                  facecolor='0.5', alpha=0.5)
-            ax_temp.fill_between([fo_mean_case1 - fo_std_case1,
-                                  fo_mean_case1 + fo_std_case1],
-                                 [ylim_inf, ylim_inf], [ylim_sup, ylim_sup],
-                                 facecolor=color1, alpha=0.5)
-            ax_temp.fill_between([fo_mean_case2 - fo_std_case2,
-                                  fo_mean_case2 + fo_std_case2],
-                                 [ylim_inf, ylim_inf], [ylim_sup, ylim_sup],
-                                 facecolor=color2, alpha=0.5)
+            if nbr_file_case1 > 0:
+                ax_temp.fill_between([fo_mean_case1 - fo_std_case1,
+                                      fo_mean_case1 + fo_std_case1],
+                                     [ylim_inf, ylim_inf], [ylim_sup, ylim_sup],
+                                     facecolor=color1, alpha=0.5)
+            if nbr_file_case2 > 0:
+                ax_temp.fill_between([fo_mean_case2 - fo_std_case2,
+                                      fo_mean_case2 + fo_std_case2],
+                                     [ylim_inf, ylim_inf], [ylim_sup, ylim_sup],
+                                     facecolor=color2, alpha=0.5)
 
             # controlateral foot strike
             ctfs_mean_case1 = subject_spt_case1["mean"]["percentage_CTFS"]
@@ -108,14 +112,16 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
                                   ctfs_mean_norm + ctfs_std_norm],
                                  [ylim_huitieme, ylim_huitieme], [ylim_sup, ylim_sup],
                                  facecolor='0.5', alpha=0.5)
-            ax_temp.fill_between([ctfs_mean_case1 - ctfs_std_case1,
-                                  ctfs_mean_case1 + ctfs_std_case1],
-                                 [ylim_huitieme, ylim_huitieme], [ylim_sup, ylim_sup],
-                                 facecolor=color1, alpha=0.5)
-            ax_temp.fill_between([ctfs_mean_case2 - ctfs_std_case2,
-                                  ctfs_mean_case2 + ctfs_std_case2],
-                                 [ylim_huitieme, ylim_huitieme], [ylim_sup, ylim_sup],
-                                 facecolor=color2, alpha=0.5)
+            if nbr_file_case1 > 0:
+                ax_temp.fill_between([ctfs_mean_case1 - ctfs_std_case1,
+                                      ctfs_mean_case1 + ctfs_std_case1],
+                                     [ylim_huitieme, ylim_huitieme], [ylim_sup, ylim_sup],
+                                     facecolor=color1, alpha=0.5)
+            if nbr_file_case2 > 0:
+                ax_temp.fill_between([ctfs_mean_case2 - ctfs_std_case2,
+                                      ctfs_mean_case2 + ctfs_std_case2],
+                                     [ylim_huitieme, ylim_huitieme], [ylim_sup, ylim_sup],
+                                     facecolor=color2, alpha=0.5)
             # controlateral foot off
             ctfo_mean_case1 = subject_spt_case1["mean"]["percentage_CTFO"]
             ctfo_mean_case2 = subject_spt_case2["mean"]["percentage_CTFO"]
@@ -128,14 +134,16 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
                                   ctfo_mean_norm + ctfo_std_norm],
                                  [ylim_huitieme, ylim_huitieme], [ylim_sup, ylim_sup],
                                  facecolor='0.5', alpha=0.5)
-            ax_temp.fill_between([ctfo_mean_case1 - ctfo_std_case1,
-                                  ctfo_mean_case1 + ctfo_std_case1],
-                                 [ylim_huitieme, ylim_huitieme], [ylim_sup, ylim_sup],
-                                 facecolor=color1, alpha=0.5)
-            ax_temp.fill_between([ctfo_mean_case2 - ctfo_std_case2,
-                                  ctfo_mean_case2 + ctfo_std_case2],
-                                 [ylim_huitieme, ylim_huitieme], [ylim_sup, ylim_sup],
-                                 facecolor=color2, alpha=0.5)
+            if nbr_file_case1 > 0:
+                ax_temp.fill_between([ctfo_mean_case1 - ctfo_std_case1,
+                                      ctfo_mean_case1 + ctfo_std_case1],
+                                     [ylim_huitieme, ylim_huitieme], [ylim_sup, ylim_sup],
+                                     facecolor=color1, alpha=0.5)
+            if nbr_file_case2 > 0:
+                ax_temp.fill_between([ctfo_mean_case2 - ctfo_std_case2,
+                                      ctfo_mean_case2 + ctfo_std_case2],
+                                     [ylim_huitieme, ylim_huitieme], [ylim_sup, ylim_sup],
+                                     facecolor=color2, alpha=0.5)
 
             # controlateral foot off
             # tracer des courbes
@@ -152,11 +160,16 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
                 mean_2 = subject_kin_case2["mean"][list_kin[ind_kin]]
                 std_1 = subject_kin_case1["std"][list_kin[ind_kin]]
                 std_2 = subject_kin_case2["std"][list_kin[ind_kin]]
-
-                ax_temp.fill_between(x, mean_1 - std_1, mean_1 + std_1, facecolor=color1, alpha=0.5)
-                ax_temp.fill_between(x, mean_2 - std_2, mean_2 + std_2, facecolor=color2, alpha=0.5)
-                ax_temp.plot(x, mean_1, color1, label=legend_1)
-                ax_temp.plot(x, mean_2, color2, label=legend_2)
+                if nbr_file_case1 > 0:
+                    ax_temp.fill_between(x, mean_1 - std_1, mean_1 + std_1,
+                                         facecolor=color1, alpha=0.5)
+                if nbr_file_case2 > 0:
+                    ax_temp.fill_between(x, mean_2 - std_2, mean_2 + std_2,
+                                         facecolor=color2, alpha=0.5)
+                if nbr_file_case1 > 0:
+                    ax_temp.plot(x, mean_1, color1, label=legend_1)
+                if nbr_file_case2 > 0:
+                    ax_temp.plot(x, mean_2, color2, label=legend_2)
                 title_final = title
                 report_directory_final = os.path.join(report_directory, 'Cinematique')
                 if not os.path.isdir(report_directory_final):
@@ -165,8 +178,10 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
             elif trace == 'control':
                 all_1 = subject_kin_case1["all"][list_kin[ind_kin]]
                 all_2 = subject_kin_case2["all"][list_kin[ind_kin]]
-                ax_temp.plot(x, all_1[:, 0], color1, label=legend_1)
-                ax_temp.plot(x, all_2[:, 0], color2, label=legend_2)
+                if nbr_file_case1 > 0:
+                    ax_temp.plot(x, all_1[:, 0], color1, label=legend_1)
+                if nbr_file_case2 > 0:
+                    ax_temp.plot(x, all_2[:, 0], color2, label=legend_2)
                 if nbr_file_case1 > 1:
                     ax_temp.plot(x, all_1[:, 1:], color1)
                 if nbr_file_case2 > 2:
