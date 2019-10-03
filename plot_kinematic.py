@@ -19,6 +19,12 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
                    norm_spt, norm_kin, report_directory,
                    legend_1="test1", legend_2="test2", title="Kinematic"):
 
+    # Analysis of what can be plotted
+    # Is there a left side and how much file
+    nbr_file_case1 = subject_kin_case1['all']['Knee_Fle'].shape[1]
+    # Is there a right side and how much file
+    nbr_file_case2 = subject_kin_case2['all']['Knee_Fle'].shape[1]
+
     for trace in ['mean', 'control']:
         x = np.linspace(0, 101, 101)
 
@@ -159,11 +165,12 @@ def plot_kinematic(subject_kin_case1, subject_spt_case1, color1,
             elif trace == 'control':
                 all_1 = subject_kin_case1["all"][list_kin[ind_kin]]
                 all_2 = subject_kin_case2["all"][list_kin[ind_kin]]
-
                 ax_temp.plot(x, all_1[:, 0], color1, label=legend_1)
                 ax_temp.plot(x, all_2[:, 0], color2, label=legend_2)
-                ax_temp.plot(x, all_1[:, 1:], color1)
-                ax_temp.plot(x, all_2[:, 1:], color2)
+                if nbr_file_case1 > 1:
+                    ax_temp.plot(x, all_1[:, 1:], color1)
+                if nbr_file_case2 > 2:
+                    ax_temp.plot(x, all_2[:, 1:], color2)
 
                 title_final = title + '_control'
                 report_directory_final = os.path.join(report_directory, 'Controle des donnees')
