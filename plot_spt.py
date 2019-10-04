@@ -274,11 +274,12 @@ def plot_spt(subject_spt_case1, color_case_1,
         the_table.scale(1.0, 2.0)
         plt.tight_layout()
 
-        file_name = os.path.join(report_directory_final, title + '.png')
+        file_name_chiffre = os.path.join(report_directory_final, title + '.png')
         print('Sauvegarde du fichier ' + title)
-        fig.savefig(file_name, bbox_inches='tight')
+        fig.savefig(file_name_chiffre, bbox_inches='tight')
         plt.close(fig)
         if spt_type == "normal":
-            file_name_final = file_name_visuel
-            print(file_name_final)
-    return file_name_final
+            file_name_visuel_final = file_name_visuel
+            file_name_chiffre_final = file_name_chiffre
+            print(file_name_visuel_final)
+    return file_name_visuel_final, file_name_chiffre_final
