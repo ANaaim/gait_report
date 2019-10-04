@@ -123,7 +123,10 @@ def kinetic(filename, side, extension):
                "Normalised_Ground_Reaction_Z": np.zeros((101, cycle_valid)),
                "Hip_Moment": np.zeros((101, cycle_valid)),
                "Knee_Moment": np.zeros((101, cycle_valid)),
-               "Ankle_Moment": np.zeros((101, cycle_valid))}
+               "Ankle_Moment": np.zeros((101, cycle_valid)),
+               "Hip_Moment_abd": np.zeros((101, cycle_valid)),
+               "Knee_Moment_abd": np.zeros((101, cycle_valid)),
+               "Ankle_Moment_abd": np.zeros((101, cycle_valid))}
 
     cycle_valid = 0
     for ind_cycle in range(nb_cycle):
@@ -232,6 +235,20 @@ def kinetic(filename, side, extension):
             kinetic["Hip_Moment"][:, cycle_valid] = np.interp(x, xp, moment_hip) / coeff_moment
             kinetic["Knee_Moment"][:, cycle_valid] = np.interp(x, xp, moment_knee) / coeff_moment
             kinetic["Ankle_Moment"][:, cycle_valid] = np.interp(x, xp, moment_ankle) / coeff_moment
+
+            moment_hip_abd = acq.GetPoint(
+                side_letter + 'HipMoment' + extension).GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 1]
+            moment_knee_abd = acq.GetPoint(
+                side_letter + 'KneeMoment' + extension).GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 1]
+            moment_ankle_abd = acq.GetPoint(
+                side_letter + 'AnkleMoment' + extension).GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 1]
+
+            kinetic["Hip_Moment_abd"][:, cycle_valid] = np.interp(
+                x, xp, moment_hip_abd) / coeff_moment
+            kinetic["Knee_Moment_abd"][:, cycle_valid] = np.interp(
+                x, xp, moment_knee_abd) / coeff_moment
+            kinetic["Ankle_Moment_abd"][:, cycle_valid] = np.interp(
+                x, xp, moment_ankle_abd) / coeff_moment
 
             cycle_valid += 1
     return [kinematic, kinetic]

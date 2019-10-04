@@ -8,15 +8,12 @@ from extraction_name_enf import extraction_name_enf as extraction_name_enf
 import pyCGM2
 from pyCGM2.Model.CGM2.coreApps import cgm2_1, cgmUtils
 from pyCGM2.Tools import btkTools
-from pyCGM2.Model import modelDecorator
 from pyCGM2.Utils import files
 from shutil import copy2
 from pyCGM2.Model.CGM2.coreApps import kneeCalibration
-import btk
-import time
 
 
-def calculation_kindyn(filenames_stat, filenames_dyn):
+def calculation_kindyn(filenames_stat, filenames_dyn, there_is_knee_optim):
 
     # Definition des différents répertoires
     DATA_PATH = os.path.split(filenames_stat)[0] + '\\'
@@ -97,7 +94,7 @@ def calculation_kindyn(filenames_stat, filenames_dyn):
         # Fitting
         # Pour le premier fichier on 'décore' le modèle pour pouvoir faire
         # la méthode de dynakad (il faut que le modele ait été utilisé en dynamique)
-        if ind_file == 0:
+        if ind_file == 0 and there_is_knee_optim:
             # acqGait = cgm2_1.fitting(model, DATA_PATH, reconstructFilenameLabelled,
             #                         translators,
             #                         markerDiameter,

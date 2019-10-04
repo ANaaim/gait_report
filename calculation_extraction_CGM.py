@@ -8,11 +8,11 @@ from calculation_kindyn import calculation_kindyn as calculation_kindyn
 import os
 
 
-def calculation_extraction_CGM(filenames_stat, filenames):
+def calculation_extraction_CGM(filenames_stat, filenames, there_is_knee_optim):
     # calculs de la cinématique avec la tool box et changement du repertoire
     # contenant les fichiers ==> Les fichiers sont généré dans un dossier Post_CGM2_1
     # contenu dans le même dossier que les données initiales
-    calculation_kindyn(filenames_stat, filenames)
+    calculation_kindyn(filenames_stat, filenames, there_is_knee_optim)
     # On change le noms des fichier qui seront utilisé pour l'extraction des données
     # Pour cela on va rajouté le dossier Post_CGM2_1 entre le dossier ou était contenu
     # le fichier initial et le nouveau fichier

@@ -75,6 +75,7 @@ def extract_Schwartz_norm(Speed="Free"):
                     "Hip_Moment": [],
                     "Knee_Moment": [],
                     "Ankle_Moment": [],
+                    "Hip_Moment_abd": [],
                     "X_value": []}
 
     kinetic_std = {"Hip_Power": [],
@@ -85,7 +86,8 @@ def extract_Schwartz_norm(Speed="Free"):
                    "Normalised_Ground_Reaction_Z": [],
                    "Hip_Moment": [],
                    "Knee_Moment": [],
-                   "Ankle_Moment": []}
+                   "Ankle_Moment": [],
+                   "Hip_Moment_abd": []}
 
     # free events
     param_spt_mean["percentage_CTFO"] = \
@@ -218,6 +220,10 @@ def extract_Schwartz_norm(Speed="Free"):
     data18 = GRF[GRF["Force"] == "Vertical"]
     kinetic_mean['Normalised_Ground_Reaction_Z'] = data18[speed_mean_name] * 100
     kinetic_std['Normalised_Ground_Reaction_Z'] = data18[speed_std_name] * 100
+
+    data19 = jointMoments[jointMoments["Moment"] == "Hip Ab/Adduction"]
+    kinetic_mean['Hip_Moment_abd'] = data19[speed_mean_name]
+    kinetic_std['Hip_Moment_abd'] = data19[speed_std_name]
 
     norm_kinetic = {"mean": kinetic_mean, "std": kinetic_std}
 

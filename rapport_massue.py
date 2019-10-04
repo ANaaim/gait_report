@@ -14,6 +14,7 @@ from tkSimpleDialog import askinteger
 import tkMessageBox
 from plot_kinematic import plot_kinematic as plot_kinematic
 from plot_kinetic import plot_kinetic as plot_kinetic
+from plot_kinetic_frontal import plot_kinetic_frontal as plot_kinetic_frontal
 from plot_spt import plot_spt as plot_spt
 from extract_Schwartz_norm import extract_Schwartz_norm as extract_Schwartz_norm
 from plot_emg import plot_emg as plot_emg
@@ -42,6 +43,8 @@ comparaison_bool = tkMessageBox.askyesno("Title",
                                          "Voulez vous comparer à d'autres résultats?")
 kinetic_bool = tkMessageBox.askyesno("Title",
                                      "Voulez vous tracer la cinétique?")
+there_is_knee_optim = tkMessageBox.askyesno("Title",
+                                            "Voulez vous optimiser l'axe du genou pour minimiser le cross_talk?")
 emg_bool = tkMessageBox.askyesno("Title",
                                  "Voulez vous tracer les emg ?")
 old_data = tkMessageBox.askyesno("Title",
@@ -71,7 +74,7 @@ if old_data:
     extension_pycgm2_case1 = ""
 else:
     [filenames_case1_postCGM, subject_directory_1_postCGM,
-     extension_pycgm2_case1] = calculation_extraction_CGM(filenames_stat_case1, filenames_case1)
+     extension_pycgm2_case1] = calculation_extraction_CGM(filenames_stat_case1, filenames_case1, there_is_knee_optim)
     print(extension_pycgm2_case1)
 
 if comparaison_bool:
@@ -93,7 +96,7 @@ if comparaison_bool:
         extension_pycgm2_case2 = ""
     else:
         [filenames_case2_postCGM, subject_directory_2_postCGM,
-         extension_pycgm2_case2] = calculation_extraction_CGM(filenames_stat_case2, filenames_case2)
+         extension_pycgm2_case2] = calculation_extraction_CGM(filenames_stat_case2, filenames_case2, there_is_knee_optim)
 
 # ------------------------------------------------------------------------------
 # Création d'un répertoire ou seront stocké les donnés par sujet
@@ -239,6 +242,14 @@ if kinetic_bool:
                                      legend_1="Gauche " + case1_name,
                                      legend_2="Droite " + case1_name,
                                      title="Kinetic_" + case1_name)
+    kinetic_pic_S1_LR_frontal = plot_kinetic_frontal(subject_kinetic_left_case1, subject_spt_left_case1,
+                                                     colorleft_case1,
+                                                     subject_kinetic_right_case1, subject_spt_right_case1,
+                                                     colorright_case1,
+                                                     norm_spt, norm_kinetic, report_directory,
+                                                     legend_1="Gauche " + case1_name,
+                                                     legend_2="Droite " + case1_name,
+                                                     title="Kinetic_frontal" + case1_name)
 
 if emg_bool:
     windows_emg_name = "Choisir le fichies de tracer EMG condition " + \
@@ -326,6 +337,14 @@ if comparaison_bool:
                                          legend_1="Gauche " + case2_name,
                                          legend_2="Droite " + case2_name,
                                          title="Kinetic_" + case2_name)
+        kinetic_pic_S2_LR_frontal = plot_kinetic_frontal(subject_kinetic_left_case2, subject_spt_left_case2,
+                                                         colorleft_case2,
+                                                         subject_kinetic_right_case2, subject_spt_right_case2,
+                                                         colorright_case2,
+                                                         norm_spt, norm_kinetic, report_directory,
+                                                         legend_1="Gauche " + case2_name,
+                                                         legend_2="Droite " + case2_name,
+                                                         title="Kinetic_Frontal" + case2_name)
 
         kinetic_pic_Left = plot_kinetic(subject_kinetic_left_case1, subject_spt_left_case1,
                                         colorleft_case1,
@@ -335,6 +354,14 @@ if comparaison_bool:
                                         legend_1="Gauche " + case1_name,
                                         legend_2="Gauche " + case2_name,
                                         title="Kinetic_Comparaison_Left")
+        kinetic_pic_Left_frontal = plot_kinetic_frontal(subject_kinetic_left_case1, subject_spt_left_case1,
+                                                        colorleft_case1,
+                                                        subject_kinetic_left_case2, subject_spt_left_case2,
+                                                        colorleft_case2,
+                                                        norm_spt, norm_kinetic, report_directory,
+                                                        legend_1="Gauche " + case1_name,
+                                                        legend_2="Gauche " + case2_name,
+                                                        title="Kinetic_Comparaison_Left")
 
         kinetic_pic_Right = plot_kinetic(subject_kinetic_right_case1, subject_spt_right_case1,
                                          colorright_case1,
@@ -344,6 +371,14 @@ if comparaison_bool:
                                          legend_1="Droite " + case1_name,
                                          legend_2="Droite " + case2_name,
                                          title="Kinetic_Comparaison_Right")
+        kinetic_pic_Right_frontal = plot_kinetic_frontal(subject_kinetic_right_case1, subject_spt_right_case1,
+                                                         colorright_case1,
+                                                         subject_kinetic_right_case2, subject_spt_right_case2,
+                                                         colorright_case2,
+                                                         norm_spt, norm_kinetic, report_directory,
+                                                         legend_1="Droite " + case1_name,
+                                                         legend_2="Droite " + case2_name,
+                                                         title="Kinetic_Comparaison_Right")
 # Generation du rapport word
 
 
@@ -367,8 +402,8 @@ def newpage_report_2images(name_param, pic_1, pic_2):
     paragraph_format = paragraph.paragraph_format
     paragraph_format.space_before = Pt(10)
     run = paragraph.add_run()
-    run.add_picture(pic_1, width=Inches(5))
-    run.add_picture(pic_2, width=Inches(5))
+    run.add_picture(pic_1, width=Inches(4))
+    run.add_picture(pic_2, width=Inches(4))
     document.add_heading(unicode('Interprétation :', 'utf-8'), level=3)
 
 
@@ -395,10 +430,10 @@ def newpage_report_comp_4images(name_param, pic_1, pic_2, pic_3, pic_4):
     paragraph_format = paragraph.paragraph_format
     paragraph_format.space_before = Pt(10)
     run = paragraph.add_run()
-    run.add_picture(pic_1, width=Inches(3.4))
-    run.add_picture(pic_2, width=Inches(3.4))
-    run.add_picture(pic_3, width=Inches(3.4))
-    run.add_picture(pic_4, width=Inches(3.4))
+    run.add_picture(pic_1, width=Inches(3.2))
+    run.add_picture(pic_2, width=Inches(3.2))
+    run.add_picture(pic_3, width=Inches(3.2))
+    run.add_picture(pic_4, width=Inches(3.2))
     document.add_heading(unicode('Interprétation :', 'utf-8'), level=3)
 
 
@@ -407,18 +442,19 @@ document = Document('Rapport_massue_Vierge.docx')
 if comparaison_bool:
     newpage_report_comp_4images(unicode('Paramètres Spatio-temporels', 'utf-8'),
                                 SPT_pic_S1_LR_chiffre, SPT_pic_S2_LR_chiffre, SPT_pic_S1_LR, SPT_pic_S2_LR)
-    newpage_report_comp(unicode('Paramètres Spatio-temporels',
-                                'utf-8'), SPT_pic_Left_chiffre, SPT_pic_Right_chiffre, SPT_pic_Left, SPT_pic_Right)
+    newpage_report_comp_4images(unicode('Paramètres Spatio-temporels',
+                                        'utf-8'), SPT_pic_Left_chiffre, SPT_pic_Right_chiffre, SPT_pic_Left, SPT_pic_Right)
 
     newpage_report_comp(unicode('Cinématique', 'utf-8'), kinematic_pic_S1_LR, kinematic_pic_S2_LR)
     if kinetic_bool:
-        newpage_report_comp(unicode('Cinétique :', 'utf-8'), kinetic_pic_S1_LR, kinetic_pic_S2_LR)
-
+        #newpage_report_comp(unicode('Cinétique :', 'utf-8'), kinetic_pic_S1_LR, kinetic_pic_S2_LR)
+        newpage_report_comp_4images(unicode('Cinétique :', 'utf-8'), kinetic_pic_S1_LR,
+                                    kinetic_pic_S2_LR, kinetic_pic_S1_LR_frontal, kinetic_pic_S2_LR_frontal)
     newpage_report_comp(unicode('Cinématique coté par coté : ', 'utf-8'),
                         kinematic_pic_Left, kinematic_pic_Right)
     if kinetic_bool:
-        newpage_report_comp(unicode('Cinétique coté par coté : ', 'utf-8'),
-                            kinetic_pic_Left, kinetic_pic_Right)
+        newpage_report_comp_4images(unicode('Cinétique coté par coté : ', 'utf-8'),
+                                    kinetic_pic_Left, kinetic_pic_Right, kinetic_pic_Left_frontal, kinetic_pic_Right_frontal)
 
     if emg_bool:
         newpage_report_comp(unicode('EMG', 'utf-8'), emg_plot_case1, emg_plot_case2)
@@ -428,7 +464,8 @@ else:
                            SPT_pic_S1_LR_chiffre, SPT_pic_S1_LR)
     newpage_report(unicode('Cinématique', 'utf-8'), kinematic_pic_S1_LR)
     if kinetic_bool:
-        newpage_report(unicode('Cinétique', 'utf-8'), kinetic_pic_S1_LR)
+        newpage_report_2images(unicode('Cinétique', 'utf-8'),
+                               kinetic_pic_S1_LR, kinetic_pic_S1_LR_frontal)
 
     if emg_bool:
         newpage_report(unicode('EMG', 'utf-8'), emg_plot_case1)
