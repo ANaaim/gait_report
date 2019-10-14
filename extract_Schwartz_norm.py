@@ -63,7 +63,10 @@ def extract_Schwartz_norm(Speed="Free"):
                      "Ankle_Fle": [],
                      "Foot_Progression": [],
                      "Foot_tilt": []}
-    kinetic_mean = {"Hip_Fle": [],
+    kinetic_mean = {"Pelvis_Abd": [],
+                    "Hip_Abd": [],
+                    "Knee_Abd": [],
+                    "Hip_Fle": [],
                     "Knee_Fle": [],
                     "Ankle_Fle": [],
                     "Hip_Power": [],
@@ -78,7 +81,10 @@ def extract_Schwartz_norm(Speed="Free"):
                     "Hip_Moment_abd": [],
                     "X_value": []}
 
-    kinetic_std = {"Hip_Power": [],
+    kinetic_std = {"Pelvis_Abd": [],
+                   "Hip_Abd": [],
+                   "Knee_Abd": [],
+                   "Hip_Power": [],
                    "Knee_Power": [],
                    "Ankle_Power": [],
                    "Normalised_Ground_Reaction_X": [],
@@ -144,6 +150,8 @@ def extract_Schwartz_norm(Speed="Free"):
     data1 = jointRotations[jointRotations["Angle"] == "Pelvic Up/Down Obliquity"]
     kinematic_mean["Pelvis_Abd"] = data1[speed_mean_name]
     kinematic_std["Pelvis_Abd"] = data1[speed_std_name]
+    kinetic_mean["Pelvis_Abd"] = data1[speed_mean_name]
+    kinetic_std["Pelvis_Abd"] = data1[speed_std_name]
     data2 = jointRotations[jointRotations["Angle"] == "Pelvic Int/External Rotation"]
     kinematic_mean["Pelvis_Ier"] = data2[speed_mean_name]
     kinematic_std["Pelvis_Ier"] = data2[speed_std_name]
@@ -157,6 +165,8 @@ def extract_Schwartz_norm(Speed="Free"):
     data4 = jointRotations[jointRotations["Angle"] == "Hip Ad/Abduction"]
     kinematic_mean["Hip_Abd"] = data4[speed_mean_name]
     kinematic_std["Hip_Abd"] = data4[speed_std_name]
+    kinetic_mean["Hip_Abd"] = data4[speed_mean_name]
+    kinetic_std["Hip_Abd"] = data4[speed_std_name]
     data5 = jointRotations[jointRotations["Angle"] == "Hip Int/External Rotation"]
     kinematic_mean["Hip_Ier"] = data5[speed_mean_name]
     kinematic_std["Hip_Ier"] = data5[speed_std_name]
@@ -170,6 +180,8 @@ def extract_Schwartz_norm(Speed="Free"):
     data7 = jointRotations[jointRotations["Angle"] == "Knee Ad/Abduction"]
     kinematic_mean["Knee_Abd"] = data7[speed_mean_name]
     kinematic_std["Knee_Abd"] = data7[speed_std_name]
+    kinetic_mean["Knee_Abd"] = data7[speed_mean_name]
+    kinetic_std["Knee_Abd"] = data7[speed_std_name]
     data8 = jointRotations[jointRotations["Angle"] == "Knee Int/External Rotation"]
     kinematic_mean["Knee_Ier"] = data8[speed_mean_name]
     kinematic_std["Knee_Ier"] = data8[speed_std_name]

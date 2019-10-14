@@ -112,7 +112,10 @@ def kinetic(filename, side, extension):
                  "Foot_Progression": np.zeros((101, cycle_valid)),
                  "Foot_tilt": np.zeros((101, cycle_valid))}
 
-    kinetic = {"Hip_Fle": np.zeros((101, cycle_valid)),
+    kinetic = {"Pelvis_Abd": np.zeros((101, cycle_valid)),
+               "Hip_Abd": np.zeros((101, cycle_valid)),
+               "Knee_Abd": np.zeros((101, cycle_valid)),
+               "Hip_Fle": np.zeros((101, cycle_valid)),
                "Knee_Fle": np.zeros((101, cycle_valid)),
                "Ankle_Fle": np.zeros((101, cycle_valid)),
                "Hip_Power": np.zeros((101, cycle_valid)),
@@ -157,6 +160,8 @@ def kinetic(filename, side, extension):
             kinematic["Pelvis_Abd"][:, cycle_valid] = np.interp(x, xp, f_abduction)
             kinematic["Pelvis_Ier"][:, cycle_valid] = np.interp(x, xp, f_rotation)
 
+            kinetic["Pelvis_Abd"][:, cycle_valid] = np.interp(x, xp, f_abduction)
+
             # Hip
             f_flexion = acq.GetPoint(
                 side_letter + 'HipAngles' + extension).GetValues()[FS[ind_cycle]:FS[ind_cycle + 1], 0]
@@ -169,6 +174,7 @@ def kinetic(filename, side, extension):
             kinematic["Hip_Ier"][:, cycle_valid] = np.interp(x, xp, f_rotation)
 
             kinetic["Hip_Fle"][:, cycle_valid] = np.interp(x, xp, f_flexion)
+            kinetic["Hip_Abd"][:, cycle_valid] = np.interp(x, xp, f_abduction)
 
             # Knee
             f_flexion = acq.GetPoint(
@@ -183,6 +189,7 @@ def kinetic(filename, side, extension):
             kinematic["Knee_Ier"][:, cycle_valid] = np.interp(x, xp, f_rotation)
 
             kinetic["Knee_Fle"][:, cycle_valid] = np.interp(x, xp, f_flexion)
+            kinetic["Knee_Abd"][:, cycle_valid] = np.interp(x, xp, f_abduction)
 
             # Ankle
             f_flexion = acq.GetPoint(

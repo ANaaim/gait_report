@@ -24,25 +24,25 @@ def plot_kinetic_frontal(subject_kinetic_case1, subject_spt_case1, color1,
     for trace in ['mean', 'control']:
         x = np.linspace(0, 101, 101)
 
-        list_kin = ["Hip_Fle", "Knee_Fle", "Ankle_Fle",
+        list_kin = ["Pelvis_Abd", "Hip_Abd", "Knee_Abd",
                     "Hip_Moment_abd", "Knee_Moment_abd"]
-        list_name = ["Hip flexion", "Knee flexion", "Ankle dorsiflexion",
+        list_name = ["Pelvis obliquity", "Hip abduction", "Knee abduction",
                      "Hip abduction moment", "Knee abduction moment"]
 
-        list_ylim = [(-30, 60), (-10, 70), (-30, 30),
-                     (-1.2, 1.2), (-0.8, 0.8)]
+        list_ylim = [(-30, 30), (-30, 30), (-30, 30),
+                     (-1.2, 1.2), (-1.2, 1.2)]
 
-        list_ytick = [[-30, -5, 20, 45, 60], [-10, 10, 30, 50, 70], [-30, -15, 0, 15, 30],
-                      [-1.2, -0.6, 0, 0.6, 1.2], [-0.8, -0.4, 0, 0.4, 0.8], ]
+        list_ytick = [[-30, -15, 0, 15, 30], [-30, -15, 0, 15, 30], [-30, -15, 0, 15, 30],
+                      [-1.2, -0.6, 0, 0.6, 1.2], [-1.2, -0.6, 0, 0.6, 1.2], ]
 
         list_ybarinterval = [10, 10, 10,
                              0.2, 0.2]
 
-        list_yticklabel = [["-30", "Ext", "deg", "Flex", "60"],
-                           ["-10", "Ext", "deg", "Flex", "70"],
-                           ["-30", "Plant", "deg", "Dorsi", "30"],
+        list_yticklabel = [["-30", "Down", "deg", "Up", "30"],
+                           ["-30", "Abd", "deg", "Add", "30"],
+                           ["-30", "Val", "deg", "Var", "30"],
                            ["-1.2", "Add", "N-m/kg", "Abd", "1.2"],
-                           ["-0.8", "Add", "N-m/kg", "Abd", "0.8"]]
+                           ["-1.2", "Add", "N-m/kg", "Abd", "1.2"]]
 
         fig, axis = plt.subplots(2, 3, figsize=(8.27, 5.845), dpi=100)
 
@@ -51,7 +51,8 @@ def plot_kinetic_frontal(subject_kinetic_case1, subject_spt_case1, color1,
             i_row = ind_kin / 3
             i_collumn = ind_kin % 3
             # Definition du subplot à utiliser
-
+            if ind_kin > 2:
+                i_collumn += 1
             ax_temp = axis[i_row, i_collumn]
             ylim_inf = list_ylim[ind_kin][0]
             ylim_sup = list_ylim[ind_kin][1]

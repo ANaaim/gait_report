@@ -361,7 +361,7 @@ if comparaison_bool:
                                                         norm_spt, norm_kinetic, report_directory,
                                                         legend_1="Gauche " + case1_name,
                                                         legend_2="Gauche " + case2_name,
-                                                        title="Kinetic_Comparaison_Left")
+                                                        title="Kinetic_Comparaison_Left_Frontal")
 
         kinetic_pic_Right = plot_kinetic(subject_kinetic_right_case1, subject_spt_right_case1,
                                          colorright_case1,
@@ -378,7 +378,7 @@ if comparaison_bool:
                                                          norm_spt, norm_kinetic, report_directory,
                                                          legend_1="Droite " + case1_name,
                                                          legend_2="Droite " + case2_name,
-                                                         title="Kinetic_Comparaison_Right")
+                                                         title="Kinetic_Comparaison_Right_Frontal")
 # Generation du rapport word
 
 
