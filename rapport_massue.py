@@ -26,6 +26,7 @@ from extract_SPT_Kid import extract_GaitRite_norm
 from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from extract_patient import extract_patient as extract_patient
 # ------------------------------------------------------------------------------
 # Définition des répertoires de travail
 # ------------------------------------------------------------------------------
@@ -39,65 +40,110 @@ report_directory = r'C:\Users\VICON\Desktop\Rapport_Python'
 # comparaison, cinétique et emg
 # ------------------------------------------------------------------------------
 test = 1
-comparaison_bool = tkMessageBox.askyesno("Title",
-                                         "Voulez vous comparer à d'autres résultats?")
 kinetic_bool = tkMessageBox.askyesno("Title",
                                      "Voulez vous tracer la cinétique?")
-there_is_knee_optim = tkMessageBox.askyesno("Title",
-                                            "Voulez vous optimiser l'axe du genou pour minimiser le cross_talk?")
+
 emg_bool = tkMessageBox.askyesno("Title",
                                  "Voulez vous tracer les emg ?")
+# Initialement c'est deux valeurs sont fausse elles pourront être changer automatiquement
+# en cas de détection automatique
+emg_case_1_exist = False
+emg_case_2_exist = False
+
 old_data = tkMessageBox.askyesno("Title",
                                  "Voulez vous utiliser les données directement calculées dans Nexus ?")
+if not old_data:
+    there_is_knee_optim = tkMessageBox.askyesno("Title",
+                                                "Voulez vous optimiser l'axe du genou pour minimiser le cross_talk?")
 
-# Choix des fichiers du premiers repertoire
-filenames_case1 = askopenfilenames(title="Choisir les fichiers de la première condition:",
-                                   filetypes=[("Fichiers C3D", "*.c3d")],
-                                   initialdir=data_directory)
-
-# Remise en forme du nom du repertoire pour l'utiliser dans askopenfilename
-one_filename = filenames_case1[0]
-subject_directory_ind_1 = [i for i in range(len(one_filename)) if one_filename.startswith('/', i)]
-subject_directory_1 = one_filename[0:subject_directory_ind_1[-1]]
-subject_directory_initial = one_filename[0:subject_directory_ind_1[-1]]
-
-# choix du fichier statique pour le cas 1
-filenames_stat_case1 = askopenfilename(title="Choisir le fichiers de statique cas 1:",
-                                       filetypes=[("Fichiers C3D", "*Cal*.c3d")],
-                                       initialdir=subject_directory_1)
-
-case1_name = askstring("Input", "Quelle est la première condition?")
-
-if old_data:
-    filenames_case1_postCGM = filenames_case1
-    subject_directory_1_postCGM = filenames_stat_case1
-    extension_pycgm2_case1 = ""
 else:
-    [filenames_case1_postCGM, subject_directory_1_postCGM,
-     extension_pycgm2_case1] = calculation_extraction_CGM(filenames_stat_case1, filenames_case1, there_is_knee_optim)
-    print(extension_pycgm2_case1)
+    there_is_knee_optim = False
+    name_extension_cgm = '_cgm1_1'
 
-if comparaison_bool:
-    filenames_case2 = askopenfilenames(title="Choisir les fichiers de la deuxième condition:", filetypes=[("Fichiers C3D", "*.c3d")],
-                                       initialdir=subject_directory_initial)
-    one_filename = filenames_case2[0]
+detection_autom_bool = tkMessageBox.askyesno("Title",
+                                             "Pouvez vous detecter automatiquement les differentes session?")
+if not detection_autom_bool:
+    comparaison_bool = tkMessageBox.askyesno("Title",
+                                             "Voulez vous comparer à d'autres résultats?")
 
-    subject_directory_ind_2 = [i for i in range(
+    # Choix des fichiers du premiers repertoire
+    filenames_case1 = askopenfilenames(title="Choisir les fichiers de la première condition:",
+                                       filetypes=[("Fichiers C3D", "*.c3d")],
+                                       initialdir=data_directory)
+
+    # Remise en forme du nom du repertoire pour l'utiliser dans askopenfilename
+    one_filename = filenames_case1[0]
+    subject_directory_ind_1 = [i for i in range(
         len(one_filename)) if one_filename.startswith('/', i)]
-    subject_directory_2 = one_filename[0:subject_directory_ind_2[-1]]
-    # choix du fichier statique pour le cas 1
-    filenames_stat_case2 = askopenfilename(title="Choisir le fichiers de statique cas 2:",
-                                           filetypes=[("Fichiers C3D", "*Cal*.c3d")],
-                                           initialdir=subject_directory_ind_2)
-    case2_name = askstring("Input", "Quelle est la deuxième condition?")
-    if old_data:
-        filenames_case2_postCGM = filenames_case2
-        subject_directory_2_postCGM = subject_directory_ind_2
-        extension_pycgm2_case2 = ""
-    else:
-        [filenames_case2_postCGM, subject_directory_2_postCGM,
-         extension_pycgm2_case2] = calculation_extraction_CGM(filenames_stat_case2, filenames_case2, there_is_knee_optim)
+    subject_directory_1 = one_filename[0:subject_directory_ind_1[-1]]
+    subject_directory_initial = one_filename[0:subject_directory_ind_1[-1]]
 
+    # choix du fichier statique pour le cas 1
+    filenames_stat_case1 = askopenfilename(title="Choisir le fichiers de statique cas 1:",
+                                           filetypes=[("Fichiers C3D", "*Cal*.c3d")],
+                                           initialdir=subject_directory_1)
+
+    case1_name = askstring("Input", "Quelle est la première condition?")
+
+    if old_data:
+        filenames_case1_postCGM = filenames_case1
+        subject_directory_1_postCGM = filenames_stat_case1
+        extension_pycgm2_case1 = ""
+    else:
+        [filenames_case1_postCGM, subject_directory_1_postCGM,
+         extension_pycgm2_case1] = calculation_extraction_CGM(filenames_stat_case1, filenames_case1, there_is_knee_optim)
+        print(extension_pycgm2_case1)
+
+    if comparaison_bool:
+        filenames_case2 = askopenfilenames(title="Choisir les fichiers de la deuxième condition:", filetypes=[("Fichiers C3D", "*.c3d")],
+                                           initialdir=subject_directory_initial)
+        one_filename = filenames_case2[0]
+
+        subject_directory_ind_2 = [i for i in range(
+            len(one_filename)) if one_filename.startswith('/', i)]
+        subject_directory_2 = one_filename[0:subject_directory_ind_2[-1]]
+        # choix du fichier statique pour le cas 1
+        filenames_stat_case2 = askopenfilename(title="Choisir le fichiers de statique cas 2:",
+                                               filetypes=[("Fichiers C3D", "*Cal*.c3d")],
+                                               initialdir=subject_directory_ind_2)
+        case2_name = askstring("Input", "Quelle est la deuxième condition?")
+        if old_data:
+            filenames_case2_postCGM = filenames_case2
+            subject_directory_2_postCGM = filenames_stat_case2
+            extension_pycgm2_case2 = ""
+        else:
+            [filenames_case2_postCGM, subject_directory_2_postCGM,
+             extension_pycgm2_case2] = calculation_extraction_CGM(filenames_stat_case2, filenames_case2, there_is_knee_optim)
+else:
+
+    [case_1_exist, case1_name, filenames_case1, filenames_stat_case1, emg_case_1_exist, emg_filename_case1,
+     case_2_exist, case2_name, filenames_case2, filenames_stat_case2, emg_case_2_exist, emg_filename_case2] = extract_patient()
+
+    comparaison_bool = case_1_exist and case_2_exist
+    one_filename = filenames_case1[0]
+    # repertory from the initial file
+
+    if old_data:
+        filenames_case1_postCGM = filenames_case1
+        subject_directory_1_postCGM = filenames_stat_case1
+        extension_pycgm2_case1 = ""
+    else:
+        [filenames_case1_postCGM, subject_directory_1_postCGM,
+         extension_pycgm2_case1] = calculation_extraction_CGM(filenames_stat_case1, filenames_case1, there_is_knee_optim)
+        print(extension_pycgm2_case1)
+
+    if case_2_exist:
+        if old_data:
+            filenames_case2_postCGM = filenames_case2
+            subject_directory_2_postCGM = filenames_stat_case2
+            extension_pycgm2_case2 = ""
+            name_extension_case2 = '1.1'
+        else:
+            [filenames_case2_postCGM, subject_directory_2_postCGM,
+             extension_pycgm2_case2] = calculation_extraction_CGM(filenames_stat_case2, filenames_case2, there_is_knee_optim)
+
+if not old_data:
+    name_extension_cgm = extension_pycgm2_case1
 # ------------------------------------------------------------------------------
 # Création d'un répertoire ou seront stocké les donnés par sujet
 # ------------------------------------------------------------------------------
@@ -252,24 +298,34 @@ if kinetic_bool:
                                                      title="Kinetic_frontal" + case1_name)
 
 if emg_bool:
-    windows_emg_name = "Choisir le fichies de tracer EMG condition " + \
-        case1_name + " :"
-    emg_filename_case1 = askopenfilenames(title=windows_emg_name,
-                                          filetypes=[("Fichiers C3D", "*.c3d")],
-                                          initialdir=subject_directory_1_postCGM)
-    emg_plot_case1 = plot_emg(emg_filename_case1[0], colorleft_case1, colorright_case1,
-                              report_directory, title="EMG " + case1_name)
+    if not emg_case_1_exist:
+        windows_emg_name = "Choisir le fichies de tracer EMG condition " + \
+            case1_name + " :"
+        emg_filename_case1 = askopenfilenames(title=windows_emg_name,
+                                              filetypes=[("Fichiers C3D", "*.c3d")],
+                                              initialdir=subject_directory_1_postCGM)
+        emg_plot_case1 = plot_emg(emg_filename_case1[0], colorleft_case1, colorright_case1,
+                                  report_directory, title="EMG " + case1_name)
+    else:
+        # On sait ici que emg_filename_case1 est une chaine de caractèere et pas une liste
+        emg_plot_case1 = plot_emg(emg_filename_case1, colorleft_case1, colorright_case1,
+                                  report_directory, title="EMG " + case1_name)
 
 
 if comparaison_bool:
     if emg_bool:
-        windows_emg_name = "Choisir le fichies de tracer EMG condition " + \
-            case2_name + " :"
-        emg_filename_case2 = askopenfilenames(title=windows_emg_name,
-                                              filetypes=[("Fichiers C3D", "*.c3d")],
-                                              initialdir=subject_directory_2_postCGM)
-        emg_plot_case2 = plot_emg(emg_filename_case2[0], colorleft_case2, colorright_case2,
-                                  report_directory, title="EMG " + case2_name)
+        if not emg_case_2_exist:
+            windows_emg_name = "Choisir le fichies de tracer EMG condition " + \
+                case2_name + " :"
+            emg_filename_case2 = askopenfilenames(title=windows_emg_name,
+                                                  filetypes=[("Fichiers C3D", "*.c3d")],
+                                                  initialdir=subject_directory_2_postCGM)
+            emg_plot_case2 = plot_emg(emg_filename_case2[0], colorleft_case2, colorright_case2,
+                                      report_directory, title="EMG " + case2_name)
+        else:
+            # On sait ici que emg_filename_case1 est une chaine de caractèere et pas une liste
+            emg_plot_case2 = plot_emg(emg_filename_case2, colorleft_case2, colorright_case2,
+                                      report_directory, title="EMG " + case2_name)
 
     subject_kinematic_left_case2 = subject_kinematic_case2["left"]
     subject_kinematic_right_case2 = subject_kinematic_case2["right"]
@@ -440,6 +496,27 @@ def newpage_report_comp_4images(name_param, pic_1, pic_2, pic_3, pic_4):
 document = Document('Rapport_massue_Vierge.docx')
 
 if comparaison_bool:
+    p = document.add_paragraph(unicode('Le conventional gait model ', 'utf-8'))
+    name_final = name_extension_cgm.replace('_', '.')
+    p.add_run(unicode(name_final[4:], 'utf-8'))
+    p.add_run(unicode(' a été utilisé (', 'utf-8'))
+    paragraph_format = p.paragraph_format
+    p.add_run('https://pycgm2.github.io/').italic = True
+    p.add_run(').')
+
+    if there_is_knee_optim:
+        p2 = document.add_paragraph(
+            unicode('La méthode de réorientation du genou DynaKad a été appliquée (', 'utf-8'))
+        paragraph_format = p2.paragraph_format
+        paragraph_format.space_before = Pt(10)
+        document.add_paragraph('\n')
+        p2.add_run(unicode(
+            'Baker, R., 1999. A new approach to determine the hip rotation from clinical gait analysis data 18, 655–667', 'utf-8')).italic = True
+        document.add_run(unicode(').', 'utf-8'))
+
+    p3 = document.add_paragraph()
+    p3.add_run('Objectifs de la demande :').bold = True
+
     newpage_report_comp_4images(unicode('Paramètres Spatio-temporels', 'utf-8'),
                                 SPT_pic_S1_LR_chiffre, SPT_pic_S2_LR_chiffre, SPT_pic_S1_LR, SPT_pic_S2_LR)
     newpage_report_comp_4images(unicode('Paramètres Spatio-temporels',
