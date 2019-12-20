@@ -10,8 +10,8 @@ from unidecode import unidecode
 
 
 def extract_patient():
-    #root = str(askdirectory(initialdir=r'D:\DonneesViconInstallBMF'))
-    root = 'D:/DonneesViconInstallBMF/Pediatrie/BARTON Ethan'
+    root = str(askdirectory(initialdir=r'D:\DonneesViconInstallBMF'))
+    #root = 'D:/DonneesViconInstallBMF/Pediatrie/BARTON Ethan'
     print(root)
     # root = '/some/directory'
 
